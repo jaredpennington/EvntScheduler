@@ -16,18 +16,6 @@ const eventSchema = new Schema(
             default: Date.now,
             get: timestamp => dateFormat(timestamp)
         },
-        bachelors_pass: {
-            type: String,
-            required: true,
-        },
-        bachelorette_pass: {
-            type: String,
-            required: true,
-        },
-        both_pass: {
-            type: String,
-            required: true,
-        },
         date_windows: {
             type: [[Date]],
             required: true,
@@ -37,6 +25,12 @@ const eventSchema = new Schema(
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Guest'
+            }
+        ],
+        passwords: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Password'
             }
         ]
     },

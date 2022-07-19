@@ -13,12 +13,10 @@ const typeDefs = gql`
   type Event {
     _id: ID
     event_name: String
-    bachelors_pass: String
-    bachelorette_pass: String
-    both_pass: String
     date_windows: [[String]]
     host: User
     guests: [Guest]
+    passwords: [Password]
   }
 
   type Guest {
@@ -29,6 +27,12 @@ const typeDefs = gql`
     completedAt: String
     budget: Int
     invited_to: String
+  }
+
+  type Password {
+    _id: ID
+    name: String
+    password: String
   }
 
   # must return token

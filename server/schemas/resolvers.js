@@ -1,4 +1,4 @@
-const { User, Aspiration, Folder } = require('../models')
+const { User, Guest } = require('../models')
 const { AuthenticationError } = require('apollo-server-express')
 const { signToken } = require('../utils/auth.js')
 

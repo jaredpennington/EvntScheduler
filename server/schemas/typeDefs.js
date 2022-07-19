@@ -3,15 +3,21 @@ const { gql } = require("apollo-server-express");
 
 // create out typeDefs for explicit schema types
 const typeDefs = gql`
-  type Planner {
+  type User {
     _id: ID
     first_name: String
     last_name: String
     email: String
+  }
+
+  type Event {
+    _id: ID
+    event_name: String
     bachelors_pass: String
     bachelorette_pass: String
     both_pass: String
     date_windows: [[String]]
+    host: User
     guests: [Guest]
   }
 
@@ -29,11 +35,11 @@ const typeDefs = gql`
   # optionally includes user data
   type Auth {
     token: ID!
-    user: Planner
+    user: User
   }
 
   type Query {
-    me: Planner
+    me: User
     guests: [Guest]
     guest(_id: ID!): Guest
   }
@@ -41,7 +47,9 @@ const typeDefs = gql`
   type Mutation {
     login(email: String!, password: String!): Auth
 
-    addUser(username: String!, email: String!, password: String!): Auth
+    addUser(
+        first_name: String!, last_name: String!, email: String!, password: String!
+    ): Auth
   }
 `;
 

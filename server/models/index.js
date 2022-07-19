@@ -1,4 +1,5 @@
-const Planner = require('./Planner');
+const User = require('./User');
 const Guest = require('./Guest');
+const Event = require('./Event');
 
-module.exports = { Planner, Guest };
+module.exports = { User, Guest, Event };

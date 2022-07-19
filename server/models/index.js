@@ -1,6 +1,4 @@
-
-
 const Planner = require('./Planner');
-const Form = require('./Form');
+const Guest = require('./Guest');
 
-module.exports = { Planner, Form };
+module.exports = { Planner, Guest };

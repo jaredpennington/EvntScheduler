@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat')
 
-const formSchema = new Schema(
+const guestSchema = new Schema(
     {
         first_name: {
             type: String,
@@ -41,5 +41,5 @@ const formSchema = new Schema(
       }
     }
 )
-const Form = model('Form', formSchema);
-module.exports = Form;
+const Guest = model('Guest', guestSchema);
+module.exports = Guest;

@@ -19,6 +19,15 @@ const resolvers = {
         },
 
         // get single event and guests/passwords.
+        event: async (parent, { _id }, context) => {
+            if (context.user) {
+                const singleEvent = await Event.findById(_id)
+                    .populate('guests')
+                    .populate('passwords');
+
+                return singleEvent;
+            }
+        }
 
         // get single guest with all info (availability/budget)
 
@@ -54,6 +63,7 @@ const resolvers = {
             if (context.user) {
                 console.log(context.user._id);
                 const event = await Event.create({ ...args, user_id: context.user._id });
+                console.log(event);
 
                 await User.findByIdAndUpdate(
                     { _id: context.user._id },

@@ -13,6 +13,10 @@ const eventSchema = new Schema(
             default: Date.now,
             get: timestamp => dateFormat(timestamp)
         },
+        user_id: {
+            type: String,
+            required: true
+        },
         date_windows: [[
             {
                 type: String,

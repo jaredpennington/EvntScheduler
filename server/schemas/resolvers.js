@@ -73,12 +73,38 @@ const resolvers = {
                 return event;
             }
             throw new AuthenticationError('You need to be logged in!')
-        }
+        },
 
         // update event
+        updateEvent: async (parent, args, context) => {
+            if (context.user) {
+                const updatedEvent = await Event.findByIdAndUpdate(
+                    { _id: args._id },
+                    { ...args },
+                    { new: true }
+                );
+                return updatedEvent;
+            }
+            throw new AuthenticationError('You need to be logged in!')
+        },
 
         // delete event (and its guests)
+        removeEvent: async (parent, { _id }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { events: _id } },
+                    { new: true }
+                );
 
+                // delete all associated guests
+                await Guest.deleteMany({ event_id: _id });
+                // delete all associated passcodes
+                await Password.deleteMany({ event_id: _id });
+
+                return updatedUser;
+            }
+        }
         // create survey passcode
 
         // update survey passcode

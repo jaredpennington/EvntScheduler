@@ -12,6 +12,10 @@ const passwordSchema = new Schema(
             type: String,
             trim: true,
             required: true
+        },
+        event_id: {
+            type: String,
+            required: true
         }
     },
     {

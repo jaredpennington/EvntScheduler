@@ -22,6 +22,7 @@ const typeDefs = gql`
 
   type Guest {
     _id: ID
+    event_id: String
     first_name: String
     last_name: String
     date_windows: [[String]]
@@ -60,6 +61,14 @@ const typeDefs = gql`
         event_name: String!,
         date_windows: [[String]]!
     ): Event
+
+    updateEvent(
+        _id: ID!,
+        event_name: String,
+        date_windows: [[String]]
+    ): Event
+
+    removeEvent(_id: ID!): User
   }
 `;
 

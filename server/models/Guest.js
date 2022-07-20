@@ -13,6 +13,10 @@ const guestSchema = new Schema(
             trim: true,
             required: true
         },
+        event_id: {
+            type: String,
+            required: true
+        },
         date_windows: {
             type: [String],
             trim: true,

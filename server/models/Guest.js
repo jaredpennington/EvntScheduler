@@ -13,8 +13,12 @@ const guestSchema = new Schema(
             trim: true,
             required: true
         },
+        event_id: {
+            type: String,
+            required: true
+        },
         date_windows: {
-            type: [[Date]],
+            type: [String],
             trim: true,
             get: timestamp => dateFormat(timestamp)
         },

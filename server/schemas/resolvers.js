@@ -1,54 +1,36 @@
-const { User, Aspiration, Folder } = require('../models')
+const { User, Guest, Event, Password } = require('../models')
 const { AuthenticationError } = require('apollo-server-express')
 const { signToken } = require('../utils/auth.js')
 
 const resolvers = {
     Query: {
+        // user dashboard. get all events with passwords
         me: async (parent, args, context) => {
             if (context.user) {
                 const userData = await User.findOne({ _id: context.user._id })
                     .select('-__v -password')
-                    .populate({ populate: 'guests' });
+                    .populate({ path: 'events', populate: 'guests' })
+                    .populate({ path: 'events', populate: 'passwords' });
 
                 return userData;
             }
 
             throw new AuthenticationError('Not logged in')
         },
-        // get all aspirations
-        //aspirations: async (parent, { username }) => {
-        //    const params = username ? { username } : {};
-        //    return Aspiration.find(params).sort({ createdAt: -1 });
-        //},
-        //// get single aspiration
-        //aspiration: async (parent, { _id }) => {
-        //    return Aspiration.findOne({ _id });
-        //},
-        //// get all folders (homepage)
-        //folders: async (parent, { username }) => {
-        //    const params = username ? { username } : {};
-        //    return Folder.find(params).sort({ createdAt: -1 });
-        //},
-        //// get single folder
-        //folder: async (parent, { _id }, context) => {
-        //    const singleFolder = await Folder.findById(_id)
-        //    .populate('aspirations');
 
-        //    return singleFolder;
-        //},
-        //// get all users
-        //users: async () => {
-        //    return User.find()
-        //        .select('-__v -password')
-        //        .populate('folders');
+        // get single event and guests/passwords.
+        event: async (parent, { _id }, context) => {
+            if (context.user) {
+                const singleEvent = await Event.findById(_id)
+                    .populate('guests')
+                    .populate('passwords');
 
-        //},
-        //// get user by username
-        //user: async (parent, { username }) => {
-        //    return User.findOne({ username })
-        //        .select('-__v -password')
-        //        .populate('folders');
-        //}
+                return singleEvent;
+            }
+        }
+
+        // get single guest with all info (availability/budget)
+
     },
     Mutation: {
         // user sign up
@@ -76,94 +58,64 @@ const resolvers = {
             return { token, user };
         },
 
-        //addAspiration: async (parent, args, context) => {
-        //    // if user logged in
-        //    if (context.user) {
-        //        const aspiration = await Aspiration.create({ ...args, username: context.user.username });
-        //        // push into folder aspirations array
-        //        await Folder.findByIdAndUpdate(
-        //            { _id: args.folderId },
-        //            { $push: { aspirations: aspiration } },
-        //            { new: true }
-        //        )
-        //        return aspiration;
-        //    }
-        //    throw new AuthenticationError('You need to be logged in!');
-        //},
+        // create event
+        addEvent: async (parent, args, context) => {
+            if (context.user) {
+                console.log(context.user._id);
+                const event = await Event.create({ ...args, user_id: context.user._id });
+                console.log(event);
 
-        //removeAspiration: async (parent, { _id, folderId }, context) => {
-        //    if (context.user) {
-        //        // remove from folder aspirations array
-        //        const updatedFolder = await Folder.findByIdAndUpdate(
-        //            { _id: folderId },
-        //            { $pull: { aspirations: _id } },
-        //            { new: true }
-        //        )
-        //        // delete the aspiration
-        //        await Aspiration.findByIdAndDelete({ _id });
-        //        return updatedFolder;
-        //    }
-        //    throw new AuthenticationError('You need to be logged in!')
-        //},
+                await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $push: { events: event } },
+                    { new: true }
+                )
+                return event;
+            }
+            throw new AuthenticationError('You need to be logged in!')
+        },
 
-        //updateAspiration: async (parent, args, context) => {
-        //    if (context.user) {
-        //        // update all contents of aspiration
-        //        const updatedAspiration = await Aspiration.findByIdAndUpdate(
-        //            { _id: args._id },
-        //            { ...args },
-        //            { new: true }
-        //        );
-        //        return updatedAspiration;
-        //    }
-        //    throw new AuthenticationError('You need to be logged in!')
-        //},
+        // update event
+        updateEvent: async (parent, args, context) => {
+            if (context.user) {
+                const updatedEvent = await Event.findByIdAndUpdate(
+                    { _id: args._id },
+                    { ...args },
+                    { new: true }
+                );
+                return updatedEvent;
+            }
+            throw new AuthenticationError('You need to be logged in!')
+        },
 
-        //addFolder: async (parent, { title }, context) => {
-        //    // if user logged in
-        //    if (context.user) {
-        //        const folder = await Folder.create({ title, username: context.user.username });
+        // delete event (and its guests)
+        removeEvent: async (parent, { _id }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { events: _id } },
+                    { new: true }
+                );
 
-        //        await User.findByIdAndUpdate(
-        //            { _id: context.user._id },
-        //            { $push: { folders: folder } },
-        //            // to make sure new document is returned instead of updated document
-        //            { new: true }
-        //        );
-        //        return folder;
-        //    }
-        //    throw new AuthenticationError('You need to be logged in!');
-        //},
+                // delete all associated guests
+                await Guest.deleteMany({ event_id: _id });
+                // delete all associated passcodes
+                await Password.deleteMany({ event_id: _id });
 
-        //removeFolder: async (parent, { _id }, context) => {
-        //    if (context.user) {
-        //        const updatedUser = await User.findByIdAndUpdate(
-        //            { _id: context.user._id },
-        //            { $pull: { folders: _id } },
-        //            { new: true }
-        //        );
+                return updatedUser;
+            }
+        }
+        // create survey passcode
 
-        //        // delete all aspirations inside the folder
-        //        await Aspiration.deleteMany({ folderId: _id });
-        //        // delete the folder
-        //        await Folder.findByIdAndDelete({ _id });
-        //        return updatedUser;
-        //    }
-        //    throw new AuthenticationError('You need to be logged in!')
-        //},
+        // update survey passcode
 
-        //updateFolder: async (parent, { title }, context) => {
-        //    if (context.user) {
-        //        // update all contents of folder
-        //        const updatedFolder = await Folder.findByIdAndUpdate(
-        //            { _id: args._id },
-        //            { title },
-        //            { new: true }
-        //        );
-        //        return updatedFolder;
-        //    }
-        //    throw new AuthenticationError('You need to be logged in!')
-        //},
+        // delete survey passcode
+
+        // create guest
+
+        // update guest (event planner can change availability)
+
+        // delete guest
     },
 };
 

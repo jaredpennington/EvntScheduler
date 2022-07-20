@@ -61,9 +61,7 @@ const resolvers = {
         // create event
         addEvent: async (parent, args, context) => {
             if (context.user) {
-                console.log(context.user._id);
                 const event = await Event.create({ ...args, user_id: context.user._id });
-                console.log(event);
 
                 await User.findByIdAndUpdate(
                     { _id: context.user._id },
@@ -97,6 +95,8 @@ const resolvers = {
                     { new: true }
                 );
 
+                // delete event
+                await Event.findOneAndDelete({ _id: _id })
                 // delete all associated guests
                 await Guest.deleteMany({ event_id: _id });
                 // delete all associated passcodes
@@ -104,18 +104,93 @@ const resolvers = {
 
                 return updatedUser;
             }
-        }
+        },
+
         // create survey passcode
+        addPassword: async (parent, args, context) => {
+            if (context.user) {
+                const password = await Event.create({ ...args, event_id: args.event_id });
+
+                await Event.findByIdAndUpdate(
+                    { _id: args.event_id },
+                    { $push: { passwords: password } },
+                    { new: true }
+                )
+                return password;
+            }
+            throw new AuthenticationError('You need to be logged in!')
+        },
 
         // update survey passcode
+        updatePassword: async (parent, args, context) => {
+            if (context.user) {
+                const updatedPassword = await Password.findByIdAndUpdate(
+                    { _id: args._id },
+                    { ...args },
+                    { new: true }
+                );
+                return updatedPassword;
+            }
+            throw new AuthenticationError('You need to be logged in!')
+        },
 
         // delete survey passcode
+        removePassword: async (parent, args, context) => {
+            if (context.user) {
+                const updatedEvent = await Event.findByIdAndUpdate(
+                    { _id: args.event_id },
+                    { $pull: { passwords: _id } },
+                    { new: true }
+                );
+
+                await Password.findOneAndDelete({ _id: args._id });
+
+                return updatedEvent;
+            }
+        },
 
         // create guest
+        addGuest: async (parent, args, context) => {
+            if (context.user) {
+                const guest = await Guest.create({ ...args, event_id: args.event_id });
+
+                await Event.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $push: { guests: guest } },
+                    { new: true }
+                )
+                return guest;
+            }
+            throw new AuthenticationError('You need to be logged in!')
+        },
 
         // update guest (event planner can change availability)
+        updateGuest: async (parent, args, context) => {
+            if (context.user) {
+                const updatedGuest = await Guest.findByIdAndUpdate(
+                    { _id: args._id },
+                    { ...args },
+                    { new: true }
+                );
+                return updatedGuest;
+            }
+            throw new AuthenticationError('You need to be logged in!')
+        },
 
         // delete guest
+        removeGuest: async (parent, args, context) => {
+            if (context.user) {
+                const updatedEvent = await Event.findByIdAndUpdate(
+                    { _id: args.event_id },
+                    { $pull: { guests: _id } },
+                    { new: true }
+                );
+
+                await Guest.findOneAndDelete({ _id: args._id });
+
+                return updatedEvent;
+            }
+        },
     },
 };
 

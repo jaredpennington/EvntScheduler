@@ -1,4 +1,4 @@
-const { User, Guest } = require('../models')
+const { User, Guest, Event, Password } = require('../models')
 const { AuthenticationError } = require('apollo-server-express')
 const { signToken } = require('../utils/auth.js')
 
@@ -9,7 +9,8 @@ const resolvers = {
             if (context.user) {
                 const userData = await User.findOne({ _id: context.user._id })
                     .select('-__v -password')
-                    .populate({ populate: 'guests' });
+                    .populate({ path: 'events', populate: 'guests' })
+                    .populate({ path: 'events', populate: 'passwords' });
 
                 return userData;
             }
@@ -49,6 +50,20 @@ const resolvers = {
         },
 
         // create event
+        addEvent: async (parent, args, context) => {
+            if (context.user) {
+                console.log(context.user._id);
+                const event = await Event.create({ ...args, user_id: context.user._id });
+
+                await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $push: { events: event } },
+                    { new: true }
+                )
+                return event;
+            }
+            throw new AuthenticationError('You need to be logged in!')
+        }
 
         // update event
 

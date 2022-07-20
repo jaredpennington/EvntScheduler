@@ -8,13 +8,14 @@ const typeDefs = gql`
     first_name: String
     last_name: String
     email: String
+    events: [Event]
   }
 
   type Event {
     _id: ID
+    user_id: ID
     event_name: String
     date_windows: [[String]]
-    host: User
     guests: [Guest]
     passwords: [Password]
   }
@@ -31,6 +32,7 @@ const typeDefs = gql`
 
   type Password {
     _id: ID
+    event_id: ID
     name: String
     password: String
   }
@@ -54,6 +56,11 @@ const typeDefs = gql`
     addUser(
         first_name: String!, last_name: String!, email: String!, password: String!
     ): Auth
+
+    addEvent(
+        event_name: String!,
+        date_windows: [[String]]!
+    ): Event
   }
 `;
 

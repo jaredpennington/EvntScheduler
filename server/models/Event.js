@@ -8,19 +8,18 @@ const eventSchema = new Schema(
             trim: true,
             required: true,
         },
-        host: {
-            type: String
-        },
         createdAt: {
             type: Date,
             default: Date.now,
             get: timestamp => dateFormat(timestamp)
         },
-        date_windows: {
-            type: [[Date]],
-            required: true,
-            get: timestamp => dateFormat(timestamp),
-        },
+        date_windows: [[
+            {
+                type: String,
+                required: true,
+                // get: timestamp => dateFormat(timestamp),
+            }
+        ]],
         guests: [
             {
                 type: Schema.Types.ObjectId,

@@ -14,7 +14,7 @@ const guestSchema = new Schema(
             required: true
         },
         date_windows: {
-            type: [[Date]],
+            type: [String],
             trim: true,
             get: timestamp => dateFormat(timestamp)
         },

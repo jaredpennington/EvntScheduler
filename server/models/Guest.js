@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
-const dateFormat = require('../utils/dateFormat')
+const dateFormat = require('../utils/dateFormat');
+const mongoose = require('mongoose');
 
 const guestSchema = new Schema(
     {
@@ -14,14 +15,21 @@ const guestSchema = new Schema(
             required: true
         },
         event_id: {
-            type: String,
+            type: mongoose.Schema.ObjectId,
             required: true
         },
-        date_windows: {
-            type: [String],
-            trim: true,
-            get: timestamp => dateFormat(timestamp)
+        role: {
+            type: String,
+            required: true,
+            trim: true
         },
+        date_windows: [[
+            {
+                type: String,
+                required: true,
+                // get: timestamp => dateFormat(timestamp),
+            }
+        ]],
         completedAt: {
             type: Date,
             default: Date.now,

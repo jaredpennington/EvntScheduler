@@ -1,6 +1,6 @@
-const { User, Guest, Event, Password } = require('../models')
-const { AuthenticationError } = require('apollo-server-express')
-const { signToken } = require('../utils/auth.js')
+const { User, Guest, Event, Password } = require('../models');
+const { AuthenticationError } = require('apollo-server-express');
+const { signToken } = require('../utils/auth.js');
 
 const resolvers = {
     Query: {
@@ -27,10 +27,16 @@ const resolvers = {
 
                 return singleEvent;
             }
-        }
+        },
 
         // get single guest with all info (availability/budget)
+        guest: async (parent, { _id }, context) => {
+            if (context.user) {
+                const singleGuest = await Guest.findById(_id);
 
+                return singleGuest;
+            }
+        }
     },
     Mutation: {
         // user sign up
@@ -91,7 +97,7 @@ const resolvers = {
             if (context.user) {
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: context.user._id },
-                    { $pull: { events: _id } },
+                    { $pull: { events: Event.findById(_id) } },
                     { new: true }
                 );
 
@@ -109,7 +115,7 @@ const resolvers = {
         // create survey passcode
         addPassword: async (parent, args, context) => {
             if (context.user) {
-                const password = await Event.create({ ...args, event_id: args.event_id });
+                const password = await Password.create({ ...args, event_id: args.event_id });
 
                 await Event.findByIdAndUpdate(
                     { _id: args.event_id },
@@ -139,7 +145,7 @@ const resolvers = {
             if (context.user) {
                 const updatedEvent = await Event.findByIdAndUpdate(
                     { _id: args.event_id },
-                    { $pull: { passwords: _id } },
+                    { $pull: { passwords: args._id } },
                     { new: true }
                 );
 
@@ -155,7 +161,7 @@ const resolvers = {
                 const guest = await Guest.create({ ...args, event_id: args.event_id });
 
                 await Event.findByIdAndUpdate(
-                    { _id: context.user._id },
+                    { _id: args.event_id },
                     { $push: { guests: guest } },
                     { new: true }
                 )
@@ -182,7 +188,7 @@ const resolvers = {
             if (context.user) {
                 const updatedEvent = await Event.findByIdAndUpdate(
                     { _id: args.event_id },
-                    { $pull: { guests: _id } },
+                    { $pull: { guests: args._id } },
                     { new: true }
                 );
 

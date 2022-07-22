@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const dateFormat = require('../utils/dateFormat')
+const mongoose = require('mongoose');
 
 const passwordSchema = new Schema(
     {
@@ -14,7 +14,7 @@ const passwordSchema = new Schema(
             required: true
         },
         event_id: {
-            type: String,
+            type: mongoose.Schema.ObjectId,
             required: true
         }
     },

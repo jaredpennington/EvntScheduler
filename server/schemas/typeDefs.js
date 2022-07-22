@@ -22,9 +22,10 @@ const typeDefs = gql`
 
   type Guest {
     _id: ID
-    event_id: String
+    event_id: ID
     first_name: String
     last_name: String
+    role: String
     date_windows: [[String]]
     completedAt: String
     budget: Int
@@ -46,8 +47,12 @@ const typeDefs = gql`
   }
 
   type Query {
-    me: User
+    events: [Event]
     event(_id: ID!): Event
+    guests(event_id: ID!): [Guest]
+    guest(_id: ID!): Guest
+    passwords(event_id: ID!): [Password]
+    password(_id: ID!): Password
   }
   
   type Mutation {
@@ -69,6 +74,48 @@ const typeDefs = gql`
     ): Event
 
     removeEvent(_id: ID!): User
+
+    addPassword(
+        event_id: ID!
+        name: String!
+        password: String!
+    ): Password
+        
+    updatePassword(
+        _id: ID!
+        name: String
+        password: String
+    ): Password
+
+    removePassword(
+        _id: ID!
+        event_id: ID!
+    ): Event
+
+    addGuest(
+        event_id: ID!
+        first_name: String!
+        last_name: String!
+        role: String!
+        date_windows: [[String]]!
+        budget: Int!
+        invited_to: String
+    ): Guest
+
+    updateGuest(
+        _id: ID!
+        first_name: String
+        last_name: String
+        role: String
+        date_windows: [[String]]
+        budget: Int
+        invited_to: String
+    ): Guest
+
+    removeGuest(
+        _id: ID!
+        event_id: ID!
+    ): Event
   }
 `;
 

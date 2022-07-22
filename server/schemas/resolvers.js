@@ -51,8 +51,6 @@ const resolvers = {
             if (context.user) {
                 const eventPasswords = await Password.find({ event_id: mongoose.Types.ObjectId(event_id) });
 
-                console.log(eventPasswords);
-
                 return eventPasswords;
             }
         },
@@ -66,6 +64,7 @@ const resolvers = {
             }
         },
     },
+
     Mutation: {
         // user sign up
         addUser: async (parent, args) => {

@@ -47,9 +47,12 @@ const typeDefs = gql`
   }
 
   type Query {
-    me: User
+    events: [Event]
     event(_id: ID!): Event
+    guests(event_id: ID!): [Guest]
     guest(_id: ID!): Guest
+    passwords(event_id: ID!): [Password]
+    password(_id: ID!): Password
   }
   
   type Mutation {

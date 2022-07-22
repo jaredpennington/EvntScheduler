@@ -1,21 +1,20 @@
 const { User, Guest, Event, Password } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth.js');
+const mongoose = require('mongoose');
+
 
 const resolvers = {
     Query: {
-        // user dashboard. get all events with passwords
-        me: async (parent, args, context) => {
+        // find all events associated with a user
+        events: async (parent, args, context) => {
             if (context.user) {
-                const userData = await User.findOne({ _id: context.user._id })
-                    .select('-__v -password')
-                    .populate({ path: 'events', populate: 'guests' })
-                    .populate({ path: 'events', populate: 'passwords' });
-
-                return userData;
+                const events = await Event.find({
+                    user_id: context.user._id })
+                    .populate('guests')
+                    .populate('passwords');
+                return events;
             }
-
-            throw new AuthenticationError('Not logged in')
         },
 
         // get single event and guests/passwords.
@@ -29,6 +28,15 @@ const resolvers = {
             }
         },
 
+        // all guests associated with an event
+        guests: async (parent, { event_id }, context) => {
+            if (context.user) {
+                const eventGuests = await Guest.find({ event_id: event_id });
+
+                return eventGuests;
+            }
+        },
+
         // get single guest with all info (availability/budget)
         guest: async (parent, { _id }, context) => {
             if (context.user) {
@@ -36,7 +44,27 @@ const resolvers = {
 
                 return singleGuest;
             }
-        }
+        },
+
+        // all passwords associated with an event
+        passwords: async (parent, { event_id }, context) => {
+            if (context.user) {
+                const eventPasswords = await Password.find({ event_id: mongoose.Types.ObjectId(event_id) });
+
+                console.log(eventPasswords);
+
+                return eventPasswords;
+            }
+        },
+
+        // get single password
+        password: async (parent, { _id }, context) => {
+            if (context.user) {
+                const singlePassword = await Password.findById(_id);
+
+                return singlePassword;
+            }
+        },
     },
     Mutation: {
         // user sign up

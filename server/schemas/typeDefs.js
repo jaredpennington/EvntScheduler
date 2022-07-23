@@ -15,7 +15,7 @@ const typeDefs = gql`
     _id: ID
     user_id: String
     event_name: String
-    date_windows: [[String]]
+    date_windows: [[String]] # [[12/10/22, 12/11/22, ...12/20/22], [1/1/22, 1/2/22, ...1/28/22], etc.] (for calendar)
     guests: [Guest]
     passwords: [Password]
   }
@@ -26,7 +26,7 @@ const typeDefs = gql`
     first_name: String
     last_name: String
     role: String
-    date_windows: [[String]]
+    date_windows: [[String]] # [[12/10/22, 12/11/22, ...12/20/22], [1/1/22, 1/2/22, ...1/28/22], etc.] (for calendar)
     completedAt: String
     budget: Int
     invited_to: String

@@ -2,20 +2,16 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_EVENTS } from "../utils/queries";
 import { Link } from "react-router-dom";
-import Auth from "../utils/auth";
 
 // the homepage if the user is logged in. Will include all the user's events
 const Dashboard = () => {
   const { loading, data } = useQuery(QUERY_EVENTS);
 
-  let sessionUserInfo = Auth.getProfile();
-  let userId = sessionUserInfo.data._id;
-
   return (
     <div>
       {loading ? (
         <div>Loading...</div>
-      ) : data ? (
+      ) : (
         data.events.map((event, index) => (
           <div key={index}>
             <div>
@@ -39,12 +35,15 @@ const Dashboard = () => {
             ))}
           </div>
         ))
-      ) : (
+      )}
+      {!loading ? (
         <div>
-          <Link to={`event/${userId}/survey`}>
+          <Link to="event/createEvent">
             Click here to make an event!
           </Link>
         </div>
+      ) : (
+        <></>
       )}
     </div>
   );

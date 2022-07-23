@@ -44,26 +44,26 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <ApolloProvider client={client}>
-      <Routes>
-        <main>
-          <div className="">
-            <Route
-              path="/"
-              element={AuthService.loggedIn() ? <Dashboard /> : <Home />}
-            ></Route>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/event/:id" element={<Event />} />
-            <Route path="/event/:id/survey" element={<Survey />} />
-            <Route path="/event/:id/:guests" element={<Guests />} />
-            <Route path="/guest/:id" element={<Guest />} />
-            <Route path="/event/:id/:passwords" element={<Passwords />} />
-            <Route path="/password/:id" element={<Password />} />
-            <Route path="*" element={<NoMatch />} />
-          </div>
-        </main>
-      </Routes>
+      <ApolloProvider client={client}>
+          <Router>
+            <main>
+                <Routes>
+                    <Route
+                      path="/"
+                      element={AuthService.loggedIn() ? <Dashboard /> : <Home />}
+                    ></Route>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/event/:id" element={<Event />} />
+                    <Route path="/event/:id/survey" element={<Survey />} />
+                    <Route path="/event/:id/:guests" element={<Guests />} />
+                    <Route path="/guest/:id" element={<Guest />} />
+                    <Route path="/event/:id/:passwords" element={<Passwords />} />
+                    <Route path="/password/:id" element={<Password />} />
+                    <Route path="*" element={<NoMatch />} />
+                </Routes>
+            </main>
+          </Router>
     </ApolloProvider>
   );
 }

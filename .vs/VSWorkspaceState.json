@@ -2,12 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\client",
-    "\\client\\src",
-    "\\client\\utils",
-    "\\server\\config",
-    "\\server\\models",
-    "\\server\\schemas"
+    "\\client\\src"
   ],
-  "SelectedNode": "\\client\\src\\App.js",
+  "SelectedNode": "\\client\\.gitignore",
   "PreviewInSolutionExplorer": false
 }

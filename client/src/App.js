@@ -54,24 +54,12 @@ function App() {
             ></Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/event/:id">
-              <Event></Event>
-            </Route>
-            <Route path="/event/:id/survey">
-              <Survey></Survey>
-            </Route>
-            <Route path="/event/:id/:guests">
-              <Guests></Guests>
-            </Route>
-            <Route path="/guest/:id">
-              <Guest></Guest>
-            </Route>
-            <Route path="/event/:id/:passwords">
-              <Passwords></Passwords>
-            </Route>
-            <Route path="/password/:id">
-              <Password></Password>
-            </Route>
+            <Route path="/event/:id" element={<Event />} />
+            <Route path="/event/:id/survey" element={<Survey />} />
+            <Route path="/event/:id/:guests" element={<Guests />} />
+            <Route path="/guest/:id" element={<Guest />} />
+            <Route path="/event/:id/:passwords" element={<Passwords />} />
+            <Route path="/password/:id" element={<Password />} />
             <Route path="*" element={<NoMatch />} />
           </div>
         </main>

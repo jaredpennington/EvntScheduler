@@ -31,9 +31,6 @@ function App() {
       <Routes>
         <main>
           <div className="">
-            <Route path="/survey/:id">
-              <PartyForm className=""></PartyForm>
-            </Route>
             <Route
               path="/"
               element={AuthService.loggedIn() ? <Dashboard /> : <Home />}
@@ -41,20 +38,20 @@ function App() {
             <Route path="/event/:id">
               <Event></Event>
             </Route>
-            <Route path="/event">
-              <EventForm></EventForm>
+            <Route path="/event/:id/survey">
+              <Survey></Survey>
             </Route>
             <Route path="/event/:id/:guests">
-              <Event></Event>
+              <Guests></Guests>
             </Route>
             <Route path="/guest/:id">
-              <Event></Event>
+              <Guest></Guest>
             </Route>
             <Route path="/event/:id/:passwords">
-              <Event></Event>
+              <Passwords></Passwords>
             </Route>
             <Route path="/password/:id">
-              <Event></Event>
+              <Password></Password>
             </Route>
             <Route path="*" element={<NoMatch />} />
             

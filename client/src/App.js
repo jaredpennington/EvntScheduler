@@ -58,7 +58,7 @@ function App() {
                     <Route path="/event/:id/survey" element={<Survey />} />
                     <Route path="/event/:id/:guests" element={<Guests />} />
                     <Route path="/guest/:id" element={<Guest />} />
-                    <Route path="/event/:id/:passwords" element={<Passwords />} />
+                    <Route path="/event/:id/passwords" element={<Passwords />} />
                     <Route path="/password/:id" element={<Password />} />
                     <Route path="*" element={<NoMatch />} />
                 </Routes>

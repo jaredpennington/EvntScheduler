@@ -1,6 +1,9 @@
 import "./index.css";
 import React from "react";
-import PartyForm from "./components/PartyForm";
+import AuthService from "./utils/auth";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { setContext } from "@apollo/client/link/context";
+
 import {
   ApolloClient,
   InMemoryCache,
@@ -8,7 +11,17 @@ import {
   createHttpLink,
 } from "@apollo/client";
 
-import AuthService from "./utils/auth";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
+import Event from "./pages/Event";
+import Guest from "./pages/Guest";
+import Guests from "./pages/Guests";
+import Password from "./pages/Password";
+import Passwords from "./pages/Passwords";
+import Survey from "./pages/Survey";
+import NoMatch from "./pages/NoMatch";
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
@@ -18,6 +31,10 @@ const authLink = setContext((_, { headers }) => {
       authorization: token ? `Bearer ${token}` : "",
     },
   };
+});
+
+const httpLink = createHttpLink({
+  uri: "graphql",
 });
 
 const client = new ApolloClient({
@@ -35,6 +52,8 @@ function App() {
               path="/"
               element={AuthService.loggedIn() ? <Dashboard /> : <Home />}
             ></Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/event/:id">
               <Event></Event>
             </Route>
@@ -54,7 +73,6 @@ function App() {
               <Password></Password>
             </Route>
             <Route path="*" element={<NoMatch />} />
-            
           </div>
         </main>
       </Routes>

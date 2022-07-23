@@ -1,12 +1,12 @@
 import React from 'react';
 
 
-const Passwords = () => {
+const NoMatch = () => {
   return (
     <>
     </>
   )
 }
 
-export default Passwords
+export default NoMatch
 

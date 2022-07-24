@@ -11,10 +11,12 @@ const EventForm = () => {
     {
       type: "date",
       value: "",
+      id: 0
     },
     {
       type: "date",
       value: "",
+      id: 1
     },
   ];
 
@@ -43,6 +45,12 @@ const EventForm = () => {
     });
     console.log(dateInput);
   };
+
+  const removeInput = (event) => {
+    let index = Number(event.target.id.charAt(1)); // 02 -> 2
+    let arr = dateInput.filter((d, i) => i !== index && i !== index + 1);
+    setDateInput(arr);
+  }
 
   const handleDateChange = (event) => {
     event.preventDefault();
@@ -106,17 +114,24 @@ const EventForm = () => {
             type="event_name"
             id="event_name"
           />
-          <button type="button" className="cursor-pointer" onClick={addInput}>
+          <button type="button" onClick={addInput}>
             +
           </button>
           {dateInput.map((input, index) => (
-            <input
-              onChange={handleDateChange}
-              value={input.value}
-              id={index}
-              key={index}
-              type={input.type}
-            />
+            <>
+            {index % 2 === 0 && (
+              <button id={'0' + index} key={'0' + index} type="button" onClick={removeInput}>
+                x
+              </button>
+            )}
+              <input
+                onChange={handleDateChange}
+                value={input.value}
+                id={index}
+                key={index}
+                type={input.type}
+              />
+            </>
           ))}
           <button type="submit">Submit</button>
         </form>

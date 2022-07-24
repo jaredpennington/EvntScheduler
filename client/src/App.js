@@ -19,7 +19,6 @@ import CreateEvent from "./pages/CreateEvent";
 import Event from "./pages/Event";
 import Guest from "./pages/Guest";
 import Guests from "./pages/Guests";
-import Password from "./pages/Password";
 import Passwords from "./pages/Passwords";
 import Survey from "./pages/Survey";
 import NoMatch from "./pages/NoMatch";
@@ -35,7 +34,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const httpLink = createHttpLink({
-  uri: "graphql",
+  uri: "/graphql",
 });
 
 const client = new ApolloClient({
@@ -61,7 +60,6 @@ function App() {
                     <Route path="/event/:id/:guests" element={<Guests />} />
                     <Route path="/guest/:id" element={<Guest />} />
                     <Route path="/event/:id/passwords" element={<Passwords />} />
-                    <Route path="/password/:id" element={<Password />} />
                     <Route path="*" element={<NoMatch />} />
                 </Routes>
             </main>

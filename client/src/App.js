@@ -1,7 +1,7 @@
 import "./index.css";
 import React from "react";
 import AuthService from "./utils/auth";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { setContext } from "@apollo/client/link/context";
 
 import {
@@ -52,6 +52,7 @@ function App() {
       <ApolloProvider client={client}>
           <Router>
             <main>
+              <div><Link to="/">Home</Link></div>
               {AuthService.loggedIn() && (
                 <button onClick={logout}>Logout</button>
               )}

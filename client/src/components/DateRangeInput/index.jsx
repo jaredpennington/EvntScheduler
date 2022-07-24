@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EventForm = () => {
+const EventForm = ({ dateRange, setDateRange }) => {
     
     return (
         <>

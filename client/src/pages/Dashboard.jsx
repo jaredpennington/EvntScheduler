@@ -14,13 +14,12 @@ const Dashboard = () => {
       ) : (
         data.events.map((event, index) => (
           // put card styling in this div VVV
-
           <div className="uk-child-width-expand@s" uk-grid>
             <div
               key={index}
               className="uk-card uk-card-default uk-card-body card-padding uk-card"
             >
-              <div className="uk-card-title">{event.event_name}</div>
+              <div className="uk-card-title"><Link to={`/event/${event._id}`}>{event.event_name}</Link></div>
               <div>
                 Guests:{" "}
                 {Object.keys(event.guests).length
@@ -45,6 +44,7 @@ const Dashboard = () => {
       )}
       {!loading ? (
         // Add small card here for this button thing VVV
+        // maybe we could have the component form to create an event here? Will have to discuss
         <div>
           <Link to="event/createEvent">Click here to make an event!</Link>
         </div>

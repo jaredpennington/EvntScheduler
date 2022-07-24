@@ -6,6 +6,14 @@ import { useParams, Link } from "react-router-dom";
 // single event page will have a calendar that shows the names of each person who is available on a given day.
 const Event = () => {
   let event_id = useParams().id;
+  
+  const { loading, data } = useQuery(QUERY_EVENT, {
+    variables: { id: event_id },
+  });
+  
+  let eventData = data.event;
+  console.log(eventData);
+  
   return (
     <div>
       <nav>

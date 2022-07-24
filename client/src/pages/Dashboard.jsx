@@ -13,9 +13,12 @@ const Dashboard = () => {
         <div>Loading...</div>
       ) : (
         data.events.map((event, index) => (
-          <div key={index}>
+          // put card styling in this div VVV
+          
+          <div className="uk-child-width-expand@s" uk-grid>
+          <div key={index} className="uk-card uk-card-default uk-card-body card-padding uk-card">
             <div>
-              <Link to={`/event/${event._id}`}>{event.event_name}</Link>
+              <Link to={`/event/${event._id}`} class="uk-card-title">{event.event_name}</Link>
             </div>
             <div>
               <Link to={`/event/${event._id}/guests`}>Guests:</Link>{" "}
@@ -34,9 +37,11 @@ const Dashboard = () => {
               <div key={index}>{date[0]} - {date[date.length - 1]}</div>
             ))}
           </div>
+        </div>
         ))
       )}
       {!loading ? (
+        // Add small card here for this button thing VVV
         <div>
           <Link to="event/createEvent">
             Click here to make an event!

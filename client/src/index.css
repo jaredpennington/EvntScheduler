@@ -5,3 +5,7 @@
 * {
     background-color: #fceecf;
 }
+
+.card-padding {
+    padding: 0% !important;
+}

@@ -5,7 +5,7 @@ const secret = 'mysecretsshhhhh';
 const expiration = "2h";
 
 module.exports = {
-    // adds users username, email, and id to the token
+    // adds user's name, email, and id to the token
     // tokens can be given an expiration date and a secret to sign the token with
 
 
@@ -40,8 +40,8 @@ module.exports = {
 
     },
 
-    signToken: function ({ username, email, _id }) {
-        const payload = { username, email, _id };
+    signToken: function ({ first_name, last_name, email, _id }) {
+        const payload = { first_name, last_name, email, _id };
 
         return jwt.sign({ data: payload }, secret, { expiresIn: expiration })
     },

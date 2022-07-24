@@ -43,10 +43,18 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const logout = (event) => {
+    event.preventDefault();
+    AuthService.logout();
+  };
+
   return (
       <ApolloProvider client={client}>
           <Router>
             <main>
+              {AuthService.loggedIn() && (
+                <button onClick={logout}>Logout</button>
+              )}
                 <Routes>
                     <Route
                       path="/"

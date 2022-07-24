@@ -6,6 +6,20 @@ const mongoose = require('mongoose');
 
 const resolvers = {
     Query: {
+        // session user
+        me: async (parent, args, context) => {
+            if (context.user) {
+                const userData = await User.findOne({ _id: context.user._id })
+                    .select('-__v -password')
+                    .populate('events')
+                    .populate({ path: 'events', populate: 'passwords' })
+                    .populate({ path: 'events', populate: 'guests' });
+
+                return userData;
+            }
+
+            throw new AuthenticationError('Not logged in')
+        },
         // find all events associated with a user
         events: async (parent, args, context) => {
             if (context.user) {

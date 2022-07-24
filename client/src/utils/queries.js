@@ -1,5 +1,38 @@
 import { gql } from "@apollo/client";
 
+// get session user
+export const QUERY_ME = gql`
+  query Me {
+    me {
+      _id
+      first_name
+      last_name
+      email
+      events {
+        _id
+        user_id
+        event_name
+        date_windows
+        guests {
+          _id
+          event_id
+          first_name
+          last_name
+          role
+          date_windows
+          budget
+          invited_to
+        }
+        passwords {
+          _id
+          name
+          password
+        }
+      }
+    }
+  }
+`;
+
 // all events associated with the session user
  export const QUERY_EVENTS = gql`
     query Events {

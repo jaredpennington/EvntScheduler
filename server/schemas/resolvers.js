@@ -49,7 +49,7 @@ const resolvers = {
         // all passwords associated with an event
         passwords: async (parent, { event_id }, context) => {
             if (context.user) {
-                const eventPasswords = await Password.find({ event_id: mongoose.Types.ObjectId(event_id) });
+                const eventPasswords = await Password.find({ event_id: event_id });
 
                 return eventPasswords;
             }

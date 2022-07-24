@@ -11,8 +11,7 @@ const Event = () => {
     variables: { id: event_id },
   });
   
-  let eventData = data.event;
-  console.log(eventData);
+  if(!loading) console.log(data.event);
   
   return (
     <div>

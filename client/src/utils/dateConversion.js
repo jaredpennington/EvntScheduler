@@ -18,4 +18,18 @@ const getAllDates = (startDate, stopDate) => {
     return result;
 }
 
-module.exports = getAllDates;
+
+const pushDateWindows = (dates) => {
+    let dateWindows = [];
+    for(let i = 0; i < dates.length; i++) {
+        if (i % 2 === 0) continue;
+        let start = dates[i-1].value; // 0, 2, 4...
+        let end = dates[i].value; // 1, 3, 5...
+        // result: (0,1), (2,3), (4,5), etc.
+        dateWindows.push(getAllDates(start, end));
+    }
+    console.log(dateWindows);
+    return dateWindows;
+  }
+
+module.exports = {getAllDates, pushDateWindows};

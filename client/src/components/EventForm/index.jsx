@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_EVENT } from "../../utils/mutations";
 import { QUERY_ME } from "../../utils/queries";
 import AuthService from "../../utils/auth";
-import getAllDates from "../../utils/getAllDates";
+import { getAllDates, pushDateWindows } from "../../utils/dateConversion";
 import DateRangeInput from "../DateRangeInput";
 
 const EventForm = () => {
@@ -24,12 +24,10 @@ const EventForm = () => {
   });
   const [dateInput, setDateInput] = useState(inputArr);
 
-  let dateWindows = [];
   let profileData = AuthService.getProfile();
   let userId = profileData.data._id;
 
   const addInput = () => {
-    console.log(dateInput);
     setDateInput((d) => {
       return [
         ...d,
@@ -43,6 +41,7 @@ const EventForm = () => {
         },
       ];
     });
+    console.log(dateInput);
   };
 
   const handleDateChange = (event) => {
@@ -82,27 +81,18 @@ const EventForm = () => {
     });
   };
 
-  const pushDateWindows = () => {
-    for(let i = 0; i < dateInput.length; i++) {
-        if (i % 2 === 0) continue;
-        let start = dateInput[i-1].value; // 0, 2, 4...
-        let end = dateInput[i].value; // 1, 3, 5...
-        // result: (0,1), (2,3), (4,5), etc.
-        dateWindows.push(getAllDates(start, end));
-    }
-  }
-
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    pushDateWindows();
-    try {
-      await addEvent({
-        variables: { ...formState, user_id: userId, date_windows: dateWindows },
-      });
-      window.redirect('/')
-    } catch (e) {
-      console.error(e);
-    }
+    let dateWindows = pushDateWindows(dateInput);
+    console.log(dateWindows);
+    // try {
+    //   await addEvent({
+    //     variables: { ...formState, user_id: userId, date_windows: dateWindows },
+    //   });
+    //   window.redirect('/')
+    // } catch (e) {
+    //   console.error(e);
+    // }
   };
 
   return (
@@ -119,7 +109,7 @@ const EventForm = () => {
           <button type="button" className="cursor-pointer" onClick={addInput}>
             +
           </button>
-          {inputArr.map((input, index) => (
+          {dateInput.map((input, index) => (
             <input
               onChange={handleDateChange}
               value={input.value}

@@ -21,6 +21,7 @@ module.exports = {
   "./src/pages/Passwords.jsx",
   "./src/pages/Signup.jsx",
   "./src/pages/Survey.jsx",
+  "./src/pages/SurveyLink.jsx",
 
   ],
   purge: [],

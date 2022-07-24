@@ -21,6 +21,7 @@ import Guest from "./pages/Guest";
 import Guests from "./pages/Guests";
 import Passwords from "./pages/Passwords";
 import Survey from "./pages/Survey";
+import SurveyLink from "./pages/SurveyLink";
 import NoMatch from "./pages/NoMatch";
 
 const authLink = setContext((_, { headers }) => {
@@ -65,6 +66,7 @@ function App() {
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/event/:id" element={<Event />} />
                     <Route path="/event/create" element={<CreateEvent />} />
+                    <Route path="/event/:id/surveylink" element={<SurveyLink />} />
                     <Route path="/event/:id/survey" element={<Survey />} />
                     <Route path="/event/:id/:guests" element={<Guests />} />
                     <Route path="/guest/:id" element={<Guest />} />

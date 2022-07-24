@@ -8,7 +8,7 @@ const NavBar = ({event_id}) => {
         <ul className="">
           <li><Link to={`/event/${event_id}/guests`}>Guests</Link></li>
           <li><Link to={`/event/${event_id}/passwords`}>Passwords</Link></li>
-          <li><Link to={`/event/${event_id}/passwords`}>Third thing lol</Link></li>
+          <li><Link to={`/event/${event_id}/surveylink`}>Survey</Link></li>
         </ul>
       </nav>
     );

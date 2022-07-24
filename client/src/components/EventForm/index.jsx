@@ -93,14 +93,14 @@ const EventForm = () => {
     event.preventDefault();
     let dateWindows = pushDateWindows(dateInput);
     console.log(dateWindows);
-    // try {
-    //   await addEvent({
-    //     variables: { ...formState, user_id: userId, date_windows: dateWindows },
-    //   });
-    //   window.redirect('/')
-    // } catch (e) {
-    //   console.error(e);
-    // }
+    try {
+      await addEvent({
+        variables: { ...formState, user_id: userId, date_windows: dateWindows },
+      });
+      window.redirect('/')
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (

@@ -1,9 +1,8 @@
 import React from 'react';
-
-// Styles
 import {Link} from "react-router-dom";
-// Pages
 
+// starting page when the user is not logged in.
+// this page will describe the app and explain how to get started.
 
 const Home = () => {
   return (

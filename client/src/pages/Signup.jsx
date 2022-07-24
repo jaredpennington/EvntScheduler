@@ -5,7 +5,7 @@ import Auth from '../utils/auth';
 import { Link } from 'react-router-dom';
 
 const Signup = () => {
-  const [formState, setFormState] = useState({ username: '', email: '', password: '' });
+  const [formState, setFormState] = useState({ firstName: '', lastName: '', email: '', password: '' });
   const [addUser, { error }] = useMutation(ADD_USER);
 
   // update state based on form input changes
@@ -29,7 +29,7 @@ const Signup = () => {
       
       Auth.login(data.addUser.token);
     } catch (e) {
-      // console.error(e);
+      console.error(e);
     }
   };
 
@@ -43,11 +43,20 @@ const Signup = () => {
             <form className='text-slate-900 flex flex-col' onSubmit={handleFormSubmit}>
               <input
                 className='w-10/16 my-1 mx-auto align-middle px-1'
-                placeholder='Your username'
-                name='username'
-                type='username'
-                id='username'
-                value={formState.username}
+                placeholder='First name'
+                name='firstName'
+                type='firstName'
+                id='firstName'
+                value={formState.firstName}
+                onChange={handleChange}
+              />
+              <input
+                className='w-10/16 my-1 mx-auto align-middle px-1'
+                placeholder='Last name'
+                name='lastName'
+                type='lastName'
+                id='lastName'
+                value={formState.lastName}
                 onChange={handleChange}
               />
               <input

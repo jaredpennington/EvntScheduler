@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
+import CreateEvent from "./pages/CreateEvent";
 import Event from "./pages/Event";
 import Guest from "./pages/Guest";
 import Guests from "./pages/Guests";
@@ -55,10 +56,11 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/event/:id" element={<Event />} />
+                    <Route path="/event/create" element={<CreateEvent />} />
                     <Route path="/event/:id/survey" element={<Survey />} />
                     <Route path="/event/:id/:guests" element={<Guests />} />
                     <Route path="/guest/:id" element={<Guest />} />
-                    <Route path="/event/:id/:passwords" element={<Passwords />} />
+                    <Route path="/event/:id/passwords" element={<Passwords />} />
                     <Route path="/password/:id" element={<Password />} />
                     <Route path="*" element={<NoMatch />} />
                 </Routes>

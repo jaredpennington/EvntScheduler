@@ -58,8 +58,8 @@ export const QUERY_EVENT = gql`
 
 // all guests associated with an event
 export const QUERY_GUESTS = gql`
-    query Guests($eventId: ID!) {
-      guests(event_id: $eventId) {
+    query Guests($event_id: ID!) {
+      guests(event_id: $event_id) {
         _id
         event_id
         first_name

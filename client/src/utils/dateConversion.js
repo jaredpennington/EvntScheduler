@@ -16,7 +16,6 @@ const pushDateWindows = (dates) => {
         dateWindows.push(start, end); //[]
         datesArr.push(dateWindows) // [[],[],...]
     }
-    console.log(datesArr)
     return datesArr;
   }
 

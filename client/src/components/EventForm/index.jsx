@@ -91,7 +91,6 @@ const EventForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     let dateWindows = pushDateWindows(dateInput); // [[],[],[]...]
-    console.log(dateWindows);
     try {
       await addEvent({
         variables: { ...formState, user_id: userId, date_windows: dateWindows },

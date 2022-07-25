@@ -14,9 +14,12 @@ const Dashboard = () => {
       ) : (
         data.events.map((event, index) => (
           // put card styling in this div VVV
-          <div key={index} className="uk-child-width-expand@s" uk-grid>
+
+          // Padding grid margin anything i put from tailwind to uikit hasnt changed anything and i need to move on ive been stuck on this for too long omfgggg
+
+          <div key={index} >
             <div
-              className="uk-card uk-card-default uk-card-body card-padding uk-card"
+              className="uk-card uk-card-default uk-card-body card-padding uk-card "
             >
               <div className="uk-card-title"><Link to={`/event/${event._id}`}>{event.event_name}</Link></div>
               <div>

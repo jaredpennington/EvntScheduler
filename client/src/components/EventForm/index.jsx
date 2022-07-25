@@ -103,11 +103,13 @@ const EventForm = () => {
   };
 
   return (
-    <div className="">
-      <div className="">
+    <div>
+    <div className="flex h-screen justify-center items-center">
+      <div className="bg-gradient-to-b from-bubblegum-400 to-cream-400 rounded-lg w-3/5 py-2">
+        <p className="text-2xl">words</p>
         <form onChange={handleChange} onSubmit={handleFormSubmit}>
           <input
-            className=""
+            className="w-32 my-1 mx-auto align-middle rounded-sm px-1 text-center text-black text-2xl my-6"
             placeholder="Event Name"
             name="event_name"
             type="event_name"
@@ -137,6 +139,7 @@ const EventForm = () => {
           <button type="submit">Submit</button>
         </form>
       </div>
+    </div>
     </div>
   );
 };

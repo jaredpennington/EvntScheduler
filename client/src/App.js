@@ -54,9 +54,9 @@ function App() {
       <ApolloProvider client={client}>
           <Router>
             <main>
-              <div><Link to="/">Home</Link></div>
+              <div><Link to="/" className="font-evnt-thin">EVNT</Link></div>
               {AuthService.loggedIn() && (
-                <button onClick={logout}>Logout</button>
+                <button onClick={logout} >Logout</button>
               )}
                 <Routes>
                     <Route

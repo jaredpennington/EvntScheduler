@@ -1,7 +1,7 @@
 import "./index.css";
 import React from "react";
 import AuthService from "./utils/auth";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { setContext } from "@apollo/client/link/context";
 
 import {
@@ -21,7 +21,9 @@ import Guest from "./pages/Guest";
 import Guests from "./pages/Guests";
 import Passwords from "./pages/Passwords";
 import Survey from "./pages/Survey";
+import SurveyLink from "./pages/SurveyLink";
 import NoMatch from "./pages/NoMatch";
+import ThankYou from "./pages/ThankYou";
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
@@ -43,10 +45,19 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const logout = (event) => {
+    event.preventDefault();
+    AuthService.logout();
+  };
+
   return (
       <ApolloProvider client={client}>
           <Router>
             <main>
+              <div><Link to="/">Home</Link></div>
+              {AuthService.loggedIn() && (
+                <button onClick={logout}>Logout</button>
+              )}
                 <Routes>
                     <Route
                       path="/"
@@ -56,10 +67,12 @@ function App() {
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/event/:id" element={<Event />} />
                     <Route path="/event/create" element={<CreateEvent />} />
+                    <Route path="/event/:id/surveylink" element={<SurveyLink />} />
                     <Route path="/event/:id/survey" element={<Survey />} />
                     <Route path="/event/:id/:guests" element={<Guests />} />
                     <Route path="/guest/:id" element={<Guest />} />
                     <Route path="/event/:id/passwords" element={<Passwords />} />
+                    <Route path="/thankyou" element={<ThankYou />} />
                     <Route path="*" element={<NoMatch />} />
                 </Routes>
             </main>

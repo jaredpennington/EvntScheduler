@@ -9,7 +9,8 @@ const Guest = () => {
   const { loading, error, data } = useQuery(QUERY_GUEST, {
     variables: { id: useParams().id }
   });
-  let guest = data.guest;
+  let guest;
+  if(!loading) guest = data.guest;
 
   return (
     <div>

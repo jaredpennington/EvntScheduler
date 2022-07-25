@@ -34,15 +34,14 @@ const Signup = () => {
   };
 
   return (
-    <main className=''>
-      <div className='flex h-screen justify-center items-center'>
-        <div className='bg-gradient-to-b  rounded-lg mx-28 w-80 py-2 '>
-       
-          <h4 className='text-center text-black text-2xl my-6'>Sign Up</h4>
+    <main className='my-auto'>
+      <div className=''>
+        <div className='uk-card uk-card-body card-centering'>
+          <h4 className='uk-card-title uk-text-center'>Sign Up</h4>
           <div className=''>
-            <form className='text-slate-900 flex flex-col' onSubmit={handleFormSubmit}>
+            <form className='form-centering form-input-margin' onSubmit={handleFormSubmit}>
               <input
-                className='w-10/16 my-1 mx-auto align-middle px-1'
+                className='form-input-margin'
                 placeholder='First name'
                 name='firstName'
                 type='firstName'
@@ -51,7 +50,7 @@ const Signup = () => {
                 onChange={handleChange}
               />
               <input
-                className='w-10/16 my-1 mx-auto align-middle px-1'
+                className='form-input-margin'
                 placeholder='Last name'
                 name='lastName'
                 type='lastName'
@@ -60,7 +59,7 @@ const Signup = () => {
                 onChange={handleChange}
               />
               <input
-                className='w-10/16 mx-auto my-1 px-1'
+                className='form-input-margin'
                 placeholder='Your email'
                 name='email'
                 type='email'
@@ -69,7 +68,7 @@ const Signup = () => {
                 onChange={handleChange}
               />
               <input
-                className='w-10/16 mx-auto my-1 px-1'
+                className='form-input-margin'
                 placeholder='******'
                 name='password'
                 type='password'
@@ -77,15 +76,15 @@ const Signup = () => {
                 value={formState.password}
                 onChange={handleChange}
               />
-               <Link className='mx-auto text-center transition-all duration-300 mx-auto p-2 mx-2 rounded-md' to="/login">
+               <Link className='form-input-margin account-prop' to="/login">
                 Already have an account?
               
               </Link>
-              <button className='text-sky-50 mb-2 mt-1 transition-all duration-300 mx-auto p-2 rounded-md' type='submit'>
+              <button className='form-input-margin button-border' type='submit'>
                 Submit
               </button>
              
-              {error && <div className='mx-auto'>Sign up failed</div>}
+              {error && <div className='form-input-margin'>Sign up failed</div>}
             </form>
           </div>
         </div>

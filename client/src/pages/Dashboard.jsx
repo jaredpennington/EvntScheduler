@@ -8,7 +8,7 @@ const Dashboard = () => {
   const { loading, data } = useQuery(QUERY_EVENTS);
 
   return (
-    <div>
+    <div className="uk-child-width-expand@s uk-text-center grid-three" uk-grid>
       {loading ? (
         <div>Loading...</div>
       ) : (
@@ -17,9 +17,9 @@ const Dashboard = () => {
 
           // Padding grid margin anything i put from tailwind to uikit hasnt changed anything and i need to move on ive been stuck on this for too long omfgggg
 
-          <div key={index} >
+          <div key={index} className="uk-card-body event-card-centering uk-card uk-card-default ">
             <div
-              className="uk-card uk-card-default uk-card-body card-padding uk-card "
+              className="uk-card-title uk-text-center "
             >
               <div className="uk-card-title"><Link to={`/event/${event._id}`}>{event.event_name}</Link></div>
               <div>

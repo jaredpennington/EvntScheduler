@@ -17,7 +17,7 @@ const Dashboard = () => {
 
           // Padding grid margin anything i put from tailwind to uikit hasnt changed anything and i need to move on ive been stuck on this for too long omfgggg
 
-          <div key={index} className="uk-child-width-expand@s uk-text-center " uk-grid>
+          <div key={index} >
             <div
               className="uk-card uk-card-default uk-card-body card-padding uk-card "
             >

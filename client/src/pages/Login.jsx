@@ -33,14 +33,14 @@ const Login = () => {
   };
 
   return (
-    <div className=''>
-      <div className='flex h-screen justify-center items-center'>
-        <div className='rounded-lg mx-28  w-80 py-2'>
-          <h4 className='text-center text-black text-2xl my-6'>Login</h4>
+    <div className='my-auto'>
+      <div className=''>
+        <div className='uk-card uk-card-body card-centering'>
+          <h4 className='uk-card-title uk-text-center'>Login</h4>
           <div className=''>
-            <form className='text-slate-900 flex flex-col text-lg md:text-md' onSubmit={handleFormSubmit}>
+            <form className='form-centering form-input-margin' onSubmit={handleFormSubmit}>
               <input
-                className='w-10/16 mx-8 lg:mx-10 my-1 align-middle rounded-sm p-1'
+                className='form-input-margin'
                 placeholder='Your email'
                 name='email'
                 type='email'
@@ -49,7 +49,7 @@ const Login = () => {
                 onChange={handleChange}
               />
               <input
-                className='w-10/16 mx-8 lg:mx-10 my-1 align-middle rounded-sm p-1'
+                className='form-input-margin'
                 placeholder='******'
                 name='password'
                 type='password'
@@ -57,11 +57,11 @@ const Login = () => {
                 value={formState.password}
                 onChange={handleChange}
               />
-              <Link className='mx-auto text-center text-purple-700 hover:text-purple-400 transition-all duration-300 mx-auto p-2 mx-2 rounded-md' to="/signup">
+              <Link className='form-input-margin account-prop' to="/signup">
                 Don't have an account?
               
               </Link>
-              <button className='text-sky-50  mb-2 mt-1 transition-all duration-300 mx-auto p-1 rounded-md' type='submit'>
+              <button className='button-border form-input-margin ' type='submit'>
                 Submit
               </button>
               {error && <div>Login failed</div>}

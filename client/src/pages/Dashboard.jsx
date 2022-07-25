@@ -14,38 +14,38 @@ const Dashboard = () => {
       ) : (
         data.events.map((event, index) => (
           // put card styling in this div VVV
-          
-          <div className="uk-child-width-expand@s" uk-grid>
-          <div key={index} className="uk-card uk-card-default uk-card-body card-padding uk-card">
-            <div>
-              <Link to={`/event/${event._id}`} class="uk-card-title">{event.event_name}</Link>
+          <div key={index} className="uk-child-width-expand@s" uk-grid>
+            <div
+              className="uk-card uk-card-default uk-card-body card-padding uk-card"
+            >
+              <div className="uk-card-title"><Link to={`/event/${event._id}`}>{event.event_name}</Link></div>
+              <div>
+                Guests:{" "}
+                {Object.keys(event.guests).length
+                  ? Object.keys(event.guests).length
+                  : "none"}
+              </div>
+              <div>
+                Passwords:{" "}
+                {Object.keys(event.passwords).length
+                  ? Object.keys(event.passwords).length
+                  : "none"}
+              </div>
+              <div>Considered dates for event: </div>
+              {Object.values(event.date_windows).map((date, index) => (
+                <div key={index}>
+                  {date[0]} - {date[date.length - 1]}
+                </div>
+              ))}
             </div>
-            <div>
-              <Link to={`/event/${event._id}/guests`}>Guests:</Link>{" "}
-              {Object.keys(event.guests).length
-                ? Object.keys(event.guests).length
-                : "none"}
-            </div> 
-            <div>
-              <Link to={`/event/${event._id}/passwords`}>Passwords:</Link>{" "}
-              {Object.keys(event.passwords).length
-                ? Object.keys(event.passwords).length
-                : "none"}
-            </div>
-            <div>Considered dates for event: </div>
-            {Object.values(event.date_windows).map((date, index) => (
-              <div key={index}>{date[0]} - {date[date.length - 1]}</div>
-            ))}
           </div>
-        </div>
         ))
       )}
       {!loading ? (
         // Add small card here for this button thing VVV
+        // maybe we could have the component form to create an event here? Will have to discuss
         <div>
-          <Link to="event/createEvent">
-            Click here to make an event!
-          </Link>
+          <Link to="event/create">Click here to make an event!</Link>
         </div>
       ) : (
         <></>

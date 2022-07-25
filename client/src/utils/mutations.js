@@ -29,8 +29,8 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_EVENT = gql`
-    mutation AddEvent($eventName: String!, $dateWindows: [[String]]!) {
-      addEvent(event_name: $eventName, date_windows: $dateWindows) {
+    mutation AddEvent($event_name: String!, $date_windows: [[String]]!) {
+      addEvent(event_name: $event_name, date_windows: $date_windows) {
         _id
         user_id
         event_name
@@ -40,8 +40,8 @@ export const ADD_EVENT = gql`
 `;
 
 export const UPDATE_EVENT = gql`
-    mutation UpdateEvent($id: ID!, $eventName: String, $dateWindows: [[String]]) {
-      updateEvent(_id: $id, event_name: $eventName, date_windows: $dateWindows) {
+    mutation UpdateEvent($id: ID!, $event_name: String, $date_windows: [[String]]) {
+      updateEvent(_id: $id, event_name: $event_name, date_windows: $date_windows) {
         event_name
         date_windows
       }
@@ -91,8 +91,8 @@ export const REMOVE_PASSWORD = gql`
 `;
 
 export const ADD_GUEST = gql`
-    mutation AddGuest($eventId: ID!, $firstName: String!, $lastName: String!, $role: String!, $dateWindows: [[String]]!, $budget: Int!, $invitedTo: String) {
-      addGuest(event_id: $eventId, first_name: $firstName, last_name: $lastName, role: $role, date_windows: $dateWindows, budget: $budget, invited_to: $invitedTo) {
+    mutation AddGuest($eventId: ID!, $firstName: String!, $lastName: String!, $role: String!, $date_windows: [[String]]!, $budget: Int!, $invitedTo: String) {
+      addGuest(event_id: $eventId, first_name: $firstName, last_name: $lastName, role: $role, date_windows: $date_windows, budget: $budget, invited_to: $invitedTo) {
         _id
         event_id
         date_windows
@@ -101,8 +101,8 @@ export const ADD_GUEST = gql`
 `;
 
 export const UPDATE_GUEST = gql`
-    mutation UpdateGuest($id: ID!, $firstName: String, $lastName: String, $role: String, $dateWindows: [[String]], $budget: Int) {
-      updateGuest(_id: $id, first_name: $firstName, last_name: $lastName, role: $role, date_windows: $dateWindows, budget: $budget) {
+    mutation UpdateGuest($id: ID!, $firstName: String, $lastName: String, $role: String, $date_windows: [[String]], $budget: Int) {
+      updateGuest(_id: $id, first_name: $firstName, last_name: $lastName, role: $role, date_windows: $date_windows, budget: $budget) {
         first_name
         last_name
         role

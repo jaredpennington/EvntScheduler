@@ -6,6 +6,20 @@ const mongoose = require('mongoose');
 
 const resolvers = {
     Query: {
+        // session user
+        me: async (parent, args, context) => {
+            if (context.user) {
+                const userData = await User.findOne({ _id: context.user._id })
+                    .select('-__v -password')
+                    .populate('events')
+                    .populate({ path: 'events', populate: 'passwords' })
+                    .populate({ path: 'events', populate: 'guests' });
+
+                return userData;
+            }
+
+            throw new AuthenticationError('Not logged in')
+        },
         // find all events associated with a user
         events: async (parent, args, context) => {
             if (context.user) {
@@ -49,7 +63,7 @@ const resolvers = {
         // all passwords associated with an event
         passwords: async (parent, { event_id }, context) => {
             if (context.user) {
-                const eventPasswords = await Password.find({ event_id: mongoose.Types.ObjectId(event_id) });
+                const eventPasswords = await Password.find({ event_id: event_id });
 
                 return eventPasswords;
             }
@@ -184,7 +198,6 @@ const resolvers = {
 
         // create guest
         addGuest: async (parent, args, context) => {
-            if (context.user) {
                 const guest = await Guest.create({ ...args, event_id: args.event_id });
 
                 await Event.findByIdAndUpdate(
@@ -193,8 +206,6 @@ const resolvers = {
                     { new: true }
                 )
                 return guest;
-            }
-            throw new AuthenticationError('You need to be logged in!')
         },
 
         // update guest (event planner can change availability)

@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <>
     <div className='text-center text-2xl py-40'>
-    <p className='landing-text text-6xl'>Save Your Plan-It and Get Organized!</p>
+    <p className='landing-text text-6xl'>Use EVNT to plan everything!</p>
     <div className='pt-3'>
       
       <Link to="/login">

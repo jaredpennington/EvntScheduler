@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { QUERY_EVENTS } from "../utils/queries";
 import dateFormat from "../utils/dateFormat";
 import { Link } from "react-router-dom";
+import EditDeleteSelectors from "../components/EditDeleteSelectors"
 
 // the homepage if the user is logged in. Will include all the user's events
 const Dashboard = () => {
@@ -22,8 +23,9 @@ const Dashboard = () => {
 
           <div key={index} >
             <div
-              className="uk-card uk-card-default uk-card-body card-padding uk-card "
+              className="uk-card uk-card-default uk-card-body card-padding uk-card relative"
             >
+            <EditDeleteSelectors eventId={event._id} guestId={null} passwordId={null} />
               <div className="uk-card-title"><Link to={`/event/${event._id}`}>{event.event_name}</Link></div>
               <div>
                 Guests:{" "}

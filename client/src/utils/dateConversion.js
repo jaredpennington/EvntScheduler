@@ -28,7 +28,6 @@ const pushDateWindows = (dates) => {
         // result: (0,1), (2,3), (4,5), etc.
         dateWindows.push(getAllDates(start, end));
     }
-    console.log(dateWindows);
     return dateWindows;
   }
 

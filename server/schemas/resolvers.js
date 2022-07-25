@@ -198,7 +198,6 @@ const resolvers = {
 
         // create guest
         addGuest: async (parent, args, context) => {
-            if (context.user) {
                 const guest = await Guest.create({ ...args, event_id: args.event_id });
 
                 await Event.findByIdAndUpdate(
@@ -207,8 +206,6 @@ const resolvers = {
                     { new: true }
                 )
                 return guest;
-            }
-            throw new AuthenticationError('You need to be logged in!')
         },
 
         // update guest (event planner can change availability)

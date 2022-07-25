@@ -23,6 +23,7 @@ import Passwords from "./pages/Passwords";
 import Survey from "./pages/Survey";
 import SurveyLink from "./pages/SurveyLink";
 import NoMatch from "./pages/NoMatch";
+import ThankYou from "./pages/ThankYou";
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
@@ -71,6 +72,7 @@ function App() {
                     <Route path="/event/:id/:guests" element={<Guests />} />
                     <Route path="/guest/:id" element={<Guest />} />
                     <Route path="/event/:id/passwords" element={<Passwords />} />
+                    <Route path="/thankyou" element={<ThankYou />} />
                     <Route path="*" element={<NoMatch />} />
                 </Routes>
             </main>

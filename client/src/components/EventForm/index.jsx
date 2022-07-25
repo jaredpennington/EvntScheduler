@@ -4,19 +4,18 @@ import { ADD_EVENT } from "../../utils/mutations";
 import { QUERY_ME } from "../../utils/queries";
 import AuthService from "../../utils/auth";
 import { getAllDates, pushDateWindows } from "../../utils/dateConversion";
-import DateRangeInput from "../DateRangeInput";
 
 const EventForm = () => {
   const inputArr = [
     {
       type: "date",
       value: "",
-      id: 0
+      id: 0,
     },
     {
       type: "date",
       value: "",
-      id: 1
+      id: 1,
     },
   ];
 
@@ -50,7 +49,7 @@ const EventForm = () => {
     let index = Number(event.target.id.charAt(1)); // 02 -> 2
     let arr = dateInput.filter((d, i) => i !== index && i !== index + 1);
     setDateInput(arr);
-  }
+  };
 
   const handleDateChange = (event) => {
     event.preventDefault();
@@ -97,7 +96,7 @@ const EventForm = () => {
       await addEvent({
         variables: { ...formState, user_id: userId, date_windows: dateWindows },
       });
-      window.redirect('/')
+      window.location.href = "/";
     } catch (e) {
       console.error(e);
     }
@@ -118,20 +117,21 @@ const EventForm = () => {
             +
           </button>
           {dateInput.map((input, index) => (
-            <>
-            {index % 2 === 0 && (
-              <button id={'0' + index} key={'0' + index} type="button" onClick={removeInput}>
-                x
-              </button>
-            )}
+            <span key={index}>
+              {index % 2 === 0 && (
+                <button
+                  type="button"
+                  onClick={removeInput}
+                >
+                  x
+                </button>
+              )}
               <input
                 onChange={handleDateChange}
                 value={input.value}
-                id={index}
-                key={index}
                 type={input.type}
               />
-            </>
+            </span>
           ))}
           <button type="submit">Submit</button>
         </form>

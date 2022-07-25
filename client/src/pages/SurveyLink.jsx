@@ -6,7 +6,6 @@ import NavBar from "../components/NavBar";
 const SurveyLink = () => {
   let event_id = useParams().id;
   let url = window.location.href.split('/').slice(0,-1).join('/')+'/survey'
-  console.log(url);
 
   return (
     <div>

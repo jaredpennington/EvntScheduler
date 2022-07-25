@@ -3,7 +3,7 @@ import { useMutation } from "@apollo/client";
 import { ADD_EVENT } from "../../utils/mutations";
 import { QUERY_ME } from "../../utils/queries";
 import AuthService from "../../utils/auth";
-import { getAllDates, pushDateWindows } from "../../utils/dateConversion";
+import pushDateWindows from "../../utils/dateConversion";
 
 const EventForm = () => {
   const inputArr = [
@@ -90,7 +90,7 @@ const EventForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    let dateWindows = pushDateWindows(dateInput); // [[]]
+    let dateWindows = pushDateWindows(dateInput); // [[],[],[]...]
     console.log(dateWindows);
     try {
       await addEvent({
@@ -122,6 +122,7 @@ const EventForm = () => {
                 <button
                   type="button"
                   onClick={removeInput}
+                  id={`0${index}`}
                 >
                   x
                 </button>

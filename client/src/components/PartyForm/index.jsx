@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getAllDates, pushDateWindows } from "../../utils/dateConversion";
+import { pushDateWindows } from "../../utils/dateConversion";
 import { ADD_GUEST } from "../../utils/mutations";
 import { QUERY_EVENT } from "../../utils/queries";
 import { useMutation } from "@apollo/client";
@@ -97,7 +97,7 @@ const PartyForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    let dateWindows = pushDateWindows(dateInput);
+    let dateWindows = pushDateWindows(dateInput); // [[],[],[]...]
     try {
       await addGuest({
         variables: { ...formState, date_windows: dateWindows, invitedTo: "wedding", role: role, eventId: eventId, budget: Number(formState.budget) },
@@ -148,6 +148,7 @@ const PartyForm = () => {
                 <button
                   type="button"
                   onClick={removeInput}
+                  id={`0${index}`}
                 >
                   x
                 </button>

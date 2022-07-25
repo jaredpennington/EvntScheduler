@@ -1,11 +1,14 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_EVENTS } from "../utils/queries";
+import dateFormat from "../utils/dateFormat";
 import { Link } from "react-router-dom";
 
 // the homepage if the user is logged in. Will include all the user's events
 const Dashboard = () => {
   const { loading, data } = useQuery(QUERY_EVENTS);
+
+  // if(!loading && data) console.log(data.events[data.events.length - 1].date_windows);
 
   return (
     <div>

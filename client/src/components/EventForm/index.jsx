@@ -90,7 +90,7 @@ const EventForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    let dateWindows = pushDateWindows(dateInput);
+    let dateWindows = pushDateWindows(dateInput); // [[]]
     console.log(dateWindows);
     try {
       await addEvent({
@@ -118,7 +118,7 @@ const EventForm = () => {
           </button>
           {dateInput.map((input, index) => (
             <span key={index}>
-              {index % 2 === 0 && (
+              {index % 2 === 0 && index !== 0 && (
                 <button
                   type="button"
                   onClick={removeInput}
@@ -129,6 +129,7 @@ const EventForm = () => {
               <input
                 onChange={handleDateChange}
                 value={input.value}
+                id={index}
                 type={input.type}
               />
             </span>

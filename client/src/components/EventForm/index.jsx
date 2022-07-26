@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_EVENT } from "../../utils/mutations";
 import { QUERY_ME } from "../../utils/queries";
 import AuthService from "../../utils/auth";
-import { getAllDates, pushDateWindows } from "../../utils/dateConversion";
+import pushDateWindows from "../../utils/dateConversion";
 
 const EventForm = () => {
   const inputArr = [
@@ -90,8 +90,7 @@ const EventForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    let dateWindows = pushDateWindows(dateInput); // [[]]
-    console.log(dateWindows);
+    let dateWindows = pushDateWindows(dateInput); // [[],[],[]...]
     try {
       await addEvent({
         variables: { ...formState, user_id: userId, date_windows: dateWindows },
@@ -105,14 +104,13 @@ const EventForm = () => {
   return (
     <div>
     <div className="flex h-screen justify-center items-center">
-      <div className="bg-gradient-to-b from-bubblegum-400 to-cream-400 rounded-lg w-3/5 py-2">
-        <p className="text-2xl">words</p>
+      <div className="">
         <form onChange={handleChange} onSubmit={handleFormSubmit}>
           <input
-            className="w-32 my-1 mx-auto align-middle rounded-sm px-1 text-center text-black text-2xl my-6"
+            className=""
             placeholder="Event Name"
             name="event_name"
-            type="event_name"
+            type="text"
             id="event_name"
           />
           <button type="button" onClick={addInput}>
@@ -124,6 +122,7 @@ const EventForm = () => {
                 <button
                   type="button"
                   onClick={removeInput}
+                  id={`0${index}`}
                 >
                   x
                 </button>

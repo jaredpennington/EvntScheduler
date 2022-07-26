@@ -138,7 +138,7 @@ const resolvers = {
             if (context.user) {
                 const updatedUser = await User.findByIdAndUpdate(
                     { _id: context.user._id },
-                    { $pull: { events: Event.findById(_id) } },
+                    { $pull: { events: _id } },
                     { new: true }
                 );
 

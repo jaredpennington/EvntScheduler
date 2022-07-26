@@ -7,6 +7,7 @@ module.exports = {
     // components
     "./src/components/PartyForm/index.jsx",
     "./src/components/EventForm/index.jsx",
+    "./src/components/NavBar/index.jsx",
 
     // pages
     "./src/pages/CreateEvent.jsx",

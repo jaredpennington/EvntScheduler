@@ -8,18 +8,18 @@ const Home = () => {
   return (
     <>
     <div className='getting-centered'>
-    <p className=''>Use EVNT to plan everything!</p>
+    <p className='font-evnt-large'>Use EVNT to plan everything.</p>
     <div className='flex'>
       
-      <Link to="/login">
-      <button className='getting-started'>
+      <Link to="/login" className='getting-started-login'>
+      <button className=''>
         Login
         </button>
         </Link>
 
-        <Link to="/signup">
+        <Link to="/signup" className='getting-started-signup'>
       <button 
-      className='getting-started'>
+      className=''>
         Sign Up
         </button>
         </Link>

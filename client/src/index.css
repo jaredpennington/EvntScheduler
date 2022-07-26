@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap");
 
 :root {
   --cream-100: #fdf6e7;
@@ -28,9 +30,7 @@
   --dark-300: #333333;
   --dark-400: #1a1a1a;
   --dark-500: #000000;
-}
 
-#root {
   background: rgb(255, 255, 255);
   background: linear-gradient(
     180deg,
@@ -38,26 +38,35 @@
     rgba(140, 190, 197, 1) 100%
   );
 
+  background-attachment: fixed;
   background-repeat: no-repeat;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  height: 100vh;
+  height: fit-content;
 }
 
 .font-evnt-thin {
-  font-family: 'Josefin Sans', sans-serif;
-  font-size:xx-large;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 300%;
   padding-left: 4px;
   padding-top: 4px;
   transition: all;
   transition-duration: 300ms;
+  font-weight: 100;
 }
 
 .font-evnt-thin:hover {
   color: var(--saltwater-500);
   text-decoration: none;
+}
+
+.font-evnt-large {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: xx-large;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 
 .getting-centered {
@@ -66,25 +75,68 @@
   flex-direction: column;
   width: auto;
   align-items: center;
+  position: relative;
+  top: 60px;
 }
 
 .flex {
   flex: 1 1 0%;
-}
-
-.getting-started {
-  justify-content: center;
   display: flex;
-  width: auto;
-  align-items: center;
-  border-width: 2px;
-  border-radius: 0.25rem; /* 4px */
-  background-color: var(--dark-300);
-  border-color: var(--saltwater-300);
-  color: white;
-  padding: 4px;
 }
 
+.getting-started-login {
+  transition: all;
+  transition-duration: 300ms;
+  /* justify-content: center; */
+  /* display: flex; */
+  width: auto;
+  border-width: 4px;
+  border-radius: 9999px;
+  border-color: var(--saltwater-300);
+  color: var(--dark-500);
+  margin-left: auto;
+  margin-right: 5px;
+  padding: 16px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 175%;
+  text-decoration: none;
+}
+
+.getting-started-signup {
+  transition: all;
+  transition-duration: 300ms;
+  /* justify-content: center; */
+  /* display: flex; */
+  width: auto;
+  border-width: 4px;
+  border-radius: 9999px;
+  border-color: var(--saltwater-300);
+  color: var(--dark-500);
+  margin-left: 5px;
+  margin-right: auto;
+  padding: 16px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 175%;
+  text-decoration: none;
+}
+
+.getting-started-login:hover {
+  background-color: var(--saltwater-300);
+  color: white;
+  text-decoration: none;
+}
+
+.getting-started-signup:hover {
+  background-color: var(--saltwater-300);
+  color: white;
+  text-decoration: none;
+}
 .card-padding {
   padding: 0% !important;
 }
@@ -93,7 +145,7 @@
   transition: all;
   transition-duration: 300ms;
   border-width: 2px;
-  border-radius: 0.25rem; /* 4px */
+  border-radius: 10px;
   background-color: var(--dark-300);
   border-color: var(--saltwater-300);
   color: white;
@@ -130,11 +182,11 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  border-radius: 6px;
+  border-radius: 16px;
   border-color: white;
-  border-width: 2px;
+  border-width: 3px;
   background-color: var(--saltwater-100);
-  box-shadow: 0 25px 50px -12px rgb(0 0 0 / .4);
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
 }
 
 .grid-three {
@@ -152,7 +204,7 @@
   border-color: white;
   border-width: 2px;
   background-color: var(--saltwater-100);
-  box-shadow: 0 25px 50px -12px rgb(0 0 0 / .4);
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
 }
 .form-centering {
   align-items: center;
@@ -213,4 +265,46 @@
 
 .relative {
   position: relative;
+}
+
+.nav-bar {
+  background-color: var(--saltwater-500);
+  overflow: hidden;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 8%,
+    rgba(140, 190, 197, 1) 100%
+  );
+}
+
+.nav-bar-links {
+  float: left;
+  color: #ffffff;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  transition: all;
+  transition-duration: 300ms;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: right;
+}
+
+.nav-bar-single {
+  padding-left: 4px;
+  padding-right: 4px;
+  transition: all;
+  transition-duration: 300ms;
+}
+
+.nav-bar-single:hover {
+  color: var(--saltwater-100);
+  text-decoration: none;
+}
+
+.nav-bar > li {
+  margin: auto;
 }

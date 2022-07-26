@@ -32,9 +32,7 @@ const Dashboard = () => {
         data.events.map((event, index) => (
           // put card styling in this div VVV
 
-          // Padding grid margin anything i put from tailwind to uikit hasnt changed anything and i need to move on ive been stuck on this for too long omfgggg
-
-          <div key={index} className="uk-card-body event-card-centering uk-card uk-card-default">
+          <div key={index} className="uk-card-body event-card-centering uk-card uk-card-default ">
             <div
               className="uk-card-title uk-text-center "
             >
@@ -64,7 +62,6 @@ const Dashboard = () => {
       )}
       {!loading ? (
         // Add small card here for this button thing VVV
-        // maybe we could have the component form to create an event here? Will have to discuss
         <div>
           <Link to="event/create">Click here to make an event!</Link>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { pushDateWindows } from "../../utils/dateConversion";
+import pushDateWindows from "../../utils/dateConversion";
 import { ADD_GUEST } from "../../utils/mutations";
 import { QUERY_EVENT } from "../../utils/queries";
 import { useMutation } from "@apollo/client";

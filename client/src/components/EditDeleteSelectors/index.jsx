@@ -9,9 +9,9 @@ const EditDeleteSelectors = ({ eventId, guestId, passwordId, removeEvent, remove
         this.target = "guest";
         this.delete = () => {
           removeGuest({
-            variables: { id: guestId }
+            variables: { id: guestId, eventId: eventId }
           });
-          // window.location.href = `/event/${eventId}/guests`;
+          window.location.href = `/event/${eventId}/guests`;
         } 
       }
       if (!guestId && passwordId) {
@@ -19,9 +19,9 @@ const EditDeleteSelectors = ({ eventId, guestId, passwordId, removeEvent, remove
         this.target = "password";
         this.delete = () => {
           removePassword({
-            variables: { id: passwordId }
+            variables: { id: passwordId, eventId: eventId }
           });
-          // window.location.href = `/event/${eventId}/passwords`;
+          window.location.href = `/event/${eventId}/passwords`;
         }
       }
       if (!guestId && !passwordId) {
@@ -31,7 +31,7 @@ const EditDeleteSelectors = ({ eventId, guestId, passwordId, removeEvent, remove
           removeEvent({
             variables: { id: eventId }
           });
-          // window.location.href = "/";
+          window.location.href = "/";
         }
       }
     }

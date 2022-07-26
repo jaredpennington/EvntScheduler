@@ -4,17 +4,16 @@ import { QUERY_EVENTS, QUERY_ME } from "../utils/queries";
 import { REMOVE_EVENT } from "../utils/mutations";
 import dateFormat from "../utils/dateFormat";
 import { Link } from "react-router-dom";
-import EditDeleteSelectors from "../components/EditDeleteSelectors"
+import EditDeleteSelectors from "../components/EditDeleteSelectors";
 
 // the homepage if the user is logged in. Will include all the user's events
 const Dashboard = () => {
   const { loading, data } = useQuery(QUERY_EVENTS);
 
-  const [removeEvent, { err1 }] = useMutation(REMOVE_EVENT, {
+  const [removeEvent, { err }] = useMutation(REMOVE_EVENT, {
     update(cache, { data: { removeEvent } }) {
       try {
         const { me } = cache.readQuery({ query: QUERY_ME });
-        console.log(me.events);
         cache.writeQuery({
           query: QUERY_ME,
           data: { me: { ...me, events: [...me.events, removeEvent] } },

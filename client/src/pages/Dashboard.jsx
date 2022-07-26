@@ -1,6 +1,7 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
-import { QUERY_EVENTS } from "../utils/queries";
+import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_EVENTS, QUERY_ME } from "../utils/queries";
+import { REMOVE_EVENT } from "../utils/mutations";
 import dateFormat from "../utils/dateFormat";
 import { Link } from "react-router-dom";
 import EditDeleteSelectors from "../components/EditDeleteSelectors"
@@ -9,7 +10,20 @@ import EditDeleteSelectors from "../components/EditDeleteSelectors"
 const Dashboard = () => {
   const { loading, data } = useQuery(QUERY_EVENTS);
 
-  // if(!loading && data) console.log(data.events[data.events.length - 1].date_windows);
+  const [removeEvent, { err1 }] = useMutation(REMOVE_EVENT, {
+    update(cache, { data: { removeEvent } }) {
+      try {
+        const { me } = cache.readQuery({ query: QUERY_ME });
+        console.log(me.events);
+        cache.writeQuery({
+          query: QUERY_ME,
+          data: { me: { ...me, events: [...me.events, removeEvent] } },
+        });
+      } catch (e) {
+        console.warn("Something went wrong");
+      }
+    },
+  });
 
   return (
     <div className="uk-child-width-expand@s uk-text-center grid-three" uk-grid>
@@ -21,11 +35,11 @@ const Dashboard = () => {
 
           // Padding grid margin anything i put from tailwind to uikit hasnt changed anything and i need to move on ive been stuck on this for too long omfgggg
 
-          <div key={index} className="uk-card-body event-card-centering uk-card uk-card-default ">
+          <div key={index} className="uk-card-body event-card-centering uk-card uk-card-default">
             <div
               className="uk-card-title uk-text-center "
             >
-            <EditDeleteSelectors eventId={event._id} guestId={null} passwordId={null} />
+            <EditDeleteSelectors eventId={event._id} guestId={null} passwordId={null} removeEvent={removeEvent} />
               <div className="uk-card-title"><Link to={`/event/${event._id}`}>{event.event_name}</Link></div>
               <div>
                 Guests:{" "}

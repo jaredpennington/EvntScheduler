@@ -1,39 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-const EditDeleteSelectors = ({ eventId, guestId, passwordId }) => {
-  const handleRemove = (event) => {
-    // delete event
-    if (!guestId && !passwordId) {
+const EditDeleteSelectors = ({ eventId, guestId, passwordId, removeEvent, removeGuest, removePassword }) => {
+  class getInfo {
+    constructor() {
+      if (!passwordId && guestId) {
+        this.id = guestId;
+        this.target = "guest";
+        this.delete = () => {
+          removeGuest({
+            variables: { id: guestId }
+          });
+          window.location.href = `/event/${eventId}/guests`;
+        } 
+      }
+      if (!guestId && passwordId) {
+        this.id = passwordId;
+        this.target = "password";
+        this.delete = () => {
+          removePassword({
+            variables: { id: passwordId }
+          });
+          window.location.href = `/event/${eventId}/passwords`;
+        }
+      }
+      if (!guestId && !passwordId) {
+        this.id = eventId;
+        this.target = null;
+        this.delete = () => {
+          removeEvent({
+            variables: { id: eventId }
+          });
+          window.location.href = "/";
+        }
+      }
     }
-    // delete guest
-    if (!passwordId && guestId) {
-    }
-    // delete password
-    if (!guestId && passwordId) {
-    }
-  };
+  }
 
-  const handleUpdate = (event) => {
-    // update event
-    if (!guestId && !passwordId) {
-    }
-    // update guest
-    if (!passwordId && guestId) {
-    }
-    // update password
-    if (!guestId && passwordId) {
-    }
-  };
+  const path = new getInfo();
+
+  const handleDelete = () => {
+    path.delete();
+  }
 
   return (
     <div className="dots-position">
       <div className="dropdown">
         <button className="dropbtn">...</button>
         <ul className="dropdown-content">
-          <li className="">Update</li>
-          <li className="" onClick={handleRemove}>
-            Delete
-          </li>
+          <Link to={`/event${path.target ? `/${path.target}` : ''}/${path.id}}/update`}>
+            <li className="">Update</li>
+          </Link>
+
+            <li onClick={handleDelete} className="">Delete</li>
         </ul>
       </div>
     </div>

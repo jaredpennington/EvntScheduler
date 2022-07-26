@@ -11,7 +11,7 @@ const EditDeleteSelectors = ({ eventId, guestId, passwordId, removeEvent, remove
           removeGuest({
             variables: { id: guestId }
           });
-          window.location.href = `/event/${eventId}/guests`;
+          // window.location.href = `/event/${eventId}/guests`;
         } 
       }
       if (!guestId && passwordId) {
@@ -21,7 +21,7 @@ const EditDeleteSelectors = ({ eventId, guestId, passwordId, removeEvent, remove
           removePassword({
             variables: { id: passwordId }
           });
-          window.location.href = `/event/${eventId}/passwords`;
+          // window.location.href = `/event/${eventId}/passwords`;
         }
       }
       if (!guestId && !passwordId) {
@@ -31,17 +31,13 @@ const EditDeleteSelectors = ({ eventId, guestId, passwordId, removeEvent, remove
           removeEvent({
             variables: { id: eventId }
           });
-          window.location.href = "/";
+          // window.location.href = "/";
         }
       }
     }
   }
 
   const path = new getInfo();
-
-  const handleDelete = () => {
-    path.delete();
-  }
 
   return (
     <div className="dots-position">
@@ -52,7 +48,7 @@ const EditDeleteSelectors = ({ eventId, guestId, passwordId, removeEvent, remove
             <li className="">Update</li>
           </Link>
 
-            <li onClick={handleDelete} className="">Delete</li>
+            <li onClick={() => path.delete()} className="">Delete</li>
         </ul>
       </div>
     </div>

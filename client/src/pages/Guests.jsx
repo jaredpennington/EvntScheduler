@@ -35,7 +35,7 @@ const Guests = () => {
         <div>Loading...</div>
       ) : (
         data.guests.map((guest, index) => (
-          <div key={index}>
+          <div key={index} className="relative">
             <EditDeleteSelectors eventId={guest.event_id} guestId={guest._id} passwordId={null} removeGuest={removeGuest} />
             <div><Link to={`/guest/${guest._id}`}> {guest.first_name} {guest.last_name}</Link></div>
             <div>Budget: {guest.budget}</div>

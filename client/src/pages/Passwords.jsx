@@ -34,7 +34,7 @@ const Passwords = () => {
         <div>Loading...</div>
       ) : (
         data.passwords.map((password, index) => (
-          <div key={index}>
+          <div key={index} className="relative">
             <EditDeleteSelectors eventId={password.event_id} guestId={null} passwordId={password._id} removePassword={removePassword} />
             <div>{password.name}</div>
             <div>{password.password}</div>

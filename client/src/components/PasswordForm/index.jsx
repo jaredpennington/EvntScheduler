@@ -49,6 +49,7 @@ const PasswordForm = ({ event_id }) => {
 
   return (
     <div>
+      <h3>Add A Password:</h3>
       <form onChange={handleChange} onSubmit={handleFormSubmit}>
         <input
           className=""
@@ -64,7 +65,7 @@ const PasswordForm = ({ event_id }) => {
           type="text"
           id="password"
         />
-          <button type="submit">Submit</button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );

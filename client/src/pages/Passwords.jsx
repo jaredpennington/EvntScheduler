@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_PASSWORDS, QUERY_EVENT } from "../utils/queries";
 import { REMOVE_PASSWORD } from "../utils/mutations";
@@ -9,6 +9,8 @@ import PasswordForm from "../components/PasswordForm";
 
 // all passwords for a single event
 const Passwords = () => {
+  let update;
+  const [selected, setSelected] = useState("");
   let eventId = useParams().id;
   const { loading, data } = useQuery(QUERY_PASSWORDS, {
     variables: { eventId: eventId },
@@ -20,7 +22,12 @@ const Passwords = () => {
         const { event } = cache.readQuery({ query: QUERY_EVENT });
         cache.writeQuery({
           query: QUERY_EVENT,
-          data: { event: { ...event, passwords: [...event.passwords, removePassword] } },
+          data: {
+            event: {
+              ...event,
+              passwords: [...event.passwords, removePassword],
+            },
+          },
         });
       } catch (e) {
         console.warn(e);
@@ -36,11 +43,24 @@ const Passwords = () => {
         <div>Loading...</div>
       ) : (
         data.passwords.map((password, index) => (
-          <div key={index} className="relative">
-            <EditDeleteSelectors eventId={password.event_id} guestId={null} passwordId={password._id} removePassword={removePassword} />
-            <div>{password.name}</div>
-            <div>{password.password}</div>
-          </div>
+          <span key={index}>
+            {selected === index ? (
+              <PasswordForm />
+            ) : (
+              <div className="relative">
+                <EditDeleteSelectors
+                  eventId={password.event_id}
+                  guestId={null}
+                  passwordId={password._id}
+                  removePassword={removePassword}
+                  setSelected={setSelected}
+                  selected={selected}
+                />
+                <div>{password.name}</div>
+                <div>{password.password}</div>
+              </div>
+            )}
+          </span>
         ))
       )}
     </div>

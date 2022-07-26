@@ -116,13 +116,13 @@ const PartyForm = () => {
           <input
             placeholder="First Name"
             name="firstName"
-            type="firstName"
+            type="text"
             id="firstName"
           />
           <input
             placeholder="Last Name"
             name="lastName"
-            type="lastName"
+            type="text"
             id="lastName"
           />
           <select
@@ -164,7 +164,7 @@ const PartyForm = () => {
           <input
             placeholder="Your budget? (plain numbers)"
             name="budget"
-            type="budget"
+            type="number"
             id="budget"
           />
           <button type="submit">Submit</button>

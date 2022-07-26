@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_EVENT } from "../../utils/mutations";
 import { QUERY_ME } from "../../utils/queries";
@@ -110,7 +110,7 @@ const EventForm = () => {
             className=""
             placeholder="Event Name"
             name="event_name"
-            type="event_name"
+            type="text"
             id="event_name"
           />
           <button type="button" onClick={addInput}>

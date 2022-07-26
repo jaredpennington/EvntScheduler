@@ -7,7 +7,7 @@ import NavBar from "../components/NavBar";
 // single event page will have a calendar that shows the names of each person who is available on a given day.
 const Event = () => {
   let event_id = useParams().id;
-  
+  console.log(window.location.pathname.split("/")[2])
   const { loading, data } = useQuery(QUERY_EVENT, {
     variables: { id: event_id },
   });
@@ -20,6 +20,7 @@ const Event = () => {
     </div>
   )
 }
+
 
 export default Event
 

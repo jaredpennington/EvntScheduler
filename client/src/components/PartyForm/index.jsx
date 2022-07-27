@@ -121,6 +121,7 @@ const PartyForm = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div>
       {loading ? (
         <div>Loading...</div>
@@ -193,6 +194,75 @@ const PartyForm = () => {
           </div>
         </div>
       )}
+=======
+    <div className="my-auto">
+      <div className='uk-card uk-card-body card-centering'>
+        <h1 className='uk-card-title uk-text-center'>Event name would go here</h1>
+        <form className='form-centering form-input-margin' onSubmit={handleFormSubmit} onChange={handleChange}>
+          <input
+          className="form-input-margin"
+            placeholder="First Name"
+            name="firstName"
+            type="text"
+            id="firstName"
+          />
+          <input
+          className="form-input-margin"
+            placeholder="Last Name"
+            name="lastName"
+            type="text"
+            id="lastName"
+          />
+          <select
+          className='form-centering form-input-margin'
+            onChange={handleRoleChange}
+            value={role}
+            id="role"
+            name="role"
+          >
+            <option value="role">Role for the event</option>
+            <option value="bridesmaid">Bridesmaid</option>
+            <option value="guest">Guest</option>
+            <option value="other">Other</option>
+          </select>
+          {role === "other" && (
+            <input className='form-centering form-input-margin' onChange={handleRoleChange} value={role} type="text" placeholder="Enter your role" />
+          )}
+          <button className='form-input-margin button-border' type="button" onClick={addInput}>
+            Add Date
+          </button>
+          {dateInput.map((input, index) => (
+            <span key={index}>
+              {index % 2 === 0 && index !== 0 && (
+                <button
+                className='form-input-margin button-border'
+                  type="button"
+                  onClick={removeInput}
+                  id={`0${index}`}
+                >
+                  Delete Date
+                </button>
+              )}
+              <input
+              className='form-input-margin'
+                onChange={handleDateChange}
+                value={input.value}
+                id={index}
+                type={input.type}
+              />
+            </span>
+          ))}
+          <input
+          className="form-input-margin"
+            placeholder="Your budget? (plain numbers)"
+            name="budget"
+            type="number"
+            id="budget"
+          />
+          <button className='form-input-margin button-border' type="submit">Submit</button>
+        </form>
+      </div>
+>>>>>>> 728f9c11bfb75eda5eaeb5e8b6c7a06e10d0b87b
     </div>
   );
 };

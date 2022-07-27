@@ -42,7 +42,14 @@ const Passwords = () => {
       ) : (
         data.passwords.map((password, index) => (
           <span key={index}>
+<<<<<<< HEAD
               <div className="relative">
+=======
+            {selected === index ? (
+              <PasswordForm />
+            ) : (
+              <div className="post-pass form-input-margin ">
+>>>>>>> 728f9c11bfb75eda5eaeb5e8b6c7a06e10d0b87b
                 <EditDeleteSelectors
                   eventId={password.event_id}
                   guestId={null}

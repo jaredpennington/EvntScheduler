@@ -9,6 +9,7 @@ import EditDeleteSelectors from "../components/EditDeleteSelectors";
 
 // Will display all guests for a single event
 const Guests = () => {
+  let totalBudget = 0;
   let event_id = useParams().id;
   const { loading, error, data } = useQuery(QUERY_GUESTS, {
     variables: { event_id: event_id }
@@ -28,6 +29,12 @@ const Guests = () => {
     },
   });
 
+  const getTotals = () => {
+    data.guests.map(guest => totalBudget += guest.budget);
+  }
+
+  getTotals();
+
   return (
     <div>
       <NavBar event_id={event_id} />
@@ -38,7 +45,7 @@ const Guests = () => {
           <div key={index} className="relative">
             <EditDeleteSelectors eventId={guest.event_id} guestId={guest._id} passwordId={null} removeGuest={removeGuest} />
             <div><Link to={`/guest/${guest._id}`}> {guest.first_name} {guest.last_name}</Link></div>
-            <div>Budget: {guest.budget}</div>
+            <div>Budget: ${guest.budget.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
             {Object.values(guest.date_windows).map((date, index) => (
               <div key={index}>{date[0]} - {date[date.length - 1]}</div>
             ))}
@@ -47,6 +54,7 @@ const Guests = () => {
           </div>
         ))
       ) }
+      <div>Total Budget: ${totalBudget.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
     </div>
   )
 }

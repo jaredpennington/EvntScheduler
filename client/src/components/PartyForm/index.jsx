@@ -121,80 +121,6 @@ const PartyForm = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <div>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <div className="border-black container rounded-md mx-auto px-40 my-4 box-border border-4 h-screen  ">
-          <div className="text-2xl flex justify-center inline-block ">
-            <h1>{data.event.event_name}</h1>
-            <form onSubmit={handleFormSubmit} onChange={handleChange}>
-              <input
-                placeholder="First Name"
-                name="firstName"
-                type="text"
-                id="firstName"
-              />
-              <input
-                placeholder="Last Name"
-                name="lastName"
-                type="text"
-                id="lastName"
-              />
-              <select
-                onChange={handleRoleChange}
-                value={role}
-                id="role"
-                name="role"
-              >
-                <option value="role">Role for the event</option>
-                <option value="bridesmaid">Bridesmaid</option>
-                <option value="guest">Guest</option>
-                <option value="other">Other</option>
-              </select>
-              {role === "other" && (
-                <input
-                  onChange={handleRoleChange}
-                  value={role}
-                  type="text"
-                  placeholder="Enter your role"
-                />
-              )}
-              <button type="button" onClick={addInput}>
-                +
-              </button>
-              {dateInput.map((input, index) => (
-                <span key={index}>
-                  {index % 2 === 0 && index !== 0 && (
-                    <button
-                      type="button"
-                      onClick={removeInput}
-                      id={`0${index}`}
-                    >
-                      x
-                    </button>
-                  )}
-                  <input
-                    onChange={handleDateChange}
-                    value={input.value}
-                    id={index}
-                    type={input.type}
-                  />
-                </span>
-              ))}
-              <input
-                placeholder="Your budget? (plain numbers)"
-                name="budget"
-                type="number"
-                id="budget"
-              />
-              <button type="submit">Submit</button>
-            </form>
-          </div>
-        </div>
-      )}
-=======
     <div className="my-auto">
       <div className='uk-card uk-card-body card-centering'>
         <h1 className='uk-card-title uk-text-center'>Event name would go here</h1>
@@ -262,7 +188,6 @@ const PartyForm = () => {
           <button className='form-input-margin button-border' type="submit">Submit</button>
         </form>
       </div>
->>>>>>> 728f9c11bfb75eda5eaeb5e8b6c7a06e10d0b87b
     </div>
   );
 };

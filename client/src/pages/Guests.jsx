@@ -32,7 +32,7 @@ const Guests = () => {
   });
 
   const getTotals = () => {
-    data.guests.map(guest => totalBudget += guest.budget);
+    if(!loading) data.guests.map(guest => totalBudget += guest.budget);
   }
 
   getTotals();

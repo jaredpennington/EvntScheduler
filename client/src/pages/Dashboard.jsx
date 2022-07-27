@@ -9,6 +9,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import { formatDate } from "@fullcalendar/core";
 
 // the homepage if the user is logged in. Will include all the user's events
 const Dashboard = () => {
@@ -65,9 +66,7 @@ const Dashboard = () => {
         data.events.map((event, index) => (
           // put card styling in this div VVV
           <div key={index}>
-            <div
-              className="uk-card-body event-card-centering uk-card uk-card-default dashboard-cards"
-            >
+            <div className="uk-card-body event-card-centering uk-card uk-card-default dashboard-cards">
               <div className="uk-card-title uk-text-center ">
                 <EditDeleteSelectors
                   eventId={event._id}
@@ -93,14 +92,15 @@ const Dashboard = () => {
                 <div>Considered dates for event: </div>
                 {Object.values(event.date_windows).map((date, index) => (
                   <div key={index}>
-                    {date[0]} - {date[date.length - 1]}
+                    {formatDate(date[0], dateFormat)} -{" "}
+                    {formatDate(date[date.length - 1], dateFormat)}
                   </div>
                 ))}
               </div>
             </div>
           </div>
         ))
-        )}
+      )}
       {!loading ? (
         // Add small card here for this button thing VVV
         <div>

@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import NavBar from "../components/NavBar";
 import EditDeleteSelectors from "../components/EditDeleteSelectors";
+import { formatDate } from "@fullcalendar/core";
+import dateFormat from "../utils/dateFormat";
 
 // Will display all guests for a single event
 const Guests = () => {
@@ -47,7 +49,7 @@ const Guests = () => {
             <div><Link to={`/guest/${guest._id}`}> {guest.first_name} {guest.last_name}</Link></div>
             <div>Budget: ${guest.budget.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
             {Object.values(guest.date_windows).map((date, index) => (
-              <div key={index}>{date[0]} - {date[date.length - 1]}</div>
+              <div key={index}>{formatDate(date[0], dateFormat)} - {formatDate(date[date.length - 1], dateFormat)}</div>
             ))}
             <div>Invited to: {guest.invited_to}</div>
             <div>Role: {guest.role}</div>

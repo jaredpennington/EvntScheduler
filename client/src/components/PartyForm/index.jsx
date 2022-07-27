@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import pushDateWindows from "../../utils/dateConversion";
 import { ADD_GUEST } from "../../utils/mutations";
 import { QUERY_EVENT } from "../../utils/queries";
-import { useMutation } from "@apollo/client";
-import { useParams } from 'react-router-dom';
+import { useMutation, useQuery } from "@apollo/client";
+import { useParams } from "react-router-dom";
 
 const PartyForm = () => {
   const inputArr = [
@@ -21,6 +21,10 @@ const PartyForm = () => {
 
   let eventId = useParams().id;
 
+  const { loading, data } = useQuery(QUERY_EVENT, {
+    variables: { id: eventId },
+  });
+
   const [role, setRole] = useState("");
 
   const [formState, setFormState] = useState({
@@ -28,7 +32,7 @@ const PartyForm = () => {
     lastName: "",
     role: "",
     date_windows: "",
-    budget: ""
+    budget: "",
   });
   const [dateInput, setDateInput] = useState(inputArr);
 
@@ -94,13 +98,21 @@ const PartyForm = () => {
       [name]: value,
     });
   };
+  if(!loading) console.log(data);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     let dateWindows = pushDateWindows(dateInput); // [[],[],[]...]
     try {
       await addGuest({
-        variables: { ...formState, date_windows: dateWindows, invitedTo: "wedding", role: role, eventId: eventId, budget: Number(formState.budget) },
+        variables: {
+          ...formState,
+          date_windows: dateWindows,
+          invitedTo: "wedding",
+          role: role,
+          eventId: eventId,
+          budget: Number(formState.budget),
+        },
       });
       window.location.href = "/thankyou";
     } catch (e) {
@@ -109,67 +121,78 @@ const PartyForm = () => {
   };
 
   return (
-    <div className="border-black container rounded-md mx-auto px-40 my-4 box-border border-4 h-screen  ">
-      <div className="text-2xl flex justify-center inline-block ">
-        <h1>Event name would go here</h1>
-        <form onSubmit={handleFormSubmit} onChange={handleChange}>
-          <input
-            placeholder="First Name"
-            name="firstName"
-            type="text"
-            id="firstName"
-          />
-          <input
-            placeholder="Last Name"
-            name="lastName"
-            type="text"
-            id="lastName"
-          />
-          <select
-            onChange={handleRoleChange}
-            value={role}
-            id="role"
-            name="role"
-          >
-            <option value="role">Role for the event</option>
-            <option value="bridesmaid">Bridesmaid</option>
-            <option value="guest">Guest</option>
-            <option value="other">Other</option>
-          </select>
-          {role === "other" && (
-            <input onChange={handleRoleChange} value={role} type="text" placeholder="Enter your role" />
-          )}
-          <button type="button" onClick={addInput}>
-            +
-          </button>
-          {dateInput.map((input, index) => (
-            <span key={index}>
-              {index % 2 === 0 && index !== 0 && (
-                <button
-                  type="button"
-                  onClick={removeInput}
-                  id={`0${index}`}
-                >
-                  x
-                </button>
-              )}
+    <div>
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <div className="border-black container rounded-md mx-auto px-40 my-4 box-border border-4 h-screen  ">
+          <div className="text-2xl flex justify-center inline-block ">
+            <h1>{data.event.event_name}</h1>
+            <form onSubmit={handleFormSubmit} onChange={handleChange}>
               <input
-                onChange={handleDateChange}
-                value={input.value}
-                id={index}
-                type={input.type}
+                placeholder="First Name"
+                name="firstName"
+                type="text"
+                id="firstName"
               />
-            </span>
-          ))}
-          <input
-            placeholder="Your budget? (plain numbers)"
-            name="budget"
-            type="number"
-            id="budget"
-          />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+              <input
+                placeholder="Last Name"
+                name="lastName"
+                type="text"
+                id="lastName"
+              />
+              <select
+                onChange={handleRoleChange}
+                value={role}
+                id="role"
+                name="role"
+              >
+                <option value="role">Role for the event</option>
+                <option value="bridesmaid">Bridesmaid</option>
+                <option value="guest">Guest</option>
+                <option value="other">Other</option>
+              </select>
+              {role === "other" && (
+                <input
+                  onChange={handleRoleChange}
+                  value={role}
+                  type="text"
+                  placeholder="Enter your role"
+                />
+              )}
+              <button type="button" onClick={addInput}>
+                +
+              </button>
+              {dateInput.map((input, index) => (
+                <span key={index}>
+                  {index % 2 === 0 && index !== 0 && (
+                    <button
+                      type="button"
+                      onClick={removeInput}
+                      id={`0${index}`}
+                    >
+                      x
+                    </button>
+                  )}
+                  <input
+                    onChange={handleDateChange}
+                    value={input.value}
+                    id={index}
+                    type={input.type}
+                  />
+                </span>
+              ))}
+              <input
+                placeholder="Your budget? (plain numbers)"
+                name="budget"
+                type="number"
+                id="budget"
+              />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

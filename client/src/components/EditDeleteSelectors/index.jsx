@@ -8,11 +8,6 @@ const EditDeleteSelectors = ({
   removeEvent,
   removeGuest,
   removePassword,
-  updateEvent,
-  updateGuest,
-  updatePassword,
-  setSelected,
-  selected,
 }) => {
   class getInfo {
     constructor() {
@@ -59,14 +54,13 @@ const EditDeleteSelectors = ({
       <div className="dropdown">
         <button className="dropbtn">...</button>
         <ul className="dropdown-content">
-          {/* <Link to={`/event${path.target ? `/${path.target}` : ''}/${path.id}}/update`}> */}
+          <Link to={`/event${path.target ? `/${path.target}` : ''}/${path.id}}/update`}>
           <li
-            onClick={() => setSelected(path.id)}
             className=""
           >
             Update
           </li>
-          {/* </Link> */}
+          </Link>
 
           <li onClick={() => path.delete()} className="">
             Delete

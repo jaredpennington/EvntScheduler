@@ -48,25 +48,27 @@ const PasswordForm = ({ event_id }) => {
   };
 
   return (
-    <div>
-      <h3>Add A Password:</h3>
-      <form onChange={handleChange} onSubmit={handleFormSubmit}>
+    <div className='my-auto'>
+    <div className='uk-card uk-card-body card-centering'>
+      <h3 className='uk-card-title uk-text-center'>Add A Password:</h3>
+      <form className='form-centering form-input-margin' onChange={handleChange} onSubmit={handleFormSubmit}>
         <input
-          className=""
-          placeholder="Password Name"
+          className="form-input-margin"
+          placeholder="EVNT name"
           name="name"
           type="text"
           id="name"
         />
         <input
-          className=""
+          className="form-input-margin"
           placeholder="Password"
           name="password"
           type="text"
           id="password"
         />
-        <button type="submit">Submit</button>
+        <button className="form-input-margin button-border" type="submit">Submit</button>
       </form>
+    </div>
     </div>
   );
 };

@@ -47,7 +47,7 @@ const Passwords = () => {
             {selected === index ? (
               <PasswordForm />
             ) : (
-              <div className="relative">
+              <div className="post-pass form-input-margin ">
                 <EditDeleteSelectors
                   eventId={password.event_id}
                   guestId={null}

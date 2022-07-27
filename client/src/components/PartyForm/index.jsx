@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import pushDateWindows from "../../utils/dateConversion";
 import { ADD_GUEST } from "../../utils/mutations";
 import { QUERY_EVENT } from "../../utils/queries";
-import { useMutation } from "@apollo/client";
-import { useParams } from 'react-router-dom';
+import { useMutation, useQuery } from "@apollo/client";
+import { useParams } from "react-router-dom";
 
 const PartyForm = () => {
   const inputArr = [
@@ -21,6 +21,10 @@ const PartyForm = () => {
 
   let eventId = useParams().id;
 
+  const { loading, data } = useQuery(QUERY_EVENT, {
+    variables: { id: eventId },
+  });
+
   const [role, setRole] = useState("");
 
   const [formState, setFormState] = useState({
@@ -28,7 +32,7 @@ const PartyForm = () => {
     lastName: "",
     role: "",
     date_windows: "",
-    budget: ""
+    budget: "",
   });
   const [dateInput, setDateInput] = useState(inputArr);
 
@@ -94,13 +98,21 @@ const PartyForm = () => {
       [name]: value,
     });
   };
+  if(!loading) console.log(data);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     let dateWindows = pushDateWindows(dateInput); // [[],[],[]...]
     try {
       await addGuest({
-        variables: { ...formState, date_windows: dateWindows, invitedTo: "wedding", role: role, eventId: eventId, budget: Number(formState.budget) },
+        variables: {
+          ...formState,
+          date_windows: dateWindows,
+          invitedTo: "wedding",
+          role: role,
+          eventId: eventId,
+          budget: Number(formState.budget),
+        },
       });
       window.location.href = "/thankyou";
     } catch (e) {

@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
+import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 // single event page will have a calendar that shows the names of each person who is available on a given day.
@@ -17,7 +17,8 @@ const Event = () => {
   });
 
   class GuestAvailability {
-    constructor(name, start, end) {
+    constructor(id, name, start, end) {
+      this.id = id;
       this.title = name;
       this.start = start;
       this.end = end;
@@ -33,14 +34,14 @@ const Event = () => {
         for (let i = 0; i < guest.date_windows.length; i++) {
           guestArr.push(
             new GuestAvailability(
+              guest._id,
               name,
-              guest.date_windows[i][0],
-              guest.date_windows[i][guest.date_windows[i].length - 1]
+              new Date(guest.date_windows[i][0]),
+              new Date(guest.date_windows[i][guest.date_windows[i].length - 1])
             )
           );
         }
       });
-      console.log(guestArr);
     }
   };
 
@@ -50,14 +51,20 @@ const Event = () => {
     <div>
       <NavBar event_id={event_id} />
       <FullCalendar
-        plugins={[dayGridPlugin, resourceTimelinePlugin]}
-        // dateClick={handleDateClick}
-        eventContent={() => renderEventContent(guestArr)}
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth"
+        selectable={true}
+        selectMirror={true}
+        dayMaxEvents={true}
+        weekends={true}
+        events={guestArr}
+        displayEventTime={false}
       />
     </div>
   );
 
   function renderEventContent(eventInfo) {
+    console.log(eventInfo);
     return (
       <>
         <b>{eventInfo.timeText}</b>

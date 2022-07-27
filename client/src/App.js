@@ -1,5 +1,5 @@
 import "./index.css";
-import React, { useEffect } from "react";
+import React from "react";
 import AuthService from "./utils/auth";
 import {
   BrowserRouter as Router,
@@ -36,6 +36,7 @@ import Survey from "./pages/Survey";
 import SurveyLink from "./pages/SurveyLink";
 import NoMatch from "./pages/NoMatch";
 import ThankYou from "./pages/ThankYou";
+import Footer from "./components/Footer";
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
@@ -67,65 +68,71 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <main>
-          <header>
-            <div>
-              <Link to="/" className="font-evnt-thin">
-                EVNT
-              </Link>
-            </div>
-            {AuthService.loggedIn() && <button onClick={logout}>Logout</button>}
-            {useParams().id && (
-              <nav className="nav-bar">
-                <ul className="nav-bar-links">
-                  <li>
-                    <Link to={`/event/${event_id}`} className="nav-bar-single">
-                      Calendar
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to={`/event/${event_id}/guests`}
-                      className="nav-bar-single"
-                    >
-                      Guests
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to={`/event/${event_id}/passwords`}
-                      className="nav-bar-single"
-                    >
-                      Passwords
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to={`/event/${event_id}/surveylink`}
-                      className="nav-bar-single"
-                    >
-                      Survey
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
-            )}
-          </header>
-          <Routes>
-            <Route
-              path="/"
-              element={AuthService.loggedIn() ? <Dashboard /> : <Home />}
-            ></Route>
+        <main className="page-container">
+          <div className="content-wrap">
+            <header>
+              <div>
+                <Link to="/" className="font-evnt-thin">
+                  EVNT
+                </Link>
+              </div>
+              {AuthService.loggedIn() && (
+                <button onClick={logout}>Logout</button>
+              )}
+              {useParams().id && (
+                <nav className="nav-bar">
+                  <ul className="nav-bar-links">
+                    <li>
+                      <Link
+                        to={`/event/${event_id}`}
+                        className="nav-bar-single"
+                      >
+                        Calendar
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to={`/event/${event_id}/guests`}
+                        className="nav-bar-single"
+                      >
+                        Guests
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to={`/event/${event_id}/passwords`}
+                        className="nav-bar-single"
+                      >
+                        Passwords
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to={`/event/${event_id}/surveylink`}
+                        className="nav-bar-single"
+                      >
+                        Survey
+                      </Link>
+                    </li>
+                  </ul>
+                </nav>
+              )}
+            </header>
+            <Routes>
+              <Route
+                path="/"
+                element={AuthService.loggedIn() ? <Dashboard /> : <Home />}
+              ></Route>
 
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
 
-            {/* Create */}
-            <Route path="/event/create" element={<CreateEvent />} />
-            <Route path="/event/:id/survey" element={<Survey />} />
+              {/* Create */}
+              <Route path="/event/create" element={<CreateEvent />} />
+              <Route path="/event/:id/survey" element={<Survey />} />
 
-            {/* Update */}
-            <Route path="/event/:id/update" element={<EventUpdate />} />
+              {/* Update */}
+              {/* <Route path="/event/:id/update" element={<EventUpdate />} />
             <Route
               path="/event/:eventId/guest/:id/update"
               element={<GuestUpdate />}
@@ -133,17 +140,19 @@ function App() {
             <Route
               path="/event/:eventId/password/:id/update"
               element={<PasswordUpdate />}
-            />
+            /> */}
 
-            <Route path="/event/:id" element={<Event />} />
-            <Route path="/event/:id/surveylink" element={<SurveyLink />} />
-            <Route path="/event/:id/guests" element={<Guests />} />
-            <Route path="/guest/:id" element={<Guest />} />
+              <Route path="/event/:id" element={<Event />} />
+              <Route path="/event/:id/surveylink" element={<SurveyLink />} />
+              <Route path="/event/:id/guests" element={<Guests />} />
+              <Route path="/guest/:id" element={<Guest />} />
 
-            <Route path="/event/:id/passwords" element={<Passwords />} />
-            <Route path="/thankyou" element={<ThankYou />} />
-            <Route path="*" element={<NoMatch />} />
-          </Routes>
+              <Route path="/event/:id/passwords" element={<Passwords />} />
+              <Route path="/thankyou" element={<ThankYou />} />
+              <Route path="*" element={<NoMatch />} />
+            </Routes>
+          </div>
+          <Footer />
         </main>
       </Router>
     </ApolloProvider>

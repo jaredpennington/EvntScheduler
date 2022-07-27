@@ -63,7 +63,7 @@ const Dashboard = () => {
       {!loading ? (
         // Add small card here for this button thing VVV
         <div>
-          <Link to="event/create">Click here to make an event!</Link>
+          <Link className='form-input-margin button-border' to="event/create">Click here to make an event!</Link>
         </div>
       ) : (
         <></>

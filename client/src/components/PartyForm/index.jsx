@@ -109,23 +109,26 @@ const PartyForm = () => {
   };
 
   return (
-    <div className="border-black container rounded-md mx-auto px-40 my-4 box-border border-4 h-screen  ">
-      <div className="text-2xl flex justify-center inline-block ">
-        <h1>Event name would go here</h1>
-        <form onSubmit={handleFormSubmit} onChange={handleChange}>
+    <div className="my-auto">
+      <div className='uk-card uk-card-body card-centering'>
+        <h1 className='uk-card-title uk-text-center'>Event name would go here</h1>
+        <form className='form-centering form-input-margin' onSubmit={handleFormSubmit} onChange={handleChange}>
           <input
+          className="form-input-margin"
             placeholder="First Name"
             name="firstName"
             type="text"
             id="firstName"
           />
           <input
+          className="form-input-margin"
             placeholder="Last Name"
             name="lastName"
             type="text"
             id="lastName"
           />
           <select
+          className='form-centering form-input-margin'
             onChange={handleRoleChange}
             value={role}
             id="role"
@@ -137,23 +140,25 @@ const PartyForm = () => {
             <option value="other">Other</option>
           </select>
           {role === "other" && (
-            <input onChange={handleRoleChange} value={role} type="text" placeholder="Enter your role" />
+            <input className='form-centering form-input-margin' onChange={handleRoleChange} value={role} type="text" placeholder="Enter your role" />
           )}
-          <button type="button" onClick={addInput}>
-            +
+          <button className='form-input-margin button-border' type="button" onClick={addInput}>
+            Add Date
           </button>
           {dateInput.map((input, index) => (
             <span key={index}>
               {index % 2 === 0 && index !== 0 && (
                 <button
+                className='form-input-margin button-border'
                   type="button"
                   onClick={removeInput}
                   id={`0${index}`}
                 >
-                  x
+                  Delete Date
                 </button>
               )}
               <input
+              className='form-input-margin'
                 onChange={handleDateChange}
                 value={input.value}
                 id={index}
@@ -162,12 +167,13 @@ const PartyForm = () => {
             </span>
           ))}
           <input
+          className="form-input-margin"
             placeholder="Your budget? (plain numbers)"
             name="budget"
             type="number"
             id="budget"
           />
-          <button type="submit">Submit</button>
+          <button className='form-input-margin button-border' type="submit">Submit</button>
         </form>
       </div>
     </div>

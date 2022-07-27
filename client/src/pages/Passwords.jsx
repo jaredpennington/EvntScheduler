@@ -9,8 +9,6 @@ import PasswordForm from "../components/PasswordForm";
 
 // all passwords for a single event
 const Passwords = () => {
-  let update;
-  const [selected, setSelected] = useState("");
   let eventId = useParams().id;
   const { loading, data } = useQuery(QUERY_PASSWORDS, {
     variables: { eventId: eventId },
@@ -44,22 +42,16 @@ const Passwords = () => {
       ) : (
         data.passwords.map((password, index) => (
           <span key={index}>
-            {selected === index ? (
-              <PasswordForm />
-            ) : (
               <div className="relative">
                 <EditDeleteSelectors
                   eventId={password.event_id}
                   guestId={null}
                   passwordId={password._id}
                   removePassword={removePassword}
-                  setSelected={setSelected}
-                  selected={selected}
                 />
                 <div>{password.name}</div>
                 <div>{password.password}</div>
               </div>
-            )}
           </span>
         ))
       )}

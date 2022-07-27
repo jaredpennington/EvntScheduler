@@ -3,15 +3,13 @@ import { useQuery } from "@apollo/client";
 import { QUERY_EVENT } from "../utils/queries";
 import { useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import FullCalendar, { formatDate } from "@fullcalendar/react";
+import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 // single event page will have a calendar that shows the names of each person who is available on a given day.
 const Event = () => {
-  let calendarEl = document.getElementById("icalendar");
-  let calendar;
   let guestArr = [];
   let event_id = useParams().id;
   const { loading, data } = useQuery(QUERY_EVENT, {
@@ -44,31 +42,10 @@ const Event = () => {
           );
         }
       });
-      // console.log(guestArr);
-      // calendar = new Calendar(calendarEl, {
-      //   timeZone: 'EST',
-      //   events: guestArr
-      // });
-      // calendar.render();
     }
   };
 
   renderAvailability();
-
-  // calendar = new Calendar(calendarEl, {
-  //   timeZone: 'UTC',
-  //   events: [
-  //     {
-  //       id: 'a',
-  //       title: 'my event',
-  //       start: '2018-09-01'
-  //     }
-  //   ]
-  // })
-
-  // var event = calendar.getEventById('a') // an event object!
-  // var start = event.start // a property (a Date object)
-  // console.log(start.toISOString()) // "2018-09-01T00:00:00.000Z"
 
   return (
     <div>
@@ -81,6 +58,7 @@ const Event = () => {
         dayMaxEvents={true}
         weekends={true}
         events={guestArr}
+        displayEventTime={false}
       />
     </div>
   );

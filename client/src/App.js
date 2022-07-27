@@ -1,5 +1,5 @@
 import "./index.css";
-import React, { useEffect } from "react";
+import React from "react";
 import AuthService from "./utils/auth";
 import {
   BrowserRouter as Router,
@@ -36,6 +36,7 @@ import Survey from "./pages/Survey";
 import SurveyLink from "./pages/SurveyLink";
 import NoMatch from "./pages/NoMatch";
 import ThankYou from "./pages/ThankYou";
+import Footer from "./components/Footer";
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
@@ -144,6 +145,7 @@ function App() {
             <Route path="/thankyou" element={<ThankYou />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
+          <Footer />
         </main>
       </Router>
     </ApolloProvider>

@@ -107,43 +107,58 @@ const EventForm = () => {
 
   return (
     <div>
-      <div className="flex h-screen justify-center items-center">
-        <div className="">
-          <form onChange={handleChange} onSubmit={handleFormSubmit}>
+      <div className='my-auto'>
+        <div className='uk-card uk-card-body card-centering'>
+          <form className='form-centering form-input-margin' onChange={handleChange} onSubmit={handleFormSubmit}>
             <input
-              className=""
+              className="form-input-margin"
               placeholder="Event Name"
               name="eventName"
               type="text"
               id="eventName"
             />
-            <button type="button" onClick={addInput}>
-              +
-            </button>
-            {dateInput.map((input, index) => (
-              <span key={index}>
-                {index % 2 === 0 && index !== 0 && (
-                  <button type="button" onClick={removeInput} id={`0${index}`}>
-                    x
-                  </button>
-                )}
+            <button
+            className="form-input-margin button-border"
+            type="button"
+            onClick={addInput}
+          >
+            Add Date Range
+          </button>
+          {dateInput.map((input, index) => (
+            <span key={index}>
+              {index % 2 === 0 && index !== 0 && (
+                <div className="go-to-the-center">
+                <button
+                  className="form-input-margin button-border "
+                  type="button"
+                  onClick={removeInput}
+                  id={`0${index}`}
+                >
+                  Delete
+                </button>
+                </div>
+              )}
+              <div>
+                {index % 2 === 0 ? <span>From: </span> : <span> To: </span>}
                 <input
+                  className="form-input-margin"
                   onChange={handleDateChange}
                   value={input.value}
                   id={index}
                   type={input.type}
                 />
-              </span>
-            ))}
+              </div>
+            </span>
+          ))}
             <textarea
-              className=""
-              placeholder="Additional Information"
-              name="additionalInfo"
-              id="additionalInfo"
-              rows="4"
-              cols="50"
+            className="from-input-margin"
+            placeholder="Additional Information"
+            name="additionalInfo"
+            id="additionalInfo"
+            rows="2"
+            cols="22"
             ></textarea>
-            <button type="submit">Submit</button>
+            <button className="form-input-margin button-border" type="submit">Submit</button>
           </form>
         </div>
       </div>

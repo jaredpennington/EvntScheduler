@@ -40,12 +40,10 @@ const guestSchema = new Schema(
             trim: true,
             required: true
         },
-        invited_to: {
+        additional_info: {
             type: String,
-            trim: true,
-            required: true
-
-        }
+            required: false
+        },
     },
     {
       toJSON: {

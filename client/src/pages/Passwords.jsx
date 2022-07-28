@@ -32,7 +32,7 @@ const Passwords = () => {
       }
     },
   });
-
+  
   return (
     <div>
       <NavBar event_id={eventId} />
@@ -49,7 +49,7 @@ const Passwords = () => {
                   passwordId={password._id}
                   removePassword={removePassword}
                 />
-                <div>{password.name}</div>
+                <div>Password {index+1}</div>
                 <div>{password.password}</div>
               </div>
           </span>

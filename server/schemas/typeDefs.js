@@ -15,7 +15,8 @@ const typeDefs = gql`
     _id: ID
     user_id: String
     event_name: String
-    date_windows: [[String]] # [[12/10/22, 12/11/22, ...12/20/22], [1/1/22, 1/2/22, ...1/28/22], etc.] (for calendar)
+    additional_info: String
+    date_windows: [[String]] # [[start, end], [start, end], ...etc.] (for calendar)
     guests: [Guest]
     passwords: [Password]
   }
@@ -26,16 +27,15 @@ const typeDefs = gql`
     first_name: String
     last_name: String
     role: String
-    date_windows: [[String]] # [[12/10/22, 12/11/22, ...12/20/22], [1/1/22, 1/2/22, ...1/28/22], etc.] (for calendar)
+    date_windows: [[String]] # [[start, end], [start, end], ...etc.] (for calendar)
     completedAt: String
     budget: Int
-    invited_to: String
+    additional_info: String
   }
 
   type Password {
     _id: ID
     event_id: ID
-    name: String
     password: String
   }
 
@@ -66,11 +66,13 @@ const typeDefs = gql`
     addEvent(
         event_name: String!,
         date_windows: [[String]]!
+        additional_info: String
     ): Event
 
     updateEvent(
         _id: ID!,
         event_name: String,
+        additional_info: String
         date_windows: [[String]]
     ): Event
 
@@ -78,13 +80,11 @@ const typeDefs = gql`
 
     addPassword(
         event_id: ID!
-        name: String!
         password: String!
     ): Password
         
     updatePassword(
         _id: ID!
-        name: String
         password: String
     ): Password
 
@@ -100,7 +100,7 @@ const typeDefs = gql`
         role: String!
         date_windows: [[String]]!
         budget: Int!
-        invited_to: String
+        additional_info: String
     ): Guest
 
     updateGuest(
@@ -110,7 +110,7 @@ const typeDefs = gql`
         role: String
         date_windows: [[String]]
         budget: Int
-        invited_to: String
+        additional_info: String
     ): Guest
 
     removeGuest(

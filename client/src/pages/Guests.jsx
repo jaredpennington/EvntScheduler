@@ -44,18 +44,32 @@ const Guests = () => {
     <div>
       <Header/>
       <NavBar event_id={event_id} />
+      {!loading && data.guests.length ? (
+        <div className="budget-card">
+          Total Budget: $
+          {totalBudget.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+        </div>
+      ) : (
+        <div>Send out your <Link to={`/event/${event_id}/surveyLink`}>survey</Link> and responses will be displayed here!</div>
+      )}
       {loading ? (
         <div>Loading...</div>
       ) : (
         // <></>
+        
         data.guests.map((guest, index) => (
-          <div key={index} className="relative">
+
+          <div key={index} className="guest-cards">
             <EditDeleteSelectors
               eventId={guest.event_id}
               guestId={guest._id}
               passwordId={null}
               removeGuest={removeGuest}
             />
+
             <div>
               <Link to={`/guest/${guest._id}`}>
                 {guest.first_name} {guest.last_name}
@@ -79,17 +93,7 @@ const Guests = () => {
           </div>
         ))
       )}
-      {!loading && data.guests.length ? (
-        <div>
-          Total Budget: $
-          {totalBudget.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-        </div>
-      ) : (
-        <div>Send out your <Link to={`/event/${event_id}/surveyLink`}>survey</Link> and responses will be displayed here!</div>
-      )}
+      
     </div>
   );
 };

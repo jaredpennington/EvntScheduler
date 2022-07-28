@@ -91,10 +91,11 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="uk-child-width-expand@s uk-text-center grid-three">
+            <div className="persons-event">{name}'s Events:</div>
+            <Link className="button-border form-input-margin event-card-padding" to="event/create">Click here to make an event!</Link>
             {data.events.map((event, index) => (
               // put card styling in this div VVV
               <div key={index}>
-                <div>{name}'s Events:</div>
                 <div className="uk-card-body event-card-centering uk-card uk-card-default dashboard-cards">
                   <div className="uk-card-title uk-text-center ">
                     <EditDeleteSelectors
@@ -104,16 +105,16 @@ const Dashboard = () => {
                       removeEvent={removeEvent}
                     />
                     <div className="uk-card-title">
-                      <Link to={`/event/${event._id}`}>{event.event_name}</Link>
+                      <Link className="link-color" to={`/event/${event._id}`}>{event.event_name}</Link>
                     </div>
                     <div>
-                      <Link to={`/event/${event._id}/guests`}>Guests</Link>:{" "}
+                      <Link className="link-color" to={`/event/${event._id}/guests`}>Guests</Link>:{" "}
                       {Object.keys(event.guests).length
                         ? Object.keys(event.guests).length
                         : "none"}
                     </div>
                     <div>
-                      <Link to={`/event/${event._id}/passwords`}>
+                      <Link className="link-color" to={`/event/${event._id}/passwords`}>
                         Passwords
                       </Link>
                       :{" "}
@@ -122,7 +123,7 @@ const Dashboard = () => {
                         : "none"}
                     </div>
                     <div>
-                      Considered <Link to={`/event/${event._id}`}>dates</Link>{" "}
+                      Considered <Link className="link-color" to={`/event/${event._id}`}>dates</Link>{" "}
                       for event:{" "}
                     </div>
                     {Object.values(event.date_windows).map((date, index) => (
@@ -141,7 +142,7 @@ const Dashboard = () => {
       {!loading ? (
         // Add small card here for this button thing VVV
         <div>
-          <Link to="event/create">Click here to make an event!</Link>
+          
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"

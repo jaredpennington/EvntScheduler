@@ -17,8 +17,8 @@ const Guest = () => {
       {loading ? (
         <div>Loading...</div>
       ) : (
-          <div>
-            <div><Link to={`/guest/${guest._id}`}> {guest.first_name} {guest.last_name}</Link></div>
+          <div className="guest-cards">
+            <div><Link  to={`/guest/${guest._id}`}> {guest.first_name} {guest.last_name}</Link></div>
             <div>Budget: {guest.budget}</div>
             {Object.values(guest.date_windows).map((date, index) => (
               <div key={index}>{date[0]} - {date[date.length - 1]}</div>

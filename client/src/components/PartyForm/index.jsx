@@ -176,14 +176,16 @@ const PartyForm = () => {
           {dateInput.map((input, index) => (
             <span key={index}>
               {index % 2 === 0 && index !== 0 && (
+                <div className="go-to-the-center">
                 <button
-                  className="form-input-margin button-border"
+                  className="form-input-margin button-border "
                   type="button"
                   onClick={removeInput}
                   id={`0${index}`}
                 >
                   Delete
                 </button>
+                </div>
               )}
               <div>
                 {index % 2 === 0 ? <span>From: </span> : <span> To: </span>}
@@ -205,7 +207,7 @@ const PartyForm = () => {
             id="budget"
           />
           <textarea
-            className=""
+            className="form-input-margin"
             placeholder="Additional Information"
             name="additionalInfo"
             id="additionalInfo"

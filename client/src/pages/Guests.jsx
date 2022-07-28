@@ -35,7 +35,7 @@ const Guests = () => {
     if (!loading) data.guests.map((guest) => (totalBudget += guest.budget));
   };
 
-  getTotals();
+  if (!loading) getTotals();
 
   if (!loading) console.log(data);
 
@@ -77,7 +77,7 @@ const Guests = () => {
           </div>
         ))
       )}
-      {data.guests.length ? (
+      {!loading && data.guests.length ? (
         <div>
           Total Budget: $
           {totalBudget.toLocaleString(undefined, {

@@ -1,5 +1,5 @@
 import "./index.css";
-import React from "react";
+import React, { useEffect } from "react";
 import AuthService from "./utils/auth";
 import {
   BrowserRouter as Router,
@@ -7,6 +7,7 @@ import {
   Route,
   Link,
   useParams,
+  useNavigate,
 } from "react-router-dom";
 import { setContext } from "@apollo/client/link/context";
 
@@ -64,6 +65,7 @@ function App() {
   };
 
   let event_id;
+  let eventNav;
 
   return (
     <ApolloProvider client={client}>
@@ -76,9 +78,9 @@ function App() {
                   EVNT
                 </Link>
               </div>
-              {AuthService.loggedIn() && (
+              {/* {AuthService.loggedIn() && (
                 <button onClick={logout}>Logout</button>
-              )}
+              )} */}
               {useParams().id && (
                 <nav className="nav-bar">
                   <ul className="nav-bar-links">
@@ -142,12 +144,12 @@ function App() {
               element={<PasswordUpdate />}
             /> */}
 
-              <Route path="/event/:id" element={<Event />} />
-              <Route path="/event/:id/surveylink" element={<SurveyLink />} />
-              <Route path="/event/:id/guests" element={<Guests />} />
+              <Route path="/event/:id" element={<Event eventNav={true} />} />
+              <Route path="/event/:id/surveylink" element={<SurveyLink eventNav={true} />} />
+              <Route path="/event/:id/guests" element={<Guests eventNav={true} />} />
               <Route path="/guest/:id" element={<Guest />} />
 
-              <Route path="/event/:id/passwords" element={<Passwords />} />
+              <Route path="/event/:id/passwords" element={<Passwords eventNav={true} />} />
               <Route path="/thankyou" element={<ThankYou />} />
               <Route path="*" element={<NoMatch />} />
             </Routes>

@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_EVENTS, QUERY_ME } from "../utils/queries";
 import { REMOVE_EVENT } from "../utils/mutations";
 import dateFormat from "../utils/dateFormat";
+import AuthService from "../utils/auth";
 import { Link } from "react-router-dom";
 import EditDeleteSelectors from "../components/EditDeleteSelectors";
 import FullCalendar from "@fullcalendar/react";
@@ -55,6 +56,12 @@ const Dashboard = () => {
       });
     }
   };
+  
+    const capitalizeFirstLetter = ([ first, ...rest ], locale = navigator.language) =>
+    first === undefined ? '' : first.toLocaleUpperCase(locale) + rest.join('')
+  
+    let userData = AuthService.getProfile().data;
+    let name = `${capitalizeFirstLetter(userData.first_name)} ${capitalizeFirstLetter(userData.last_name)}`;
 
   renderSchedule();
 
@@ -66,6 +73,7 @@ const Dashboard = () => {
         data.events.map((event, index) => (
           // put card styling in this div VVV
           <div key={index}>
+            <div>{name}'s Events:</div>
             <div className="uk-card-body event-card-centering uk-card uk-card-default dashboard-cards">
               <div className="uk-card-title uk-text-center ">
                 <EditDeleteSelectors
@@ -78,18 +86,18 @@ const Dashboard = () => {
                   <Link to={`/event/${event._id}`}>{event.event_name}</Link>
                 </div>
                 <div>
-                  Guests:{" "}
+                  <Link to={`/event/${event._id}/guests`}>Guests</Link>:{" "}
                   {Object.keys(event.guests).length
                     ? Object.keys(event.guests).length
                     : "none"}
                 </div>
                 <div>
-                  Passwords:{" "}
+                <Link to={`/event/${event._id}/passwords`}>Passwords</Link>:{" "}
                   {Object.keys(event.passwords).length
                     ? Object.keys(event.passwords).length
                     : "none"}
                 </div>
-                <div>Considered dates for event: </div>
+                <div>Considered <Link to={`/event/${event._id}`}>dates</Link> for event: </div>
                 {Object.values(event.date_windows).map((date, index) => (
                   <div key={index}>
                     {formatDate(date[0], dateFormat)} -{" "}

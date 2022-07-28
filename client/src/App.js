@@ -1,5 +1,5 @@
 import "./index.css";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import AuthService from "./utils/auth";
 import {
   BrowserRouter as Router,
@@ -59,13 +59,14 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const [eventNav, setEventNav] = useState(true);
+
   const logout = (event) => {
     event.preventDefault();
     AuthService.logout();
   };
 
   let event_id;
-  let eventNav;
 
   return (
     <ApolloProvider client={client}>
@@ -73,51 +74,13 @@ function App() {
         <main className="page-container">
           <div className="content-wrap">
             <header>
-              <div>
+              <div className="header-gradient">
                 <Link to="/" className="font-evnt-thin">
                   EVNT
                 </Link>
               </div>
-              {/* {AuthService.loggedIn() && (
+              {AuthService.loggedIn() && (
                 <button onClick={logout}>Logout</button>
-              )} */}
-              {useParams().id && (
-                <nav className="nav-bar">
-                  <ul className="nav-bar-links">
-                    <li>
-                      <Link
-                        to={`/event/${event_id}`}
-                        className="nav-bar-single"
-                      >
-                        Calendar
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={`/event/${event_id}/guests`}
-                        className="nav-bar-single"
-                      >
-                        Guests
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={`/event/${event_id}/passwords`}
-                        className="nav-bar-single"
-                      >
-                        Passwords
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={`/event/${event_id}/surveylink`}
-                        className="nav-bar-single"
-                      >
-                        Survey
-                      </Link>
-                    </li>
-                  </ul>
-                </nav>
               )}
             </header>
             <Routes>
@@ -144,12 +107,12 @@ function App() {
               element={<PasswordUpdate />}
             /> */}
 
-              <Route path="/event/:id" element={<Event eventNav={true} />} />
-              <Route path="/event/:id/surveylink" element={<SurveyLink eventNav={true} />} />
-              <Route path="/event/:id/guests" element={<Guests eventNav={true} />} />
+              <Route path="/event/:id" element={<Event />} />
+              <Route path="/event/:id/surveylink" element={<SurveyLink />} />
+              <Route path="/event/:id/guests" element={<Guests />} />
               <Route path="/guest/:id" element={<Guest />} />
 
-              <Route path="/event/:id/passwords" element={<Passwords eventNav={true} />} />
+              <Route path="/event/:id/passwords" element={<Passwords />} />
               <Route path="/thankyou" element={<ThankYou />} />
               <Route path="*" element={<NoMatch />} />
             </Routes>

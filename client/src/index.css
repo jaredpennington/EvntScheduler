@@ -279,18 +279,20 @@
   border-width: 3px;
 }
 
-
-.nav-bar {
+.header-gradient {
   background-color: var(--saltwater-500);
-  overflow: hidden;
-  background: rgb(255, 255, 255);
   background: linear-gradient(
     100deg,
     rgba(255, 255, 255, 0) 8%,
     rgba(140, 190, 197, 1) 100%
     
   );
-  margin-bottom: 2%;
+}
+
+.nav-bar {
+  position: absolute;
+  top: .5rem;
+  right: 0;
 }
 
 .nav-bar-links {

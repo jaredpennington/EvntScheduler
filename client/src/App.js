@@ -1,14 +1,15 @@
 import "./index.css";
-import React from "react";
-import AuthService from "./utils/auth";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link,
   useParams,
+  useNavigate,
 } from "react-router-dom";
 import { setContext } from "@apollo/client/link/context";
+import AuthService from "./utils/auth";
 
 import {
   ApolloClient,
@@ -58,66 +59,11 @@ const client = new ApolloClient({
 });
 
 function App() {
-  const logout = (event) => {
-    event.preventDefault();
-    AuthService.logout();
-  };
-
-  let event_id;
-
   return (
     <ApolloProvider client={client}>
       <Router>
         <main className="page-container">
           <div className="content-wrap">
-            <header>
-              <div>
-                <Link to="/" className="font-evnt-thin">
-                  EVNT
-                </Link>
-              </div>
-              {AuthService.loggedIn() && (
-                <button onClick={logout}>Logout</button>
-              )}
-              {useParams().id && (
-                <nav className="nav-bar">
-                  <ul className="nav-bar-links">
-                    <li>
-                      <Link
-                        to={`/event/${event_id}`}
-                        className="nav-bar-single"
-                      >
-                        Calendar
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={`/event/${event_id}/guests`}
-                        className="nav-bar-single"
-                      >
-                        Guests
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={`/event/${event_id}/passwords`}
-                        className="nav-bar-single"
-                      >
-                        Passwords
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={`/event/${event_id}/surveylink`}
-                        className="nav-bar-single"
-                      >
-                        Survey
-                      </Link>
-                    </li>
-                  </ul>
-                </nav>
-              )}
-            </header>
             <Routes>
               <Route
                 path="/"

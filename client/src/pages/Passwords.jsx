@@ -5,6 +5,7 @@ import { REMOVE_PASSWORD } from "../utils/mutations";
 import { useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import EditDeleteSelectors from "../components/EditDeleteSelectors";
+import Header from "../components/Header";
 import PasswordForm from "../components/PasswordForm";
 
 // all passwords for a single event
@@ -35,6 +36,7 @@ const Passwords = () => {
   
   return (
     <div>
+      <Header/>
       <NavBar event_id={eventId} />
       <PasswordForm event_id={eventId} />
       {loading ? (

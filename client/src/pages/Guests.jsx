@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import EditDeleteSelectors from "../components/EditDeleteSelectors";
+import Header from "../components/Header";
 import { formatDate } from "@fullcalendar/core";
 import dateFormat from "../utils/dateFormat";
 
@@ -35,12 +36,13 @@ const Guests = () => {
     if (!loading) data.guests.map((guest) => (totalBudget += guest.budget));
   };
 
-  getTotals();
+  if (!loading) getTotals();
 
   if (!loading) console.log(data);
 
   return (
     <div>
+      <Header/>
       <NavBar event_id={event_id} />
       {loading ? (
         <div>Loading...</div>
@@ -77,7 +79,7 @@ const Guests = () => {
           </div>
         ))
       )}
-      {data.guests.length ? (
+      {!loading && data.guests.length ? (
         <div>
           Total Budget: $
           {totalBudget.toLocaleString(undefined, {

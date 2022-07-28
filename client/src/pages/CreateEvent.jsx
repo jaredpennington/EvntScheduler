@@ -7,5 +7,5 @@ const CreateEvent = () => {
     <EventForm/>
   )
 }
-
+// 
 export default CreateEvent

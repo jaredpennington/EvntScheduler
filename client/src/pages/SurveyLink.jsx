@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import Header from "../components/Header";
 
 // 404 Page Not Found
 const SurveyLink = () => {
@@ -9,6 +10,7 @@ const SurveyLink = () => {
 
   return (
     <div>
+      <Header/>
       <NavBar event_id={event_id} />
       <div>
         <p

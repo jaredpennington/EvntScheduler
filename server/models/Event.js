@@ -21,7 +21,6 @@ const eventSchema = new Schema(
             {
                 type: String,
                 required: true,
-                // get: timestamp => dateFormat(timestamp),
             }
         ]],
         guests: [
@@ -35,7 +34,11 @@ const eventSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: 'Password'
             }
-        ]
+        ],
+        additional_info: {
+            type: String,
+            required: false
+        },
     },
     {
       toJSON: {

@@ -21,7 +21,8 @@ const EventForm = () => {
 
   const [formState, setFormState] = useState({
     eventName: "",
-    date_windows: "",
+    dateWindows: "",
+    additionalInfo: ""
   });
   const [dateInput, setDateInput] = useState(inputArr);
 
@@ -90,12 +91,15 @@ const EventForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    let dateWindows = pushDateWindows(dateInput); // [[],[],[]...]
+    let dateWindows = pushDateWindows(dateInput); // [[start, end],[start, end],...]
     try {
-      await addEvent({
-        variables: { ...formState, user_id: userId, date_windows: dateWindows },
+      let submit = await addEvent({
+        variables: { ...formState, user_id: userId, dateWindows: dateWindows },
       });
-      window.location.href = "/";
+
+      let eventId = submit.data.addEvent._id;
+      window.location.href = `/event/${eventId}/passwords`;
+      
     } catch (e) {
       console.error(e);
     }
@@ -103,42 +107,61 @@ const EventForm = () => {
 
   return (
     <div>
-    <div className="flex h-screen justify-center items-center">
-      <div className="">
-        <form onChange={handleChange} onSubmit={handleFormSubmit}>
-          <input
-            className=""
-            placeholder="Event Name"
-            name="event_name"
-            type="text"
-            id="event_name"
-          />
-          <button type="button" onClick={addInput}>
-            +
+      <div className='my-auto'>
+        <div className='uk-card uk-card-body card-centering'>
+          <form className='form-centering form-input-margin' onChange={handleChange} onSubmit={handleFormSubmit}>
+            <input
+              className="form-input-margin"
+              placeholder="Event Name"
+              name="eventName"
+              type="text"
+              id="eventName"
+            />
+            <button
+            className="form-input-margin button-border"
+            type="button"
+            onClick={addInput}
+          >
+            Add Date Range
           </button>
           {dateInput.map((input, index) => (
             <span key={index}>
               {index % 2 === 0 && index !== 0 && (
+                <div className="go-to-the-center">
                 <button
+                  className="form-input-margin button-border "
                   type="button"
                   onClick={removeInput}
                   id={`0${index}`}
                 >
-                  x
+                  Delete
                 </button>
+                </div>
               )}
-              <input
-                onChange={handleDateChange}
-                value={input.value}
-                id={index}
-                type={input.type}
-              />
+              <div>
+                {index % 2 === 0 ? <span>From: </span> : <span> To: </span>}
+                <input
+                  className="form-input-margin"
+                  onChange={handleDateChange}
+                  value={input.value}
+                  id={index}
+                  type={input.type}
+                />
+              </div>
             </span>
           ))}
-          <button type="submit">Submit</button>
-        </form>
+            <textarea
+            className="from-input-margin"
+            placeholder="Additional Information"
+            name="additionalInfo"
+            id="additionalInfo"
+            rows="2"
+            cols="22"
+            ></textarea>
+            <button className="form-input-margin button-border" type="submit">Submit</button>
+          </form>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

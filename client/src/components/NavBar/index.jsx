@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import AuthService from "../../utils/auth";
+
 
 const NavBar = ({ event_id }) => {
+  const logout = (event) => {
+    event.preventDefault();
+    AuthService.logout();
+  };
   return (
     <nav className="nav-bar">
       <ul className="nav-bar-links">
@@ -24,6 +30,9 @@ const NavBar = ({ event_id }) => {
           <Link to={`/event/${event_id}/surveylink`} className="nav-bar-single">
             Survey
           </Link>
+        </li>
+        <li>
+          <button className="nav-bar-single" onClick={logout}>Logout</button>
         </li>
       </ul>
     </nav>

@@ -31,8 +31,9 @@ const PartyForm = () => {
     firstName: "",
     lastName: "",
     role: "",
-    date_windows: "",
+    dateWindows: "",
     budget: "",
+    additionalInfo: "",
   });
   const [dateInput, setDateInput] = useState(inputArr);
 
@@ -98,7 +99,7 @@ const PartyForm = () => {
       [name]: value,
     });
   };
-  if(!loading) console.log(data);
+  if (!loading) console.log(data);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -107,8 +108,7 @@ const PartyForm = () => {
       await addGuest({
         variables: {
           ...formState,
-          date_windows: dateWindows,
-          invitedTo: "wedding",
+          dateWindows: dateWindows,
           role: role,
           eventId: eventId,
           budget: Number(formState.budget),
@@ -122,25 +122,31 @@ const PartyForm = () => {
 
   return (
     <div className="my-auto">
-      <div className='uk-card uk-card-body card-centering'>
-        <h1 className='uk-card-title uk-text-center'>Event name would go here</h1>
-        <form className='form-centering form-input-margin' onSubmit={handleFormSubmit} onChange={handleChange}>
+      <div className="uk-card uk-card-body card-centering">
+        <h1 className="uk-card-title uk-text-center">
+          Event name would go here
+        </h1>
+        <form
+          className="form-centering form-input-margin"
+          onSubmit={handleFormSubmit}
+          onChange={handleChange}
+        >
           <input
-          className="form-input-margin"
+            className="form-input-margin"
             placeholder="First Name"
             name="firstName"
             type="text"
             id="firstName"
           />
           <input
-          className="form-input-margin"
+            className="form-input-margin"
             placeholder="Last Name"
             name="lastName"
             type="text"
             id="lastName"
           />
           <select
-          className='form-centering form-input-margin'
+            className="form-centering form-input-margin"
             onChange={handleRoleChange}
             value={role}
             id="role"
@@ -152,40 +158,65 @@ const PartyForm = () => {
             <option value="other">Other</option>
           </select>
           {role === "other" && (
-            <input className='form-centering form-input-margin' onChange={handleRoleChange} value={role} type="text" placeholder="Enter your role" />
+            <input
+              className="form-centering form-input-margin"
+              onChange={handleRoleChange}
+              value={role}
+              type="text"
+              placeholder="Enter your role"
+            />
           )}
-          <button className='form-input-margin button-border' type="button" onClick={addInput}>
-            Add Date
+          <button
+            className="form-input-margin button-border"
+            type="button"
+            onClick={addInput}
+          >
+            Add Date Range
           </button>
           {dateInput.map((input, index) => (
             <span key={index}>
               {index % 2 === 0 && index !== 0 && (
+                <div className="go-to-the-center">
                 <button
-                className='form-input-margin button-border'
+                  className="form-input-margin button-border "
                   type="button"
                   onClick={removeInput}
                   id={`0${index}`}
                 >
-                  Delete Date
+                  Delete
                 </button>
+                </div>
               )}
-              <input
-              className='form-input-margin'
-                onChange={handleDateChange}
-                value={input.value}
-                id={index}
-                type={input.type}
-              />
+              <div>
+                {index % 2 === 0 ? <span>From: </span> : <span> To: </span>}
+                <input
+                  className="form-input-margin"
+                  onChange={handleDateChange}
+                  value={input.value}
+                  id={index}
+                  type={input.type}
+                />
+              </div>
             </span>
           ))}
           <input
-          className="form-input-margin"
+            className="form-input-margin"
             placeholder="Your budget? (plain numbers)"
             name="budget"
             type="number"
             id="budget"
           />
-          <button className='form-input-margin button-border' type="submit">Submit</button>
+          <textarea
+            className="form-input-margin"
+            placeholder="Additional Information"
+            name="additionalInfo"
+            id="additionalInfo"
+            rows="2"
+            cols="22"
+          ></textarea>
+          <button className="form-input-margin button-border" type="submit">
+            Submit
+          </button>
         </form>
       </div>
     </div>

@@ -7,6 +7,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import Header from "../components/Header";
 
 // single event page will have a calendar that shows the names of each person who is available on a given day.
 const Event = () => {
@@ -49,6 +50,7 @@ const Event = () => {
 
   return (
     <div>
+      <Header/>
       <NavBar event_id={event_id} />
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -62,16 +64,6 @@ const Event = () => {
       />
     </div>
   );
-
-  function renderEventContent(eventInfo) {
-    console.log(eventInfo);
-    return (
-      <>
-        <b>{eventInfo.timeText}</b>
-        <i>{eventInfo.event.title}</i>
-      </>
-    );
-  }
 };
 
 export default Event;

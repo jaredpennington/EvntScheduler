@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 
 const Signup = () => {
   const [formState, setFormState] = useState({ firstName: '', lastName: '', email: '', password: '' });
@@ -34,6 +35,8 @@ const Signup = () => {
   };
 
   return (
+    <>
+    <Header/>
     <main className='my-auto'>
       <div className=''>
         <div className='uk-card uk-card-body card-centering'>
@@ -90,6 +93,7 @@ const Signup = () => {
         </div>
       </div>
     </main>
+    </>
   );
 };
 

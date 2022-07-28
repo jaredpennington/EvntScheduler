@@ -27,6 +27,7 @@ const EditDeleteSelectors = ({
         this.id = passwordId;
         this.target = "password";
         this.delete = () => {
+          console.log(eventId);
           removePassword({
             variables: { id: passwordId, eventId: eventId },
           });

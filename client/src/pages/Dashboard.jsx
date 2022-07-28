@@ -6,6 +6,7 @@ import dateFormat from "../utils/dateFormat";
 import AuthService from "../utils/auth";
 import { Link } from "react-router-dom";
 import EditDeleteSelectors from "../components/EditDeleteSelectors";
+import Header from "../components/Header";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -30,6 +31,11 @@ const Dashboard = () => {
       }
     },
   });
+
+  const logout = (event) => {
+    event.preventDefault();
+    AuthService.logout();
+  };
 
   class Schedule {
     constructor(id, name, start, end) {
@@ -56,58 +62,81 @@ const Dashboard = () => {
       });
     }
   };
-  
-    const capitalizeFirstLetter = ([ first, ...rest ], locale = navigator.language) =>
-    first === undefined ? '' : first.toLocaleUpperCase(locale) + rest.join('')
-  
-    let userData = AuthService.getProfile().data;
-    let name = `${capitalizeFirstLetter(userData.first_name)} ${capitalizeFirstLetter(userData.last_name)}`;
+
+  const capitalizeFirstLetter = (
+    [first, ...rest],
+    locale = navigator.language
+  ) =>
+    first === undefined ? "" : first.toLocaleUpperCase(locale) + rest.join("");
+
+  let userData = AuthService.getProfile().data;
+  let name = `${capitalizeFirstLetter(
+    userData.first_name
+  )} ${capitalizeFirstLetter(userData.last_name)}`;
 
   renderSchedule();
 
   return (
-    <div className="uk-child-width-expand@s uk-text-center grid-three">
+    <div>
       {loading ? (
         <div>Loading...</div>
       ) : (
-        data.events.map((event, index) => (
-          // put card styling in this div VVV
-          <div key={index}>
-            <div>{name}'s Events:</div>
-            <div className="uk-card-body event-card-centering uk-card uk-card-default dashboard-cards">
-              <div className="uk-card-title uk-text-center ">
-                <EditDeleteSelectors
-                  eventId={event._id}
-                  guestId={null}
-                  passwordId={null}
-                  removeEvent={removeEvent}
-                />
-                <div className="uk-card-title">
-                  <Link to={`/event/${event._id}`}>{event.event_name}</Link>
-                </div>
-                <div>
-                  <Link to={`/event/${event._id}/guests`}>Guests</Link>:{" "}
-                  {Object.keys(event.guests).length
-                    ? Object.keys(event.guests).length
-                    : "none"}
-                </div>
-                <div>
-                <Link to={`/event/${event._id}/passwords`}>Passwords</Link>:{" "}
-                  {Object.keys(event.passwords).length
-                    ? Object.keys(event.passwords).length
-                    : "none"}
-                </div>
-                <div>Considered <Link to={`/event/${event._id}`}>dates</Link> for event: </div>
-                {Object.values(event.date_windows).map((date, index) => (
-                  <div key={index}>
-                    {formatDate(date[0], dateFormat)} -{" "}
-                    {formatDate(date[date.length - 1], dateFormat)}
-                  </div>
-                ))}
-              </div>
+        <>
+          <Header />
+          <div className="nav-bar">
+            <div className="nav-bar-links">
+              <button className="nav-bar-single" onClick={logout}>
+                Logout
+              </button>
             </div>
           </div>
-        ))
+          <div className="uk-child-width-expand@s uk-text-center grid-three">
+            {data.events.map((event, index) => (
+              // put card styling in this div VVV
+              <div key={index}>
+                <div>{name}'s Events:</div>
+                <div className="uk-card-body event-card-centering uk-card uk-card-default dashboard-cards">
+                  <div className="uk-card-title uk-text-center ">
+                    <EditDeleteSelectors
+                      eventId={event._id}
+                      guestId={null}
+                      passwordId={null}
+                      removeEvent={removeEvent}
+                    />
+                    <div className="uk-card-title">
+                      <Link to={`/event/${event._id}`}>{event.event_name}</Link>
+                    </div>
+                    <div>
+                      <Link to={`/event/${event._id}/guests`}>Guests</Link>:{" "}
+                      {Object.keys(event.guests).length
+                        ? Object.keys(event.guests).length
+                        : "none"}
+                    </div>
+                    <div>
+                      <Link to={`/event/${event._id}/passwords`}>
+                        Passwords
+                      </Link>
+                      :{" "}
+                      {Object.keys(event.passwords).length
+                        ? Object.keys(event.passwords).length
+                        : "none"}
+                    </div>
+                    <div>
+                      Considered <Link to={`/event/${event._id}`}>dates</Link>{" "}
+                      for event:{" "}
+                    </div>
+                    {Object.values(event.date_windows).map((date, index) => (
+                      <div key={index}>
+                        {formatDate(date[0], dateFormat)} -{" "}
+                        {formatDate(date[date.length - 1], dateFormat)}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
       {!loading ? (
         // Add small card here for this button thing VVV

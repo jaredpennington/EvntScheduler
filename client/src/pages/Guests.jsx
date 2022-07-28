@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import EditDeleteSelectors from "../components/EditDeleteSelectors";
+import Header from "../components/Header";
 import { formatDate } from "@fullcalendar/core";
 import dateFormat from "../utils/dateFormat";
 
@@ -41,6 +42,7 @@ const Guests = () => {
 
   return (
     <div>
+      <Header/>
       <NavBar event_id={event_id} />
       {loading ? (
         <div>Loading...</div>

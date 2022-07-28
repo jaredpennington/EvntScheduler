@@ -1,6 +1,5 @@
 import "./index.css";
 import React, { useState } from "react";
-import AuthService from "./utils/auth";
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,6 +9,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { setContext } from "@apollo/client/link/context";
+import AuthService from "./utils/auth";
 
 import {
   ApolloClient,
@@ -59,30 +59,11 @@ const client = new ApolloClient({
 });
 
 function App() {
-  const [eventNav, setEventNav] = useState(true);
-
-  const logout = (event) => {
-    event.preventDefault();
-    AuthService.logout();
-  };
-
-  let event_id;
-
   return (
     <ApolloProvider client={client}>
       <Router>
         <main className="page-container">
           <div className="content-wrap">
-            <header>
-              <div className="header-gradient">
-                <Link to="/" className="font-evnt-thin">
-                  EVNT
-                </Link>
-              </div>
-              {AuthService.loggedIn() && (
-                <button onClick={logout}>Logout</button>
-              )}
-            </header>
             <Routes>
               <Route
                 path="/"

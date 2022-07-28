@@ -55,10 +55,11 @@
   transition: all;
   transition-duration: 300ms;
   font-weight: 100;
+  left: 0
 }
 
 .font-evnt-thin:hover {
-  color: var(--saltwater-500);
+  color: var(--cream-500);
   text-decoration: none;
 }
 
@@ -285,7 +286,6 @@
     100deg,
     rgba(255, 255, 255, 0) 8%,
     rgba(140, 190, 197, 1) 100%
-    
   );
 }
 
@@ -318,7 +318,7 @@
 }
 
 .nav-bar-single:hover {
-  color: var(--saltwater-100);
+  color: var(--cream-200);
   text-decoration: none;
 }
 

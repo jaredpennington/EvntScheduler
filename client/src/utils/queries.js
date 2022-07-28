@@ -12,6 +12,7 @@ export const QUERY_ME = gql`
         _id
         user_id
         event_name
+        additional_info
         date_windows
         guests {
           _id
@@ -20,12 +21,13 @@ export const QUERY_ME = gql`
           last_name
           role
           date_windows
+          completedAt
           budget
-          invited_to
+          additional_info
         }
         passwords {
           _id
-          name
+          event_id
           password
         }
       }
@@ -38,7 +40,9 @@ export const QUERY_EVENTS = gql`
   query Events {
     events {
       _id
+      user_id
       event_name
+      additional_info
       date_windows
       guests {
         _id
@@ -48,12 +52,10 @@ export const QUERY_EVENTS = gql`
         date_windows
         completedAt
         budget
-        invited_to
+        additional_info
       }
       passwords {
         _id
-        event_id
-        name
         password
       }
     }
@@ -67,6 +69,7 @@ export const QUERY_EVENT = gql`
       _id
       user_id
       event_name
+      additional_info
       date_windows
       guests {
         _id
@@ -77,13 +80,11 @@ export const QUERY_EVENT = gql`
         date_windows
         completedAt
         budget
-        invited_to
+        additional_info
       }
       passwords {
         _id
-        event_id
         password
-        name
       }
     }
   }
@@ -91,17 +92,16 @@ export const QUERY_EVENT = gql`
 
 // all guests associated with an event
 export const QUERY_GUESTS = gql`
-  query Guests($event_id: ID!) {
-    guests(event_id: $event_id) {
+  query Guests($eventId: ID!) {
+    guests(event_id: $eventId) {
       _id
-      event_id
       first_name
       last_name
       role
       date_windows
       completedAt
       budget
-      invited_to
+      additional_info
     }
   }
 `;
@@ -118,7 +118,7 @@ export const QUERY_GUEST = gql`
       date_windows
       completedAt
       budget
-      invited_to
+      additional_info
     }
   }
 `;
@@ -129,7 +129,6 @@ export const QUERY_PASSWORDS = gql`
     passwords(event_id: $eventId) {
       _id
       event_id
-      name
       password
     }
   }
@@ -141,7 +140,6 @@ export const QUERY_PASSWORD = gql`
     password(_id: $id) {
       _id
       event_id
-      name
       password
     }
   }

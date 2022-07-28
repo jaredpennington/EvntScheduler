@@ -5,7 +5,6 @@ import { QUERY_EVENT } from "../../utils/queries";
 
 const PasswordForm = ({ event_id }) => {
   const [formState, setFormState] = useState({
-    name: "",
     password: "",
   });
 
@@ -50,18 +49,11 @@ const PasswordForm = ({ event_id }) => {
   return (
     <div className='my-auto'>
     <div className='uk-card uk-card-body card-centering'>
-      <h3 className='uk-card-title uk-text-center'>Add A Password:</h3>
+      <h3 className='uk-card-title uk-text-center'>Survey Password Protection:</h3>
       <form className='form-centering form-input-margin' onChange={handleChange} onSubmit={handleFormSubmit}>
         <input
           className="form-input-margin"
-          placeholder="EVNT name"
-          name="name"
-          type="text"
-          id="name"
-        />
-        <input
-          className="form-input-margin"
-          placeholder="Password"
+          placeholder="Add Password"
           name="password"
           type="text"
           id="password"

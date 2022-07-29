@@ -94,7 +94,6 @@ const Dashboard = () => {
             <div className="persons-event">{name}'s Events:</div>
             <Link className="button-border form-input-margin event-card-padding" to="event/create">Click here to make an event!</Link>
             {data.events.map((event, index) => (
-              // put card styling in this div VVV
               <div key={index}>
                 <div className="uk-card-body event-card-centering uk-card uk-card-default dashboard-cards">
                   <div className="uk-card-title uk-text-center ">
@@ -140,7 +139,6 @@ const Dashboard = () => {
         </>
       )}
       {!loading ? (
-        // Add small card here for this button thing VVV
         <div>
           
           <FullCalendar

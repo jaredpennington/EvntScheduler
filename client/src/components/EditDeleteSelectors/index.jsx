@@ -55,7 +55,7 @@ const EditDeleteSelectors = ({
       <div className="dropdown">
         <button className="dropbtn">...</button>
         <ul className="dropdown-content">
-          <Link to={`/event${path.target ? `/${path.target}` : ''}/${path.id}}/update`}>
+          <Link to={`/event${path.target ? `/${path.target}` : ''}/${path.id}/update`}>
           <li
             className=""
           >

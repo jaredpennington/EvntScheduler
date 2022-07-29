@@ -99,8 +99,10 @@ export const ADD_PASSWORD = gql`
 `;
 
 export const UPDATE_PASSWORD = gql`
-  mutation AddPassword($eventId: ID!, $password: String!) {
-    addPassword(event_id: $eventId, password: $password) {
+  mutation Mutation($id: ID!, $password: String) {
+    updatePassword(_id: $id, password: $password) {
+      _id
+      event_id
       password
     }
   }

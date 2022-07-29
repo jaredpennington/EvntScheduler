@@ -1,11 +1,11 @@
 import React from 'react';
-// import PasswordEventForm from "../components/PasswordEventForm";
+import UpdatePasswordForm from "../components/UpdatePasswordForm";
 
 // the survey that will be sent out to guests. Responses will be stored into Guests in the database
 const EventPassword = () => {
   return (
     <div>
-      {/* <PasswordEventForm /> */}
+      <UpdatePasswordForm />
     </div>
   )
 }

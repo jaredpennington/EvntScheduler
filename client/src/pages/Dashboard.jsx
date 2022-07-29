@@ -122,7 +122,7 @@ const Dashboard = () => {
                         : "none"}
                     </div>
                     <div>
-                      Considered <Link className="link-color" to={`/event/${event._id}`}>dates</Link>{" "}
+                      Considered <a className="link-color" href="#calendar">dates</a>{" "}
                       for event:{" "}
                     </div>
                     {Object.values(event.date_windows).map((date, index) => (
@@ -139,7 +139,7 @@ const Dashboard = () => {
         </>
       )}
       {!loading ? (
-        <div>
+        <div id="calendar">
           
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}

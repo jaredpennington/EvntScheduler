@@ -192,7 +192,9 @@
   background-color: var(--saltwater-100);
   box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
 }
-
+.margin-bottom {
+  margin-top: 10px;
+}
 .grid-three {
   grid-template-rows: repeat(3, minmax(0, 1fr));
 }
@@ -212,6 +214,25 @@
   background-color: var(--saltwater-100);
   box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
 }
+
+.x-scroll {
+display: flex;
+flex-wrap: nowrap;
+flex-direction: row;
+overflow-x: scroll;
+align-items: stretch;
+overflow: scroll;
+scroll-behavior: smooth;
+}
+
+.x-card {
+  /* flex: 0 0 auto; */
+  width: max-content;
+  overflow-y: scroll;
+  height: 30vh;
+}
+
+
 
 .persons-event {
   margin-top: 2px;
@@ -312,12 +333,15 @@
 
 .dashboard-cards {
   margin: 6px;
+  margin-top: 5%;
+  margin-bottom: 8%;
 }
 
 .thankyou {
  color: var(--dark-500);
+ margin-bottom: 2px;
 }
-
+ 
 .post-pass {
   border-color: var(--dark-500);
   color: var(--dark-500);
@@ -412,6 +436,9 @@
   min-height: 100vh;
 }
 
+.iphone-fit {
+  max-width:fit-content;
+}
 .guest-cards {
   border-color: white;
   background-color: var(--saltwater-200);
@@ -462,3 +489,9 @@ a:hover {
 .hide {
   display: none;
 }
+.copylink {
+  justify-content: right;
+  display: flex;
+  align-items: row;
+}
+

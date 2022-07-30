@@ -45,8 +45,14 @@
   -o-background-size: cover;
   background-size: cover;
   height: fit-content;
-}
 
+  
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+:root::-webkit-scrollbar {
+display: none;  /* Safari and Chrome */
+}
 .font-evnt-thin {
   font-family: "Josefin Sans", sans-serif;
   font-size: 300%;
@@ -223,6 +229,7 @@ overflow-x: scroll;
 align-items: stretch;
 overflow: scroll;
 scroll-behavior: smooth;
+
 }
 
 .x-card {
@@ -232,15 +239,13 @@ scroll-behavior: smooth;
   height: 30vh;
 }
 
-
-
 .persons-event {
   margin-top: 2px;
   margin-bottom: 4px;
 }
 
 .event-card-padding {
-  padding: 4px;
+  padding: 6px;
 }
 
 /* .event-card-centering:hover {
@@ -332,7 +337,7 @@ scroll-behavior: smooth;
 }
 
 .dashboard-cards {
-  margin: 6px;
+  margin: 10px;
   margin-top: 5%;
   margin-bottom: 8%;
 }

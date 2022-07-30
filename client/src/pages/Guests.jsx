@@ -56,7 +56,7 @@ const Guests = () => {
       {loading ? (
         <div>Loading...</div>
       ) : (
-        // <></>
+        // <div></>
         
         data.guests.map((guest, index) => (
 
@@ -90,6 +90,7 @@ const Guests = () => {
             <div>Additional information: {guest.additional_info}</div>
           </div>
         ))
+        
       )}
       
     </div>

@@ -488,6 +488,13 @@ a:hover {
   color: #ff3e71;
 }
 
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
 .copylink {
   justify-content: right;
   display: flex;

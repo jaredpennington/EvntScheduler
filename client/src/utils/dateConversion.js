@@ -1,10 +1,3 @@
-// To simulate .NET's .AddDays() method
-Date.prototype.addDays = function(days) {
-    var date = new Date(this.valueOf());
-    date.setDate(date.getDate() + days);
-    return date;
-}
-
 const pushDateWindows = (dates) => {
     let datesArr = [];
     for(let i = 0; i < dates.length; i++) {

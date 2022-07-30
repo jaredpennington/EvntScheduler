@@ -60,8 +60,6 @@ const UpdatePasswordForm = () => {
     }
   };
 
-  if(!loading) console.log(data);
-
   return (
     <div className="my-auto">
       {loading ? (

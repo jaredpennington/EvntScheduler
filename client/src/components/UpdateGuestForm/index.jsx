@@ -9,32 +9,54 @@ const UpdateGuestForm = () => {
   let eventId = useParams().eventId;
   let guestId = useParams().id;
 
-  const { loadingEvent, dataEvent } = useQuery(QUERY_EVENT, {
+  const { loading, data } = useQuery(QUERY_EVENT, {
     variables: { id: eventId },
   });
-
-  const { loading, data } = useQuery(QUERY_GUEST, {
-    variables: { id: guestId },
+  const [role, setRole] = useState('');
+  const [roleOptions, setRoleOptions] = useState([]);
+  const [guest, setGuest] = useState({
+    first_name: "",
+    last_name: "",
+    role: "",
+    budget: "",
+    additional_info: "",
   });
 
-  const [role, setRole] = useState("");
+  let roles = [
+    {
+      value: "role",
+      selector: "Role for the event",
+    },
+    {
+      value: "bridesmaid",
+      selector: "Bridesmaid",
+    },
+    {
+      value: "guest",
+      selector: "Guest",
+    },
+    {
+      value: "other",
+      selector: "Other",
+    },
+  ];
 
   const [formState, setFormState] = useState({
     firstName: () => {
-      if (!loading) return data.guest.first_name;
+      if (!loading) return guest.first_name;
     },
     lastName: () => {
-      if (!loading) return data.guest.last_name;
+      if (!loading) return guest.last_name;
     },
     role: () => {
-      if (!loading) return data.guest.role;
+      if (!loading) return guest.role;
     },
     dateWindows: "",
     budget: () => {
-      if (!loading) return data.guest.budget;
+      if (!loading) return guest.budget;
     },
     additionalInfo: () => {
-      if (!loading) return data.guest.additionalInfo;
+      if (!loading) return guest.additional_info;
     },
   });
   const [dateInput, setDateInput] = useState([]);
@@ -101,7 +123,6 @@ const UpdateGuestForm = () => {
       [name]: value,
     });
   };
-  // if (!loading) console.log(data);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -126,7 +147,9 @@ const UpdateGuestForm = () => {
     let inputArr = [];
     let index = 0;
     if (!loading) {
-      data.event.date_windows.map((date) => {
+      let thisGuest = data.event.guests.filter((guest) => guest._id === guestId)[0];
+      setGuest(thisGuest);
+      thisGuest.date_windows.map((date) => {
         for (let i = 0; i < date.length; i++) {
           inputArr.push({
             type: "date",
@@ -136,19 +159,25 @@ const UpdateGuestForm = () => {
           index++;
         }
       });
+      while(roles[0].value !== thisGuest.role) {
+        let first = roles[0];
+        roles.shift();
+        roles.push(first);
+      }
+      setRoleOptions(roles);
     }
     setDateInput(inputArr);
-  }, [loading]);
+  }, [loading, guest]);
 
   return (
     <div>
-      {loading || loadingEvent ? (
+      {loading || !guest ? (
         <div>Loading...</div>
       ) : (
         <div className="my-auto">
           <div className="uk-card uk-card-body card-centering">
             <h1 className="uk-card-title uk-text-center">
-              {dataEvent.event.event_name}
+              {data.event.event_name}
             </h1>
             <form
               className="form-centering form-input-margin"
@@ -161,7 +190,7 @@ const UpdateGuestForm = () => {
                 name="firstName"
                 type="text"
                 id="firstName"
-                defaultValue={data.guest.first_name}
+                defaultValue={guest.first_name}
               />
               <input
                 className="form-input-margin"
@@ -169,6 +198,7 @@ const UpdateGuestForm = () => {
                 name="lastName"
                 type="text"
                 id="lastName"
+                defaultValue={guest.last_name}
               />
               <select
                 className="form-centering form-input-margin"
@@ -177,17 +207,16 @@ const UpdateGuestForm = () => {
                 id="role"
                 name="role"
               >
-                <option value="role">Role for the event</option>
-                <option value="bridesmaid">Bridesmaid</option>
-                <option value="guest">Guest</option>
-                <option value="other">Other</option>
+                {roleOptions.map((role, index) => (
+                    <option key={index} value={role.value}>{role.selector}</option>
+                ))}
               </select>
               {role === "other" && (
                 <input
                   className="form-centering form-input-margin"
                   onChange={handleRoleChange}
-                  value={role}
                   type="text"
+                  defaultValue={guest.role}
                   placeholder="Enter your role"
                 />
               )}
@@ -230,6 +259,7 @@ const UpdateGuestForm = () => {
                 name="budget"
                 type="number"
                 id="budget"
+                defaultValue={guest.budget}
               />
               <textarea
                 className="form-input-margin"
@@ -238,6 +268,7 @@ const UpdateGuestForm = () => {
                 id="additionalInfo"
                 rows="2"
                 cols="22"
+                defaultValue={guest.additional_info}
               ></textarea>
               <button className="form-input-margin button-border" type="submit">
                 Submit

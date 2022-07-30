@@ -26,8 +26,6 @@ const Event = () => {
     }
   }
 
-  const handleDateClick = (event) => {};
-
   const renderAvailability = () => {
     if (!loading) {
       data.event.guests.map((guest) => {

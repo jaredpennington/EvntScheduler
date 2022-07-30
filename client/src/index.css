@@ -437,7 +437,7 @@ scroll-behavior: smooth;
 }
 
 .iphone-fit {
-  max-width:fit-content;
+  /* max-width:fit-content; */
 }
 .guest-cards {
   border-color: white;

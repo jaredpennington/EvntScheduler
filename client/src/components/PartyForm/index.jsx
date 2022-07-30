@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import pushDateWindows from "../../utils/dateConversion";
 import { ADD_GUEST } from "../../utils/mutations";
 import { QUERY_EVENT } from "../../utils/queries";
@@ -26,6 +26,7 @@ const PartyForm = () => {
   });
 
   const [role, setRole] = useState("");
+  const [otherRole, setOtherRole] = useState(null);
 
   const [formState, setFormState] = useState({
     firstName: "",
@@ -53,13 +54,9 @@ const PartyForm = () => {
     },
   });
 
-  const handleRoleChange = (e) => {
-    setRole(e.target.value);
-  };
-
   const handleDateChange = (event) => {
     event.preventDefault();
-
+    
     const index = event.target.id;
     setDateInput((d) => {
       const newArr = d.slice();
@@ -68,7 +65,7 @@ const PartyForm = () => {
       return newArr;
     });
   };
-
+  
   const addInput = () => {
     setDateInput((d) => {
       return [
@@ -84,7 +81,7 @@ const PartyForm = () => {
       ];
     });
   };
-
+  
   const removeInput = (event) => {
     let index = Number(event.target.id.charAt(1)); // 02 -> 2
     let arr = dateInput.filter((d, i) => i !== index && i !== index + 1);
@@ -99,26 +96,37 @@ const PartyForm = () => {
       [name]: value,
     });
   };
-  if (!loading) console.log(data);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     let dateWindows = pushDateWindows(dateInput); // [[],[],[]...]
+    let guestRole;
+    if(role === "other") {
+      guestRole = otherRole;
+    } else {
+      guestRole = role;
+    }
     try {
       await addGuest({
         variables: {
           ...formState,
           dateWindows: dateWindows,
-          role: role,
+          role: guestRole,
           eventId: eventId,
           budget: Number(formState.budget),
         },
       });
-      window.location.href = "/thankyou";
+      window.location.href = '/thankyou';
     } catch (e) {
       console.error(e);
     }
   };
+  
+    useEffect(() => {
+      if(role !== "other") {
+        setOtherRole(null)
+      }
+    },[role]);
 
   return (
     <div className="my-auto">
@@ -147,7 +155,7 @@ const PartyForm = () => {
           />
           <select
             className="form-centering form-input-margin"
-            onChange={handleRoleChange}
+            onChange={(e) => setRole(e.target.value)}
             value={role}
             id="role"
             name="role"
@@ -160,8 +168,8 @@ const PartyForm = () => {
           {role === "other" && (
             <input
               className="form-centering form-input-margin"
-              onChange={handleRoleChange}
-              value={role}
+              onChange={(e) => setOtherRole(e.target.value)}
+              value={otherRole}
               type="text"
               placeholder="Enter your role"
             />

@@ -78,15 +78,15 @@ function App() {
               <Route path="/event/:id/survey" element={<Survey />} />
 
               {/* Update */}
-              {/* <Route path="/event/:id/update" element={<EventUpdate />} />
-            <Route
-              path="/event/:eventId/guest/:id/update"
-              element={<GuestUpdate />}
-            />
-            <Route
-              path="/event/:eventId/password/:id/update"
-              element={<PasswordUpdate />}
-            /> */}
+              <Route path="/event/:id/update" element={<EventUpdate />} />
+              <Route
+                path="/event/:eventId/guest/:id/update"
+                element={<GuestUpdate />}
+              />
+              <Route
+                path="/event/:eventId/password/:id/update"
+                element={<PasswordUpdate />}
+              />
 
               <Route path="/event/:id" element={<Event />} />
               <Route path="/event/:id/surveylink" element={<SurveyLink />} />

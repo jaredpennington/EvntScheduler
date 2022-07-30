@@ -2,37 +2,44 @@ import React from "react";
 import { Link } from "react-router-dom";
 import AuthService from "../../utils/auth";
 
-
 const NavBar = ({ event_id }) => {
   const logout = (event) => {
     event.preventDefault();
     AuthService.logout();
   };
+
+  const navOptions = [
+    {
+      link: `/event/${event_id}`,
+      name: "Calendar",
+    },
+    {
+      link: `/event/${event_id}/guests`,
+      name: "Guests",
+    },
+    {
+      link: `/event/${event_id}/passwords`,
+      name: "Passwords",
+    },
+    {
+      link: `/event/${event_id}/surveylink`,
+      name: "Survey",
+    },
+  ];
   return (
     <nav className="nav-bar">
       <ul className="nav-bar-links">
+        {navOptions.map((option, index) => (
+          <li>
+            <Link to={option.link} className="nav-bar-single">
+              {option.name}
+            </Link>
+          </li>
+        ))}
         <li>
-          <Link to={`/event/${event_id}`} className="nav-bar-single">
-            Calendar
-          </Link>
-        </li>
-        <li>
-          <Link to={`/event/${event_id}/guests`} className="nav-bar-single">
-            Guests
-          </Link>
-        </li>
-        <li>
-          <Link to={`/event/${event_id}/passwords`} className="nav-bar-single">
-            Passwords
-          </Link>
-        </li>
-        <li>
-          <Link to={`/event/${event_id}/surveylink`} className="nav-bar-single">
-            Survey
-          </Link>
-        </li>
-        <li>
-          <button className="nav-bar-single" onClick={logout}>Logout</button>
+          <button className="nav-bar-single" onClick={logout}>
+            Logout
+          </button>
         </li>
       </ul>
     </nav>

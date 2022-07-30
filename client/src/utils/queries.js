@@ -95,6 +95,7 @@ export const QUERY_GUESTS = gql`
   query Guests($eventId: ID!) {
     guests(event_id: $eventId) {
       _id
+      event_id
       first_name
       last_name
       role

@@ -45,12 +45,13 @@
   -o-background-size: cover;
   background-size: cover;
   height: fit-content;
+}
 
-  
+* {
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
   scrollbar-width: none;  /* Firefox */
 }
-:root::-webkit-scrollbar {
+*::-webkit-scrollbar {
 display: none;  /* Safari and Chrome */
 }
 .font-evnt-thin {
@@ -442,7 +443,7 @@ scroll-behavior: smooth;
 }
 
 .iphone-fit {
-  max-width:fit-content;
+  /* max-width:fit-content; */
 }
 .guest-cards {
   border-color: white;

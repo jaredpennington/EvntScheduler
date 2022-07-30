@@ -77,7 +77,7 @@ const Guests = () => {
             </div>
             <div>
               Budget: $
-              {guest.budget.toLocaleString(undefined, {
+              {Number(guest.budget).toLocaleString(undefined, {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}

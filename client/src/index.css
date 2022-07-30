@@ -376,6 +376,10 @@
   text-decoration: none;
 }
 
+.nav-selected {
+  color: var(--dark-100);
+}
+
 .nav-bar > li {
   margin: auto;
 }
@@ -433,4 +437,12 @@
   width: 200px;
   border-radius: 16px;
   border-width: 4px;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.delete-btn:hover {
+  color: #ff3e71;
 }

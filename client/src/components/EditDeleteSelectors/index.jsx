@@ -65,7 +65,7 @@ const EditDeleteSelectors = ({
           </li>
           </Link>
 
-          <li onClick={() => path.delete()} className="">
+          <li onClick={() => path.delete()} className="delete-btn">
             Delete
           </li>
         </ul>

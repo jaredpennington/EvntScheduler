@@ -461,7 +461,14 @@ scroll-behavior: smooth;
   width: 275px;
   border-radius: 16px;
   border-width: 3px;
+  transition: all;
+  transition-duration: 300ms;
 }
+
+/* .guest-cards:hover {
+  color: var(--saltwater-200);
+  text-decoration: none;
+} */
 
 .budget-card {
   border-color: var(--dark-100);

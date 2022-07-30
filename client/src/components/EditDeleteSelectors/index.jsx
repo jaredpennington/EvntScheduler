@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
 const EditDeleteSelectors = ({
   eventId,
   guestId,
@@ -55,7 +54,7 @@ const EditDeleteSelectors = ({
   return (
     <div className="dots-position">
       <div className="dropdown">
-        <button className="dropbtn">...</button>
+        <button className="dropbtn"><i class="fa-solid fa-gears"></i></button>
         <ul className="dropdown-content">
           <Link to={`/event${path.target ? `/${eventId}/${path.target}` : ''}/${path.id}/update`}>
           <li

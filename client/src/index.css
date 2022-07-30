@@ -297,7 +297,11 @@
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
-  color: var(--saltwater-100);
+  color: var(--saltwater-500);
+}
+.dropbtn {
+  transition: all;
+  transition-duration: 300ms;
 }
 
 .dots-position {
@@ -308,6 +312,10 @@
 
 .dashboard-cards {
   margin: 6px;
+}
+
+.thankyou {
+ color: var(--dark-500);
 }
 
 .post-pass {

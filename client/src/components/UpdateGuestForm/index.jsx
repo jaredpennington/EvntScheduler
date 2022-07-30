@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import pushDateWindows from "../../utils/dateConversion";
 import { UPDATE_GUEST } from "../../utils/mutations";
-import { QUERY_EVENT, QUERY_GUEST } from "../../utils/queries";
+import { QUERY_EVENT } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 
@@ -13,6 +13,7 @@ const UpdateGuestForm = () => {
     variables: { id: eventId },
   });
   const [role, setRole] = useState('');
+  const [otherRole, setOtherRole] = useState(null);
   const [roleOptions, setRoleOptions] = useState([]);
   const [guest, setGuest] = useState({
     first_name: "",
@@ -127,13 +128,19 @@ const UpdateGuestForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     let dateWindows = pushDateWindows(dateInput); // [[],[],[]...]
+    let guestRole;
+    if(role === "other") {
+      guestRole = otherRole;
+    } else {
+      guestRole = role;
+    }
     try {
       await updateGuest({
         variables: {
           ...formState,
           id: guestId,
           dateWindows: dateWindows,
-          role: role,
+          role: guestRole,
           budget: Number(formState.budget),
         },
       });
@@ -149,7 +156,7 @@ const UpdateGuestForm = () => {
     if (!loading) {
       let thisGuest = data.event.guests.filter((guest) => guest._id === guestId)[0];
       setGuest(thisGuest);
-      thisGuest.date_windows.map((date) => {
+      thisGuest.date_windows.forEach((date) => {
         for (let i = 0; i < date.length; i++) {
           inputArr.push({
             type: "date",
@@ -167,7 +174,13 @@ const UpdateGuestForm = () => {
       setRoleOptions(roles);
     }
     setDateInput(inputArr);
-  }, [loading, guest]);
+  }, [loading]);
+
+  useEffect(() => {
+    if(role !== "other") {
+      setOtherRole(null)
+    }
+  },[role]);
 
   return (
     <div>
@@ -202,7 +215,7 @@ const UpdateGuestForm = () => {
               />
               <select
                 className="form-centering form-input-margin"
-                onChange={handleRoleChange}
+                onChange={(e) => setRole(e.target.value)}
                 value={role}
                 id="role"
                 name="role"
@@ -214,9 +227,9 @@ const UpdateGuestForm = () => {
               {role === "other" && (
                 <input
                   className="form-centering form-input-margin"
-                  onChange={handleRoleChange}
+                  onChange={(e) => setOtherRole(e.target.value)}
                   type="text"
-                  defaultValue={guest.role}
+                  value={otherRole}
                   placeholder="Enter your role"
                 />
               )}

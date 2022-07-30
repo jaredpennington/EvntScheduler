@@ -99,7 +99,7 @@ const UpdateEventForm = () => {
     let inputArr = [];
     let index = 0;
     if (!loading) {
-      data.event.date_windows.map((date) => {
+      data.event.date_windows.forEach((date) => {
         for (let i = 0; i < date.length; i++) {
           inputArr.push({
             type: "date",

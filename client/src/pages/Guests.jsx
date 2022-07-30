@@ -38,8 +38,6 @@ const Guests = () => {
 
   if (!loading) getTotals();
 
-  if (!loading) console.log(data);
-
   return (
     <div>
       <Header/>

@@ -16,10 +16,12 @@ const EditDeleteSelectors = ({
         this.eventId = eventId;
         this.target = "guest";
         this.delete = () => {
-          removeGuest({
-            variables: { id: guestId, eventId: eventId },
-          });
-          window.location.href = `/event/${eventId}/guests`;
+          if(window.confirm(`Permanently delete this ${this.target}?`)) {
+            removeGuest({
+              variables: { id: guestId, eventId: eventId },
+            });
+            window.location.href = `/event/${eventId}/guests`;
+          }
         };
       }
       // delete password
@@ -28,11 +30,12 @@ const EditDeleteSelectors = ({
         this.eventId = eventId;
         this.target = "password";
         this.delete = () => {
-          console.log(eventId);
-          removePassword({
-            variables: { id: passwordId, eventId: eventId },
-          });
-          window.location.href = `/event/${eventId}/passwords`;
+          if(window.confirm(`Permanently delete this ${this.target}?`)) {
+            removePassword({
+              variables: { id: passwordId, eventId: eventId },
+            });
+            window.location.href = `/event/${eventId}/passwords`;
+          }
         };
       }
       // delete event
@@ -40,10 +43,12 @@ const EditDeleteSelectors = ({
         this.id = eventId;
         this.target = null;
         this.delete = () => {
-          removeEvent({
-            variables: { id: eventId },
-          });
-          window.location.href = "/";
+          if(window.confirm(`Permanently delete this event?`)) {
+            removeEvent({
+              variables: { id: eventId },
+            });
+            window.location.href = "/";
+          }
         };
       }
     }
@@ -54,7 +59,7 @@ const EditDeleteSelectors = ({
   return (
     <div className="dots-position">
       <div className="dropdown">
-        <button className="dropbtn"><i class="fa-solid fa-gears"></i></button>
+        <button className="dropbtn"><i className="fa-solid fa-gears"></i></button>
         <ul className="dropdown-content">
           <Link to={`/event${path.target ? `/${eventId}/${path.target}` : ''}/${path.id}/update`}>
           <li

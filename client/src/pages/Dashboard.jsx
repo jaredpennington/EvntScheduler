@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_EVENTS, QUERY_ME } from "../utils/queries";
 import { REMOVE_EVENT } from "../utils/mutations";
@@ -17,6 +17,8 @@ import { formatDate } from "@fullcalendar/core";
 const Dashboard = () => {
   const { loading, data } = useQuery(QUERY_EVENTS);
   let eventArr = [];
+  const [calendarSelection, toggleCalendarSelection] = useState("date");
+  const [list, toggleList] = useState(false);
 
   const [removeEvent, { err }] = useMutation(REMOVE_EVENT, {
     update(cache, { data: { removeEvent } }) {
@@ -74,6 +76,10 @@ const Dashboard = () => {
     userData.first_name
   )} ${capitalizeFirstLetter(userData.last_name)}`;
 
+  const filterData = () => {
+
+  }
+
   renderSchedule();
 
   return (
@@ -105,16 +111,27 @@ const Dashboard = () => {
                       removeEvent={removeEvent}
                     />
                     <div className="uk-card-title">
-                      <Link className="link-color" to={`/event/${event._id}`}>{event.event_name}</Link>
+                      <Link className="link-color" to={`/event/${event._id}`}>
+                        {capitalizeFirstLetter(event.event_name)}
+                      </Link>
                     </div>
                     <div>
-                      <Link className="link-color" to={`/event/${event._id}/guests`}>Guests</Link>:{" "}
+                      <Link
+                        className="link-color"
+                        to={`/event/${event._id}/guests`}
+                      >
+                        Guests
+                      </Link>
+                      :{" "}
                       {Object.keys(event.guests).length
                         ? Object.keys(event.guests).length
                         : "none"}
                     </div>
                     <div>
-                      <Link className="link-color" to={`/event/${event._id}/passwords`}>
+                      <Link
+                        className="link-color"
+                        to={`/event/${event._id}/passwords`}
+                      >
                         Passwords
                       </Link>
                       :{" "}
@@ -123,7 +140,10 @@ const Dashboard = () => {
                         : "none"}
                     </div>
                     <div>
-                      Considered <a className="link-color" href="#calendar">dates</a>{" "}
+                      Considered{" "}
+                      <a className="link-color" href="#calendar">
+                        dates
+                      </a>{" "}
                       for event:{" "}
                     </div>
                     {Object.values(event.date_windows).map((date, index) => (
@@ -142,7 +162,17 @@ const Dashboard = () => {
       )}
       {!loading ? (
         <div id="calendar">
-          
+          {/* <div>
+            <button onClick={() => toggleList(current => !current)}>
+              Filter By {capitalizeFirstLetter(calendarSelection)}
+            </button>
+            {data.events.map((event) => (
+              <div className={list ? 'show' : 'hide'}>
+                <input type="checkbox" name={event._id} value={event._id} id={event._id} onClick={filterData} />
+                <label htmlFor={event._id}>{capitalizeFirstLetter(event.event_name)}</label>
+              </div>
+            ))}
+          </div> */}
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"

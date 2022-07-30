@@ -77,7 +77,7 @@ const Dashboard = () => {
   renderSchedule();
 
   return (
-    <div>
+    <div className="iphone-fit">
       {loading ? (
         <div>Loading...</div>
       ) : (
@@ -93,10 +93,11 @@ const Dashboard = () => {
           <div className="uk-child-width-expand@s uk-text-center grid-three">
             <div className="persons-event">{name}'s Events:</div>
             <Link className="button-border form-input-margin event-card-padding" to="event/create">Click here to make an event!</Link>
+            <div className="x-scroll">
             {data.events.map((event, index) => (
               <div key={index}>
-                <div className="uk-card-body event-card-centering uk-card uk-card-default dashboard-cards">
-                  <div className="uk-card-title uk-text-center ">
+                <div className="uk-card-body event-card-centering uk-card uk-card-default dashboard-cards ">
+                  <div className="uk-card-title uk-text-center x-card">
                     <EditDeleteSelectors
                       eventId={event._id}
                       guestId={null}
@@ -135,6 +136,7 @@ const Dashboard = () => {
                 </div>
               </div>
             ))}
+            </div>
           </div>
         </>
       )}

@@ -38,8 +38,6 @@ const Guests = () => {
 
   if (!loading) getTotals();
 
-  if (!loading) console.log(data);
-
   return (
     <div>
       <Header/>
@@ -77,7 +75,7 @@ const Guests = () => {
             </div>
             <div>
               Budget: $
-              {guest.budget.toLocaleString(undefined, {
+              {Number(guest.budget).toLocaleString(undefined, {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}

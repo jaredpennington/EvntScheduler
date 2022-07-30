@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
 const EditDeleteSelectors = ({
   eventId,
   guestId,
@@ -14,6 +13,7 @@ const EditDeleteSelectors = ({
       // delete guest
       if (!passwordId && guestId) {
         this.id = guestId;
+        this.eventId = eventId;
         this.target = "guest";
         this.delete = () => {
           removeGuest({
@@ -25,6 +25,7 @@ const EditDeleteSelectors = ({
       // delete password
       if (!guestId && passwordId) {
         this.id = passwordId;
+        this.eventId = eventId;
         this.target = "password";
         this.delete = () => {
           console.log(eventId);
@@ -53,9 +54,9 @@ const EditDeleteSelectors = ({
   return (
     <div className="dots-position">
       <div className="dropdown">
-        <button className="dropbtn">...</button>
+        <button className="dropbtn"><i class="fa-solid fa-gears"></i></button>
         <ul className="dropdown-content">
-          <Link to={`/event${path.target ? `/${path.target}` : ''}/${path.id}}/update`}>
+          <Link to={`/event${path.target ? `/${eventId}/${path.target}` : ''}/${path.id}/update`}>
           <li
             className=""
           >
@@ -63,7 +64,7 @@ const EditDeleteSelectors = ({
           </li>
           </Link>
 
-          <li onClick={() => path.delete()} className="">
+          <li onClick={() => path.delete()} className="delete-btn">
             Delete
           </li>
         </ul>

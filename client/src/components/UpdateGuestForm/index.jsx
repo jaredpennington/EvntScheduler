@@ -78,10 +78,6 @@ const UpdateGuestForm = () => {
     },
   });
 
-  const handleRoleChange = (e) => {
-    setRole(e.target.value);
-  };
-
   const handleDateChange = (event) => {
     event.preventDefault();
 

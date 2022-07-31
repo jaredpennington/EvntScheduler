@@ -10,19 +10,8 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 const PartyForm = () => {
-  const inputArr = [
-    {
-      type: "date",
-      value: "",
-      id: 0,
-    },
-    {
-      type: "date",
-      value: "",
-      id: 1,
-    },
-  ];
-  
+  const calendarRef = React.createRef();
+
   let eventArr = [];
 
   let eventId = useParams().id;
@@ -37,6 +26,7 @@ const PartyForm = () => {
   const [password, setPassword] = useState("");
   const [position, setPosition] = useState(0);
   const [schedule, setSchedule] = useState([]);
+  const [index, setIndex] = useState(0);
 
   const [formState, setFormState] = useState({
     firstName: "",
@@ -46,7 +36,7 @@ const PartyForm = () => {
     budget: "",
     additionalInfo: "",
   });
-  const [dateInput, setDateInput] = useState(inputArr);
+  const [dateInput, setDateInput] = useState([]);
 
   const [addGuest, { error }] = useMutation(ADD_GUEST, {
     update(cache, { data: { addGuest } }) {
@@ -63,40 +53,6 @@ const PartyForm = () => {
       if (error) throw error;
     },
   });
-
-  const handleDateChange = (event) => {
-    event.preventDefault();
-
-    const index = event.target.id;
-    setDateInput((d) => {
-      const newArr = d.slice();
-      newArr[index].value = event.target.value;
-
-      return newArr;
-    });
-  };
-
-  const addInput = () => {
-    setDateInput((d) => {
-      return [
-        ...d,
-        {
-          type: "date",
-          value: "",
-        },
-        {
-          type: "date",
-          value: "",
-        },
-      ];
-    });
-  };
-
-  const removeInput = (event) => {
-    let index = Number(event.target.id.charAt(1)); // 02 -> 2
-    let arr = dateInput.filter((d, i) => i !== index && i !== index + 1);
-    setDateInput(arr);
-  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -156,30 +112,40 @@ const PartyForm = () => {
   };
 
   const handleDateSelect = (arg) => {
-    console.log("click");
-    // let newArray = [];
-    // if(dateInput.includes(arg.date)) {
-    //   for(let i = 0; i < dateInput.length; i++) {
-    //     if(dateInput[i] === arg.date) continue;
-    //     newArray.push(dateInput[i]);
-    //   }
-    //   setDateInput(newArray);
-    // } else {
-    //   setDateInput((d) => [
-    //     ...d,
-    //     arg.date
-    //   ]);
-    // }
-  };
-  
-    class Schedule {
-      constructor(id, name, start, end) {
-        this.id = id;
-        this.title = name;
-        this.start = start;
-        this.end = end;
+    let check;
+    let calendarApi = calendarRef.current.getApi();
+    for (let i = 0; i < dateInput.length; i++) {
+      let arr = dateInput[i];
+      if (arr.includes(arg.startStr) && arr.includes(arg.endStr)) {
+        check = false;
+      } else {
+        check = true;
       }
     }
+
+    if (check || !dateInput.length) {
+      let guestSchedule = new Schedule(
+        index,
+        "Your Availability",
+        new Date(arg.startStr),
+        new Date(arg.endStr),
+        "#7fb7be"
+      );
+      setDateInput((d) => [...d, [arg.startStr, arg.endStr]]); // [[start, end], [start, end]...]
+      calendarApi.addEvent(guestSchedule);
+      setIndex((i) => i++);
+    }
+  };
+
+  class Schedule {
+    constructor(id, name, start, end, color) {
+      this.id = id;
+      this.title = name;
+      this.start = start;
+      this.end = end;
+      this.color = color;
+    }
+  }
 
   useEffect(() => {
     if (role !== "other") {
@@ -188,19 +154,22 @@ const PartyForm = () => {
   }, [role]);
 
   useEffect(() => {
-    if(!loading) {
-        for (let i = 0; i < data.event.date_windows.length; i++) {
-          eventArr.push(
-            new Schedule(
-              data.event._id,
-              data.event.event_name,
-              new Date(data.event.date_windows[i][0]),
-              new Date(data.event.date_windows[i][data.event.date_windows[i].length - 1])
-            )
-          );
-        }
-        setSchedule(eventArr);
-    } 
+    if (!loading) {
+      for (let i = 0; i < data.event.date_windows.length; i++) {
+        eventArr.push(
+          new Schedule(
+            data.event._id,
+            data.event.event_name,
+            new Date(data.event.date_windows[i][0]),
+            new Date(
+              data.event.date_windows[i][data.event.date_windows[i].length - 1]
+            ),
+            "#8ca081"
+          )
+        );
+      }
+      setSchedule(eventArr);
+    }
   }, [loading]);
 
   return (
@@ -240,7 +209,10 @@ const PartyForm = () => {
               )}
               {position === 0 && (
                 <div>
-                  <p>Select the dates you are available for the event:</p>
+                  <p>
+                    Click and drag to select the dates you are available for the
+                    event:
+                  </p>
                 </div>
               )}
               {position === 0 ? (
@@ -254,22 +226,8 @@ const PartyForm = () => {
                     weekends={true}
                     events={schedule}
                     displayEventTime={false}
-                    eventClick={function handleDateSelect(arg){
-                      console.log("click");
-                      // let newArray = [];
-                      // if(dateInput.includes(arg.date)) {
-                      //   for(let i = 0; i < dateInput.length; i++) {
-                      //     if(dateInput[i] === arg.date) continue;
-                      //     newArray.push(dateInput[i]);
-                      //   }
-                      //   setDateInput(newArray);
-                      // } else {
-                      //   setDateInput((d) => [
-                      //     ...d,
-                      //     arg.date
-                      //   ]);
-                      // }
-                    }}
+                    select={handleDateSelect}
+                    ref={calendarRef}
                   />
                 </div>
               ) : (

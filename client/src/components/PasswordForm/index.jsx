@@ -40,7 +40,7 @@ const PasswordForm = ({ event_id }) => {
       await addPassword({
         variables: { ...formState, eventId: event_id },
       });
-      window.location.href = `/event/${event_id}/passwords`;
+      window.location.reload();
     } catch (e) {
       console.error(e);
     }

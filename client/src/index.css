@@ -414,10 +414,6 @@ scroll-behavior: smooth;
   text-decoration: none;
 }
 
-.nav-selected {
-  color: var(--dark-100);
-}
-
 .nav-bar > li {
   margin: auto;
 }

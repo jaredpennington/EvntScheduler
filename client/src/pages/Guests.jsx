@@ -13,6 +13,7 @@ import dateFormat from "../utils/dateFormat";
 // Will display all guests for a single event
 const Guests = () => {
   let totalBudget = 0;
+  let average = 0;
   let event_id = useParams().id;
   const { loading, error, data } = useQuery(QUERY_GUESTS, {
     variables: { eventId: event_id },
@@ -32,8 +33,16 @@ const Guests = () => {
     },
   });
 
+  const getAverage = (budget) => {
+    let getAverage = totalBudget / data.guests.length;
+    average = getAverage;
+  }
+
   const getTotals = () => {
-    if (!loading) data.guests.map((guest) => (totalBudget += guest.budget));
+    if (!loading) {
+      data.guests.map((guest) => (totalBudget += guest.budget));
+      getAverage(totalBudget);
+    } 
   };
 
   if (!loading) getTotals();
@@ -43,6 +52,7 @@ const Guests = () => {
       <Header/>
       <NavBar event_id={event_id} />
       {!loading && data.guests.length ? (
+        <>
         <div className="budget-card">
           Total Budget: $
           {totalBudget.toLocaleString(undefined, {
@@ -50,6 +60,14 @@ const Guests = () => {
             maximumFractionDigits: 2,
           })}
         </div>
+        <div className="budget-card">
+        Average Budget: $
+        {average.toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}
+      </div>
+      </>
       ) : (
         <div>Send out your <Link to={`/event/${event_id}/surveyLink`}>survey</Link> and responses will be displayed here!</div>
       )}

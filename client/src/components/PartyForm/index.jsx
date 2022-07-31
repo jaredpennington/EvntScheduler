@@ -4,6 +4,10 @@ import { ADD_GUEST } from "../../utils/mutations";
 import { QUERY_EVENT } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
 
 const PartyForm = () => {
   const inputArr = [
@@ -28,7 +32,8 @@ const PartyForm = () => {
   const [role, setRole] = useState("");
   const [otherRole, setOtherRole] = useState(null);
   const [isPassword, setIsPassword] = useState(false);
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
+  const [position, setPosition] = useState(0);
 
   const [formState, setFormState] = useState({
     firstName: "",
@@ -99,16 +104,28 @@ const PartyForm = () => {
     });
   };
 
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+    setFormState({
+      firstName: "",
+      lastName: "",
+      role: "",
+      dateWindows: "",
+      budget: "",
+      additionalInfo: "",
+    });
+  };
+
   const handlePasswordSubmit = (event) => {
     event.preventDefault();
-      const passwords = data.event.passwords;
-      for(let i = 0; i < passwords.length; i++) {
-        if(passwords[i].password.match(password)) {
-          setIsPassword(true);
-          break;
-        }
+    const passwords = data.event.passwords;
+    for (let i = 0; i < passwords.length; i++) {
+      if (passwords[i].password.match(password)) {
+        setIsPassword(true);
+        break;
       }
-  }
+    }
+  };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -135,6 +152,10 @@ const PartyForm = () => {
     }
   };
 
+  const handleDateSelect = () => {
+
+  }
+
   useEffect(() => {
     if (role !== "other") {
       setOtherRole(null);
@@ -151,13 +172,14 @@ const PartyForm = () => {
             <div>
               <h1>Enter password to access the survey</h1>
               <form onSubmit={handlePasswordSubmit}>
-              <input
+                <input
                   className="form-input-margin"
                   placeholder="Password"
                   name="password"
                   type="text"
                   id="password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={handlePasswordChange}
+                  // autoComplete="off"
                 />
                 <button
                   className="form-input-margin button-border"
@@ -168,110 +190,131 @@ const PartyForm = () => {
               </form>
             </div>
           ) : (
-            <div className="uk-card uk-card-body card-centering">
-              <h1 className="uk-card-title uk-text-center">
-                {data.event.event_name}
-              </h1>
-              <form
-                className="form-centering form-input-margin"
-                onSubmit={handleFormSubmit}
-                onChange={handleChange}
-              >
-                <input
-                  className="form-input-margin"
-                  placeholder="First Name"
-                  name="firstName"
-                  type="text"
-                  id="firstName"
-                />
-                <input
-                  className="form-input-margin"
-                  placeholder="Last Name"
-                  name="lastName"
-                  type="text"
-                  id="lastName"
-                />
-                <select
-                  className="form-centering form-input-margin"
-                  onChange={(e) => setRole(e.target.value)}
-                  value={role}
-                  id="role"
-                  name="role"
-                >
-                  <option value="role">Role for the event</option>
-                  <option value="bridesmaid">Bridesmaid</option>
-                  <option value="guest">Guest</option>
-                  <option value="other">Other</option>
-                </select>
-                {role === "other" && (
-                  <input
-                    className="form-centering form-input-margin"
-                    onChange={(e) => setOtherRole(e.target.value)}
-                    value={otherRole}
-                    type="text"
-                    placeholder="Enter your role"
+            <>
+            {position > 0 && <button onClick={(e) => setPosition(0)}>Back</button>}
+            {position < 1 && <button onClick={(e) => setPosition(1)}>Next</button>}
+            {position === 0 && <div><p>Select the dates you are available for the event:</p></div>}
+              {position === 0 ? (
+                <div>
+                  <FullCalendar
+                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                    initialView="dayGridMonth"
+                    selectable={true}
+                    selectMirror={true}
+                    dayMaxEvents={true}
+                    weekends={true}
+                    // events={filteredData}
+                    displayEventTime={false}
+                    eventClick={handleDateSelect}
                   />
-                )}
-                <button
-                  className="form-input-margin button-border"
-                  type="button"
-                  onClick={addInput}
-                >
-                  Add Date Range
-                </button>
-                {dateInput.map((input, index) => (
-                  <span key={index}>
-                    {index % 2 === 0 && index !== 0 && (
-                      <div className="go-to-the-center">
-                        <button
-                          className="form-input-margin button-border "
-                          type="button"
-                          onClick={removeInput}
-                          id={`0${index}`}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    )}
-                    <div>
-                      {index % 2 === 0 ? (
-                        <span>From: </span>
-                      ) : (
-                        <span> To: </span>
-                      )}
+                </div>
+              ) : (
+                <div className="uk-card uk-card-body card-centering">
+                  <h1 className="uk-card-title uk-text-center">
+                    {data.event.event_name}
+                  </h1>
+                  <form
+                    className="form-centering form-input-margin"
+                    onSubmit={handleFormSubmit}
+                    onChange={handleChange}
+                  >
+                    <input
+                      className="form-input-margin"
+                      placeholder="First Name"
+                      name="firstName"
+                      type="text"
+                      id="firstName"
+                    />
+                    <input
+                      className="form-input-margin"
+                      placeholder="Last Name"
+                      name="lastName"
+                      type="text"
+                      id="lastName"
+                    />
+                    <select
+                      className="form-centering form-input-margin"
+                      onChange={(e) => setRole(e.target.value)}
+                      value={role}
+                      id="role"
+                      name="role"
+                    >
+                      <option value="role">Role for the event</option>
+                      <option value="bridesmaid">Bridesmaid</option>
+                      <option value="guest">Guest</option>
+                      <option value="other">Other</option>
+                    </select>
+                    {role === "other" && (
                       <input
-                        className="form-input-margin"
-                        onChange={handleDateChange}
-                        value={input.value}
-                        id={index}
-                        type={input.type}
+                        className="form-centering form-input-margin"
+                        onChange={(e) => setOtherRole(e.target.value)}
+                        value={otherRole}
+                        type="text"
+                        placeholder="Enter your role"
                       />
-                    </div>
-                  </span>
-                ))}
-                <input
-                  className="form-input-margin"
-                  placeholder="Your budget? (plain numbers)"
-                  name="budget"
-                  type="number"
-                  id="budget"
-                />
-                <textarea
-                  className="form-input-margin"
-                  placeholder="Additional Information"
-                  name="additionalInfo"
-                  id="additionalInfo"
-                  rows="2"
-                  cols="22"
-                ></textarea>
-                <button
-                  className="form-input-margin button-border"
-                  type="submit"
-                >
-                  Submit
-                </button>
-              </form>
-            </div>
+                    )}
+                    <button
+                      className="form-input-margin button-border"
+                      type="button"
+                      onClick={addInput}
+                    >
+                      Add Date Range
+                    </button>
+                    {dateInput.map((input, index) => (
+                      <span key={index}>
+                        {index % 2 === 0 && index !== 0 && (
+                          <div className="go-to-the-center">
+                            <button
+                              className="form-input-margin button-border "
+                              type="button"
+                              onClick={removeInput}
+                              id={`0${index}`}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        )}
+                        <div>
+                          {index % 2 === 0 ? (
+                            <span>From: </span>
+                          ) : (
+                            <span> To: </span>
+                          )}
+                          <input
+                            className="form-input-margin"
+                            onChange={handleDateChange}
+                            value={input.value}
+                            id={index}
+                            type={input.type}
+                          />
+                        </div>
+                      </span>
+                    ))}
+                    <input
+                      className="form-input-margin"
+                      placeholder="Your budget? (plain numbers)"
+                      name="budget"
+                      type="number"
+                      id="budget"
+                    />
+                    <textarea
+                      className="form-input-margin"
+                      placeholder="Additional Information"
+                      name="additionalInfo"
+                      id="additionalInfo"
+                      rows="2"
+                      cols="22"
+                    ></textarea>
+                    <button
+                      className="form-input-margin button-border"
+                      type="submit"
+                    >
+                      Submit
+                    </button>
+                  </form>
+                </div>
+              )}
+            </>
           )}
         </>
       )}

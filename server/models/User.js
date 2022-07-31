@@ -1,19 +1,16 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
-const dateFormat = require('../utils/dateFormat');
 
 const userSchema = new Schema(
     {
         first_name: {
             type: String,
             required: true,
-            unique: true,
             trim: true
         },
         last_name: {
             type: String,
             required: true,
-            unique: true,
             trim: true
         },
         email: {

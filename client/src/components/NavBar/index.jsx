@@ -27,22 +27,22 @@ const NavBar = ({ event_id }) => {
     },
   ];
   return (
-    <nav className="nav-bar">
-      <ul className="nav-bar-links">
-        {navOptions.map((option, index) => (
+      <nav className="nav-bar">
+        <ul className="nav-bar-links">
+          {navOptions.map((option, index) => (
+            <li>
+              <Link to={option.link} className="nav-bar-single">
+                {option.name}
+              </Link>
+            </li>
+          ))}
           <li>
-            <Link to={option.link} className="nav-bar-single">
-              {option.name}
-            </Link>
+            <button className="nav-bar-single" onClick={logout}>
+              Logout
+            </button>
           </li>
-        ))}
-        <li>
-          <button className="nav-bar-single" onClick={logout}>
-            Logout
-          </button>
-        </li>
-      </ul>
-    </nav>
+        </ul>
+      </nav>
   );
 };
 

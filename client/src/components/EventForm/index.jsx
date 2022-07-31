@@ -98,6 +98,7 @@ const EventForm = () => {
       });
 
       let eventId = submit.data.addEvent._id;
+      window.location.reload();
       window.location.href = `/event/${eventId}/passwords`;
       
     } catch (e) {

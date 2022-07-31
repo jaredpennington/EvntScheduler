@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_EVENTS, QUERY_ME } from "../utils/queries";
 import { REMOVE_EVENT } from "../utils/mutations";
@@ -15,10 +15,12 @@ import { formatDate } from "@fullcalendar/core";
 
 // the homepage if the user is logged in. Will include all the user's events
 const Dashboard = () => {
-  const { loading, data } = useQuery(QUERY_EVENTS);
   let eventArr = [];
+  const { loading, data } = useQuery(QUERY_EVENTS);
   const [calendarSelection, toggleCalendarSelection] = useState("date");
   const [list, toggleList] = useState(false);
+  const [checked, setChecked] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
   const [removeEvent, { err }] = useMutation(REMOVE_EVENT, {
     update(cache, { data: { removeEvent } }) {
@@ -48,22 +50,22 @@ const Dashboard = () => {
     }
   }
 
-  const renderSchedule = () => {
-    if (!loading) {
-      data.events.map((event) => {
-        for (let i = 0; i < event.date_windows.length; i++) {
-          eventArr.push(
-            new Schedule(
-              event._id,
-              event.event_name,
-              new Date(event.date_windows[i][0]),
-              new Date(event.date_windows[i][event.date_windows[i].length - 1])
-            )
-          );
-        }
-      });
-    }
-  };
+  // const renderSchedule = () => {
+  //   if (!loading) {
+  //     data.events.map((event) => {
+  //       for (let i = 0; i < event.date_windows.length; i++) {
+  //         eventArr.push(
+  //           new Schedule(
+  //             event._id,
+  //             event.event_name,
+  //             new Date(event.date_windows[i][0]),
+  //             new Date(event.date_windows[i][event.date_windows[i].length - 1])
+  //           )
+  //         );
+  //       }
+  //     });
+  //   }
+  // };
 
   const capitalizeFirstLetter = (
     [first, ...rest],
@@ -77,10 +79,60 @@ const Dashboard = () => {
   )} ${capitalizeFirstLetter(userData.last_name)}`;
 
   const filterData = () => {
-
+    let filtered = data.events.filter((event, index) => {
+      checked.includes(event._id)
+    });
+    setFilteredData(filtered);
   }
 
-  renderSchedule();
+  const handleChange = (e) => {
+    if(!checked.includes(e.target.value)) {
+      setChecked([...checked, e.target.value]);
+    } else {
+      let arr = checked;
+      let newArr = [];
+      let remove = e.target.value;
+      for(let i = 0; i < arr.length; i++) {
+        if(remove === arr[i]) continue;
+        newArr.push(arr[i]);
+      }
+      setChecked(newArr);
+    }
+    filterData();
+  }
+
+  // renderSchedule();
+
+  useEffect(() => {
+    if(!loading) {
+      data.events.map((event) => {
+        for (let i = 0; i < event.date_windows.length; i++) {
+          eventArr.push(
+            new Schedule(
+              event._id,
+              event.event_name,
+              new Date(event.date_windows[i][0]),
+              new Date(event.date_windows[i][event.date_windows[i].length - 1])
+            )
+          );
+        }
+      });
+      setFilteredData(eventArr);
+    } 
+  }, [loading, eventArr]);
+
+  useEffect(() => {
+    console.log(checked);
+    if (!loading) {
+      let arr = [];
+      data.events.map((event) => {
+        if(checked.includes(event._id)) {
+          arr.push(event);
+        }
+      });
+      setFilteredData(arr);
+    }
+  }, [loading, checked]);
 
   return (
     <div className="iphone-fit">
@@ -152,6 +204,7 @@ const Dashboard = () => {
                         {formatDate(date[date.length - 1], dateFormat)}
                       </div>
                     ))}
+                    <div>{event.additional_info}</div>
                   </div>
                 </div>
               </div>
@@ -166,9 +219,9 @@ const Dashboard = () => {
             <button onClick={() => toggleList(current => !current)}>
               Filter By {capitalizeFirstLetter(calendarSelection)}
             </button>
-            {data.events.map((event) => (
-              <div className={list ? 'show' : 'hide'}>
-                <input type="checkbox" name={event._id} value={event._id} id={event._id} onClick={filterData} />
+            {data.events.map((event, index) => (
+              <div key={index} className={list ? 'show' : 'hide'}>
+                <input type="checkbox" name={event._id} value={event._id} id={event._id} onChange={handleChange} />
                 <label htmlFor={event._id}>{capitalizeFirstLetter(event.event_name)}</label>
               </div>
             ))}
@@ -180,7 +233,7 @@ const Dashboard = () => {
             selectMirror={true}
             dayMaxEvents={true}
             weekends={true}
-            events={eventArr}
+            events={filteredData}
             displayEventTime={false}
           />
         </div>

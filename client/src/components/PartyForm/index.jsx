@@ -22,6 +22,8 @@ const PartyForm = () => {
       id: 1,
     },
   ];
+  
+  let eventArr = [];
 
   let eventId = useParams().id;
 
@@ -34,6 +36,7 @@ const PartyForm = () => {
   const [isPassword, setIsPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [position, setPosition] = useState(0);
+  const [schedule, setSchedule] = useState([]);
 
   const [formState, setFormState] = useState({
     firstName: "",
@@ -152,15 +155,53 @@ const PartyForm = () => {
     }
   };
 
-  const handleDateSelect = () => {
-
-  }
+  const handleDateSelect = (arg) => {
+    console.log("click");
+    // let newArray = [];
+    // if(dateInput.includes(arg.date)) {
+    //   for(let i = 0; i < dateInput.length; i++) {
+    //     if(dateInput[i] === arg.date) continue;
+    //     newArray.push(dateInput[i]);
+    //   }
+    //   setDateInput(newArray);
+    // } else {
+    //   setDateInput((d) => [
+    //     ...d,
+    //     arg.date
+    //   ]);
+    // }
+  };
+  
+    class Schedule {
+      constructor(id, name, start, end) {
+        this.id = id;
+        this.title = name;
+        this.start = start;
+        this.end = end;
+      }
+    }
 
   useEffect(() => {
     if (role !== "other") {
       setOtherRole(null);
     }
   }, [role]);
+
+  useEffect(() => {
+    if(!loading) {
+        for (let i = 0; i < data.event.date_windows.length; i++) {
+          eventArr.push(
+            new Schedule(
+              data.event._id,
+              data.event.event_name,
+              new Date(data.event.date_windows[i][0]),
+              new Date(data.event.date_windows[i][data.event.date_windows[i].length - 1])
+            )
+          );
+        }
+        setSchedule(eventArr);
+    } 
+  }, [loading]);
 
   return (
     <div className="my-auto">
@@ -191,9 +232,17 @@ const PartyForm = () => {
             </div>
           ) : (
             <>
-            {position > 0 && <button onClick={(e) => setPosition(0)}>Back</button>}
-            {position < 1 && <button onClick={(e) => setPosition(1)}>Next</button>}
-            {position === 0 && <div><p>Select the dates you are available for the event:</p></div>}
+              {position > 0 && (
+                <button onClick={(e) => setPosition(0)}>Back</button>
+              )}
+              {position < 1 && (
+                <button onClick={(e) => setPosition(1)}>Next</button>
+              )}
+              {position === 0 && (
+                <div>
+                  <p>Select the dates you are available for the event:</p>
+                </div>
+              )}
               {position === 0 ? (
                 <div>
                   <FullCalendar
@@ -203,9 +252,24 @@ const PartyForm = () => {
                     selectMirror={true}
                     dayMaxEvents={true}
                     weekends={true}
-                    // events={filteredData}
+                    events={schedule}
                     displayEventTime={false}
-                    eventClick={handleDateSelect}
+                    eventClick={function handleDateSelect(arg){
+                      console.log("click");
+                      // let newArray = [];
+                      // if(dateInput.includes(arg.date)) {
+                      //   for(let i = 0; i < dateInput.length; i++) {
+                      //     if(dateInput[i] === arg.date) continue;
+                      //     newArray.push(dateInput[i]);
+                      //   }
+                      //   setDateInput(newArray);
+                      // } else {
+                      //   setDateInput((d) => [
+                      //     ...d,
+                      //     arg.date
+                      //   ]);
+                      // }
+                    }}
                   />
                 </div>
               ) : (
@@ -253,43 +317,6 @@ const PartyForm = () => {
                         placeholder="Enter your role"
                       />
                     )}
-                    <button
-                      className="form-input-margin button-border"
-                      type="button"
-                      onClick={addInput}
-                    >
-                      Add Date Range
-                    </button>
-                    {dateInput.map((input, index) => (
-                      <span key={index}>
-                        {index % 2 === 0 && index !== 0 && (
-                          <div className="go-to-the-center">
-                            <button
-                              className="form-input-margin button-border "
-                              type="button"
-                              onClick={removeInput}
-                              id={`0${index}`}
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        )}
-                        <div>
-                          {index % 2 === 0 ? (
-                            <span>From: </span>
-                          ) : (
-                            <span> To: </span>
-                          )}
-                          <input
-                            className="form-input-margin"
-                            onChange={handleDateChange}
-                            value={input.value}
-                            id={index}
-                            type={input.type}
-                          />
-                        </div>
-                      </span>
-                    ))}
                     <input
                       className="form-input-margin"
                       placeholder="Your budget? (plain numbers)"
@@ -313,6 +340,9 @@ const PartyForm = () => {
                     </button>
                   </form>
                 </div>
+              )}
+              {position < 1 && (
+                <button onClick={(e) => setPosition(1)}>Next</button>
               )}
             </>
           )}

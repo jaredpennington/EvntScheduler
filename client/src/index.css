@@ -504,3 +504,12 @@ a:hover {
   align-items: row;
 }
 
+
+
+@media only screen and (max-width: 600px) {
+  /* For mobile phones: */
+  .nav-bar  {
+    display: none;
+  }
+}
+

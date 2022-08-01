@@ -8,6 +8,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Header from "../components/Header";
+import BurgerMenu from "../components/BurgerMenu";
 
 // single event page will have a calendar that shows the names of each person who is available on a given day.
 const Event = () => {
@@ -18,11 +19,12 @@ const Event = () => {
   });
 
   class GuestAvailability {
-    constructor(id, name, start, end) {
+    constructor(id, name, start, end, color) {
       this.id = id;
       this.title = name;
       this.start = start;
       this.end = end;
+      this.color = color;
     }
   }
 
@@ -36,7 +38,8 @@ const Event = () => {
               guest._id,
               name,
               new Date(guest.date_windows[i][0]),
-              new Date(guest.date_windows[i][guest.date_windows[i].length - 1])
+              new Date(guest.date_windows[i][guest.date_windows[i].length - 1]),
+              "#7fb7be"
             )
           );
         }
@@ -48,8 +51,9 @@ const Event = () => {
 
   return (
     <div>
-      <Header/>
+      <Header />
       <NavBar event_id={event_id} />
+      <BurgerMenu event_id={event_id} />
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"

@@ -1,14 +1,13 @@
-import React from "react";
+import { slide as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
 import AuthService from "../../utils/auth";
+import "../BurgerMenu/index.css";
 
-
-const NavBar = ({ event_id }) => {
+const BurgerMenu = ({ event_id }) => {
   const logout = (event) => {
     event.preventDefault();
     AuthService.logout();
   };
-
   const navOptions = [
     {
       link: `/event/${event_id}`,
@@ -28,23 +27,25 @@ const NavBar = ({ event_id }) => {
     },
   ];
   return (
-      <nav className="nav-bar transition">
-        <ul className="nav-bar-links">
+    <Menu className="">
+      <nav className="">
+        <ul className="">
           {navOptions.map((option, index) => (
             <li key={index}>
-              <Link to={option.link} className="nav-bar-single">
+              <Link to={option.link} className="">
                 {option.name}
               </Link>
             </li>
           ))}
           <li>
-            <button className="nav-bar-single" onClick={logout}>
+            <button className="" onClick={logout}>
               Logout
             </button>
           </li>
         </ul>
       </nav>
+    </Menu>
   );
 };
 
-export default NavBar;
+export default BurgerMenu;

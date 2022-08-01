@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/jaredpennington/weddingScheduler#readme",
   "dependencies": {
-    "concurrently": "^7.3.0"
+    "concurrently": "^7.3.0",
+    "react-burger-menu": "^3.0.8"
   }
 }

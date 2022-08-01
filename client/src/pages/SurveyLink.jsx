@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Header from "../components/Header";
+import BurgerMenu from "../components/BurgerMenu";
 
 // 404 Page Not Found
 const SurveyLink = () => {
@@ -12,11 +13,13 @@ const SurveyLink = () => {
     <div>
       <Header />
       <NavBar event_id={event_id} />
+      <BurgerMenu event_id={event_id} />
+
       <div className="my-auto">
         <div className="uk-card uk-card-body card-centering thankyou">
           <button className="button-border">
           <i
-            class="fa-regular fa-copy cursor-copy"
+            className="fa-regular fa-copy cursor-copy"
             onClick={() => {
               navigator.clipboard.writeText(url);
             }}

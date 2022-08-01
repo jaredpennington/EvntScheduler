@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import pushDateWindows from "../../utils/dateConversion";
+import React, { useState, useEffect, createRef } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import { ADD_GUEST } from "../../utils/mutations";
 import { QUERY_EVENT } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
@@ -10,7 +10,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 const PartyForm = () => {
-  const calendarRef = React.createRef();
+  const calendarRef = createRef();
 
   let eventArr = [];
 
@@ -88,7 +88,8 @@ const PartyForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    let dateWindows = pushDateWindows(dateInput); // [[],[],[]...]
+    let date_windows = [];
+    dateInput.forEach(date => date_windows.push(date.dates));
     let guestRole;
     if (role === "other") {
       guestRole = otherRole;
@@ -99,7 +100,7 @@ const PartyForm = () => {
       await addGuest({
         variables: {
           ...formState,
-          dateWindows: dateWindows,
+          dateWindows: date_windows,
           role: guestRole,
           eventId: eventId,
           budget: Number(formState.budget),
@@ -113,11 +114,17 @@ const PartyForm = () => {
 
   const handleDateSelect = (arg) => {
     let check;
+    let thisId = uuidv4();
     let calendarApi = calendarRef.current.getApi();
     for (let i = 0; i < dateInput.length; i++) {
-      let arr = dateInput[i];
+      let arr = dateInput[i].dates;
       if (arr.includes(arg.startStr) && arr.includes(arg.endStr)) {
         check = false;
+      } else if((arr.includes(arg.startStr) && !arr.includes(arg.endStr)) || (!arr.includes(arg.startStr) && arr.includes(arg.endStr))) {
+        setDateInput(d => d.filter((_, index) => index !== i));
+        check = true;
+        let replace = calendarApi.getEventById(dateInput[i].id);
+        replace.remove();
       } else {
         check = true;
       }
@@ -125,13 +132,13 @@ const PartyForm = () => {
 
     if (check || !dateInput.length) {
       let guestSchedule = new Schedule(
-        index,
+        thisId,
         "Your Availability",
         new Date(arg.startStr),
         new Date(arg.endStr),
         "#7fb7be"
       );
-      setDateInput((d) => [...d, [arg.startStr, arg.endStr]]); // [[start, end], [start, end]...]
+      setDateInput((d) => [...d, {dates: [arg.startStr, arg.endStr], id: thisId}]); // [[start, end], [start, end]...]
       calendarApi.addEvent(guestSchedule);
       setIndex((i) => i++);
     }

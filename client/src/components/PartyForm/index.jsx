@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createRef } from "react";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { ADD_GUEST } from "../../utils/mutations";
 import { QUERY_EVENT } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
@@ -8,9 +8,35 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import dateFormat from "../../utils/dateFormat";
 
 const PartyForm = () => {
   const calendarRef = createRef();
+
+  class Schedule {
+    constructor(id, name, start, end, color) {
+      this.id = id;
+      this.title = name;
+      this.start = start;
+      this.end = end;
+      this.color = color;
+      this.allDay = true;
+    }
+  }
+
+  class EventSchedule extends Schedule {
+    constructor(id, name, start, end, color) {
+      super(id, name, start, end, color);
+      this.editable = false;
+    }
+  }
+
+  class GuestSchedule extends Schedule {
+    constructor(id, name, start, end, color) {
+      super(id, name, start, end, color);
+      this.editable = true;
+    }
+  }
 
   let eventArr = [];
 
@@ -26,7 +52,6 @@ const PartyForm = () => {
   const [password, setPassword] = useState("");
   const [position, setPosition] = useState(0);
   const [schedule, setSchedule] = useState([]);
-  const [index, setIndex] = useState(0);
 
   const [formState, setFormState] = useState({
     firstName: "",
@@ -89,7 +114,9 @@ const PartyForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     let date_windows = [];
-    dateInput.forEach(date => date_windows.push(date.dates));
+    dateInput.forEach((date) => date_windows.push(date.dates)); // [[start, end], [start, end]...]
+    let sortedWindows = date_windows.sort(([a, b], [c, d]) => new Date(a) - new Date(c) || new Date(d) - new Date(b));
+    console.log(sortedWindows);
     let guestRole;
     if (role === "other") {
       guestRole = otherRole;
@@ -100,7 +127,7 @@ const PartyForm = () => {
       await addGuest({
         variables: {
           ...formState,
-          dateWindows: date_windows,
+          dateWindows: sortedWindows,
           role: guestRole,
           eventId: eventId,
           budget: Number(formState.budget),
@@ -116,43 +143,53 @@ const PartyForm = () => {
     let check;
     let thisId = uuidv4();
     let calendarApi = calendarRef.current.getApi();
+    let start = arg.startStr;
+    let end = arg.endStr;
     for (let i = 0; i < dateInput.length; i++) {
       let arr = dateInput[i].dates;
-      if (arr.includes(arg.startStr) && arr.includes(arg.endStr)) {
+      if (arr.includes(start) && arr.includes(end)) {
         check = false;
-      } else if((arr.includes(arg.startStr) && !arr.includes(arg.endStr)) || (!arr.includes(arg.startStr) && arr.includes(arg.endStr))) {
-        setDateInput(d => d.filter((_, index) => index !== i));
+      } else if (
+        (arr.includes(start) && !arr.includes(end)) ||
+        (!arr.includes(start) && arr.includes(end))
+      ) {
+        let replace = calendarApi.getEventById(dateInput[i].id)
+        replace.remove(); 
+        let newArr = dateInput.filter(d => d.id !== dateInput[i].id)
+        setDateInput(newArr);
         check = true;
-        let replace = calendarApi.getEventById(dateInput[i].id);
-        replace.remove();
       } else {
         check = true;
       }
     }
 
     if (check || !dateInput.length) {
-      let guestSchedule = new Schedule(
+      let guestSchedule = new GuestSchedule(
         thisId,
         "Your Availability",
-        new Date(arg.startStr),
-        new Date(arg.endStr),
+        new Date(start),
+        new Date(end),
         "#7fb7be"
       );
-      setDateInput((d) => [...d, {dates: [arg.startStr, arg.endStr], id: thisId}]); // [[start, end], [start, end]...]
+      let window = [start, end];
+      if(!start && !end) window = [arg.dateStr]
+      setDateInput((d) => [
+        ...d,
+        { dates: window, id: thisId },
+      ]); 
       calendarApi.addEvent(guestSchedule);
-      setIndex((i) => i++);
     }
   };
 
-  class Schedule {
-    constructor(id, name, start, end, color) {
-      this.id = id;
-      this.title = name;
-      this.start = start;
-      this.end = end;
-      this.color = color;
+  const handleRemoveEvent = (info) => {
+    let event = info.event;
+    let eventId = event._def.publicId;
+    let newArr = dateInput.filter((d) => d.id !== eventId);
+    if(data.event._id !== eventId) {
+      setDateInput(newArr);
+      event.remove();
     }
-  }
+  };
 
   useEffect(() => {
     if (role !== "other") {
@@ -164,7 +201,7 @@ const PartyForm = () => {
     if (!loading) {
       for (let i = 0; i < data.event.date_windows.length; i++) {
         eventArr.push(
-          new Schedule(
+          new EventSchedule(
             data.event._id,
             data.event.event_name,
             new Date(data.event.date_windows[i][0]),
@@ -218,7 +255,7 @@ const PartyForm = () => {
                 <div>
                   <p>
                     Click and drag to select the dates you are available for the
-                    event:
+                    event. To remove an availability window, just tap it.
                   </p>
                 </div>
               )}
@@ -232,8 +269,12 @@ const PartyForm = () => {
                     dayMaxEvents={true}
                     weekends={true}
                     events={schedule}
+                    initialDate={schedule[0].start}
+                    timeZone={"UTC"}
+                    nextDayThreshold={'00:00:00'}
                     displayEventTime={false}
                     select={handleDateSelect}
+                    eventClick={handleRemoveEvent}
                     ref={calendarRef}
                   />
                 </div>

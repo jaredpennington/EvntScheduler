@@ -7,6 +7,7 @@ import NavBar from "../components/NavBar";
 import EditDeleteSelectors from "../components/EditDeleteSelectors";
 import Header from "../components/Header";
 import PasswordForm from "../components/PasswordForm";
+import BurgerMenu from "../components/BurgerMenu";
 
 // all passwords for a single event
 const Passwords = () => {
@@ -38,6 +39,8 @@ const Passwords = () => {
     <div>
       <Header/>
       <NavBar event_id={eventId} />
+      <BurgerMenu event_id={eventId} />
+
       <PasswordForm event_id={eventId} />
       {loading ? (
         <div>Loading...</div>

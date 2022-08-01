@@ -38,6 +38,7 @@ import SurveyLink from "./pages/SurveyLink";
 import NoMatch from "./pages/NoMatch";
 import ThankYou from "./pages/ThankYou";
 import Footer from "./components/Footer";
+import { useEffect } from "react";
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
@@ -59,6 +60,8 @@ const client = new ApolloClient({
 });
 
 function App() {
+ 
+
   return (
     <ApolloProvider client={client}>
       <Router>

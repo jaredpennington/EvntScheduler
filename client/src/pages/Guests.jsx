@@ -9,6 +9,7 @@ import EditDeleteSelectors from "../components/EditDeleteSelectors";
 import Header from "../components/Header";
 import { formatDate } from "@fullcalendar/core";
 import dateFormat from "../utils/dateFormat";
+import BurgerMenu from "../components/BurgerMenu";
 
 // Will display all guests for a single event
 const Guests = () => {
@@ -51,6 +52,8 @@ const Guests = () => {
     <div>
       <Header/>
       <NavBar event_id={event_id} />
+      <BurgerMenu event_id={event_id} />
+
       {!loading && data.guests.length ? (
         <>
         <div className="budget-card">

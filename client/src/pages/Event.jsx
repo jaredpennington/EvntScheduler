@@ -8,6 +8,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Header from "../components/Header";
+import BurgerMenu from "../components/BurgerMenu";
 
 // single event page will have a calendar that shows the names of each person who is available on a given day.
 const Event = () => {
@@ -52,6 +53,7 @@ const Event = () => {
     <div>
       <Header />
       <NavBar event_id={event_id} />
+      <BurgerMenu event_id={event_id} />
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"

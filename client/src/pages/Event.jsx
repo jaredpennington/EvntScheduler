@@ -18,11 +18,12 @@ const Event = () => {
   });
 
   class GuestAvailability {
-    constructor(id, name, start, end) {
+    constructor(id, name, start, end, color) {
       this.id = id;
       this.title = name;
       this.start = start;
       this.end = end;
+      this.color = color;
     }
   }
 
@@ -36,7 +37,8 @@ const Event = () => {
               guest._id,
               name,
               new Date(guest.date_windows[i][0]),
-              new Date(guest.date_windows[i][guest.date_windows[i].length - 1])
+              new Date(guest.date_windows[i][guest.date_windows[i].length - 1]),
+              "#7fb7be"
             )
           );
         }
@@ -48,7 +50,7 @@ const Event = () => {
 
   return (
     <div>
-      <Header/>
+      <Header />
       <NavBar event_id={event_id} />
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}

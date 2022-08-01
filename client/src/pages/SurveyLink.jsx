@@ -16,7 +16,7 @@ const SurveyLink = () => {
         <div className="uk-card uk-card-body card-centering thankyou">
           <button className="button-border">
           <i
-            class="fa-regular fa-copy cursor-copy"
+            className="fa-regular fa-copy cursor-copy"
             onClick={() => {
               navigator.clipboard.writeText(url);
             }}

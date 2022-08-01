@@ -30,7 +30,7 @@ const NavBar = ({ event_id }) => {
       <nav className="nav-bar">
         <ul className="nav-bar-links">
           {navOptions.map((option, index) => (
-            <li>
+            <li key={index}>
               <Link to={option.link} className="nav-bar-single">
                 {option.name}
               </Link>

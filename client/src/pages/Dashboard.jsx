@@ -42,11 +42,12 @@ const Dashboard = () => {
   };
 
   class Schedule {
-    constructor(id, name, start, end) {
+    constructor(id, name, start, end, color) {
       this.id = id;
       this.title = name;
       this.start = start;
       this.end = end;
+      this.color = color;
     }
   }
 
@@ -80,31 +81,31 @@ const Dashboard = () => {
 
   const filterData = () => {
     let filtered = data.events.filter((event, index) => {
-      checked.includes(event._id)
+      checked.includes(event._id);
     });
     setFilteredData(filtered);
-  }
+  };
 
   const handleChange = (e) => {
-    if(!checked.includes(e.target.value)) {
+    if (!checked.includes(e.target.value)) {
       setChecked([...checked, e.target.value]);
     } else {
       let arr = checked;
       let newArr = [];
       let remove = e.target.value;
-      for(let i = 0; i < arr.length; i++) {
-        if(remove === arr[i]) continue;
+      for (let i = 0; i < arr.length; i++) {
+        if (remove === arr[i]) continue;
         newArr.push(arr[i]);
       }
       setChecked(newArr);
     }
     filterData();
-  }
+  };
 
   // renderSchedule();
 
   useEffect(() => {
-    if(!loading) {
+    if (!loading) {
       data.events.map((event) => {
         for (let i = 0; i < event.date_windows.length; i++) {
           eventArr.push(
@@ -112,13 +113,14 @@ const Dashboard = () => {
               event._id,
               event.event_name,
               new Date(event.date_windows[i][0]),
-              new Date(event.date_windows[i][event.date_windows[i].length - 1])
+              new Date(event.date_windows[i][event.date_windows[i].length - 1]),
+              "#8ca081"
             )
           );
         }
       });
       setFilteredData(eventArr);
-    } 
+    }
   }, [loading, eventArr]);
 
   useEffect(() => {
@@ -126,7 +128,7 @@ const Dashboard = () => {
     if (!loading) {
       let arr = [];
       data.events.map((event) => {
-        if(checked.includes(event._id)) {
+        if (checked.includes(event._id)) {
           arr.push(event);
         }
       });
@@ -150,65 +152,70 @@ const Dashboard = () => {
           </div>
           <div className="uk-child-width-expand@s uk-text-center grid-three">
             <div className="persons-event">{name}'s Events:</div>
-            <Link className="button-border form-input-margin event-card-padding" to="event/create">Click here to make an event!</Link>
+            <Link
+              className="button-border form-input-margin event-card-padding"
+              to="event/create"
+            >
+              Click here to make an event!
+            </Link>
             <div className="x-scroll">
-            {data.events.map((event, index) => (
-              <div key={index}>
-                <div className="uk-card-body event-card-centering uk-card uk-card-default dashboard-cards ">
-                  <div className="uk-card-title uk-text-center x-card">
-                    <EditDeleteSelectors
-                      eventId={event._id}
-                      guestId={null}
-                      passwordId={null}
-                      removeEvent={removeEvent}
-                    />
-                    <div className="uk-card-title">
-                      <Link className="link-color" to={`/event/${event._id}`}>
-                        {capitalizeFirstLetter(event.event_name)}
-                      </Link>
-                    </div>
-                    <div>
-                      <Link
-                        className="link-color"
-                        to={`/event/${event._id}/guests`}
-                      >
-                        Guests
-                      </Link>
-                      :{" "}
-                      {Object.keys(event.guests).length
-                        ? Object.keys(event.guests).length
-                        : "none"}
-                    </div>
-                    <div>
-                      <Link
-                        className="link-color"
-                        to={`/event/${event._id}/passwords`}
-                      >
-                        Passwords
-                      </Link>
-                      :{" "}
-                      {Object.keys(event.passwords).length
-                        ? Object.keys(event.passwords).length
-                        : "none"}
-                    </div>
-                    <div>
-                      Considered{" "}
-                      <a className="link-color" href="#calendar">
-                        dates
-                      </a>{" "}
-                      for event:{" "}
-                    </div>
-                    {Object.values(event.date_windows).map((date, index) => (
-                      <div key={index}>
-                        {formatDate(date[0], dateFormat)} -{" "}
-                        {formatDate(date[date.length - 1], dateFormat)}
+              {data.events.map((event, index) => (
+                <div key={index}>
+                  <div className="uk-card-body event-card-centering uk-card uk-card-default dashboard-cards ">
+                    <div className="uk-card-title uk-text-center x-card">
+                      <EditDeleteSelectors
+                        eventId={event._id}
+                        guestId={null}
+                        passwordId={null}
+                        removeEvent={removeEvent}
+                      />
+                      <div className="uk-card-title">
+                        <Link className="link-color" to={`/event/${event._id}`}>
+                          {capitalizeFirstLetter(event.event_name)}
+                        </Link>
                       </div>
-                    ))}
-                    <div>{event.additional_info}</div>
+                      <div>
+                        <Link
+                          className="link-color"
+                          to={`/event/${event._id}/guests`}
+                        >
+                          Guests
+                        </Link>
+                        :{" "}
+                        {Object.keys(event.guests).length
+                          ? Object.keys(event.guests).length
+                          : "none"}
+                      </div>
+                      <div>
+                        <Link
+                          className="link-color"
+                          to={`/event/${event._id}/passwords`}
+                        >
+                          Passwords
+                        </Link>
+                        :{" "}
+                        {Object.keys(event.passwords).length
+                          ? Object.keys(event.passwords).length
+                          : "none"}
+                      </div>
+                      <div>
+                        Considered{" "}
+                        <a className="link-color" href="#calendar">
+                          dates
+                        </a>{" "}
+                        for event:{" "}
+                      </div>
+                      {Object.values(event.date_windows).map((date, index) => (
+                        <div key={index}>
+                          {formatDate(date[0], dateFormat)} -{" "}
+                          {formatDate(date[date.length - 1], dateFormat)}
+                        </div>
+                      ))}
+                      <div>{event.additional_info}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
             </div>
           </div>
         </>

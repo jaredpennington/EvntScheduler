@@ -32,13 +32,13 @@ const BurgerMenu = ({ event_id }) => {
         <ul className="">
           {navOptions.map((option, index) => (
             <li key={index}>
-              <Link to={option.link} className="">
+              <Link to={option.link} className="nav-btn">
                 {option.name}
               </Link>
             </li>
           ))}
           <li>
-            <button className="" onClick={logout}>
+            <button className="nav-btn" onClick={logout}>
               Logout
             </button>
           </li>

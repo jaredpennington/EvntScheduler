@@ -42,6 +42,10 @@ const PartyForm = () => {
   const { loading, data } = useQuery(QUERY_EVENT, {
     variables: { id: eventId },
   });
+  let start;
+  if(!loading) {
+    start = data.event.date_windows[0][0]
+  }
 
   const [role, setRole] = useState("");
   const [otherRole, setOtherRole] = useState(null);
@@ -49,7 +53,6 @@ const PartyForm = () => {
   const [password, setPassword] = useState("");
   const [position, setPosition] = useState(0);
   const [schedule, setSchedule] = useState([]);
-  const [startDate, setStartDate] = useState(data.event.date_windows[0][0]);
 
   const [formState, setFormState] = useState({
     firstName: "",
@@ -271,7 +274,7 @@ const PartyForm = () => {
                     select={handleDateSelect}
                     eventClick={handleRemoveEvent}
                     ref={calendarRef}
-                    initialDate={startDate}
+                    initialDate={start}
                   />
                 </div>
               ) : (

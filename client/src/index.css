@@ -65,6 +65,14 @@ display: none;  /* Safari and Chrome */
   left: 0
 }
 
+.survey-instructions {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  text-align: center;
+
+}
+
 .font-evnt-thin:hover {
   color: var(--saltwater-200);
   text-decoration: none;
@@ -503,7 +511,6 @@ a:hover {
   display: flex;
   align-items: row;
 }
-
 
 
 @media only screen and (max-width: 600px) {

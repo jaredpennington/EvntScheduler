@@ -65,6 +65,14 @@ display: none;  /* Safari and Chrome */
   left: 0
 }
 
+.survey-instructions {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  text-align: center;
+
+}
+
 .font-evnt-thin:hover {
   color: var(--saltwater-200);
   text-decoration: none;
@@ -457,7 +465,14 @@ scroll-behavior: smooth;
   width: 275px;
   border-radius: 16px;
   border-width: 3px;
+  transition: all;
+  transition-duration: 300ms;
 }
+
+/* .guest-cards:hover {
+  color: var(--saltwater-200);
+  text-decoration: none;
+} */
 
 .budget-card {
   border-color: var(--dark-100);
@@ -495,5 +510,13 @@ a:hover {
   justify-content: right;
   display: flex;
   align-items: row;
+}
+
+
+@media only screen and (max-width: 600px) {
+  /* For mobile phones: */
+  .nav-bar  {
+    display: none;
+  }
 }
 

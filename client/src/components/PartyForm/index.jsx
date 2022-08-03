@@ -218,8 +218,9 @@ const PartyForm = () => {
       ) : (
         <>
           {data.event.passwords.length && !isPassword ? (
-            <div>
-              <h1>Enter password to access the survey</h1>
+            <div className="my-auto">
+            <div className="uk-card uk-card-body card-centering">
+              <h1 className="uk-card-title uk-text-center">Enter password to access the survey</h1>
               <form onSubmit={handlePasswordSubmit}>
                 <input
                   className="form-input-margin"
@@ -237,17 +238,18 @@ const PartyForm = () => {
                 </button>
               </form>
             </div>
+            </div>
           ) : (
             <>
               {position > 0 && (
-                <button onClick={(e) => setPosition(0)}>Back</button>
+                <button  className='form-input-margin button-border' onClick={(e) => setPosition(0)}>Change Dates</button>
               )}
               {position < 1 && (
-                <button onClick={(e) => setPosition(1)}>Next</button>
+                <button className='form-input-margin button-border' onClick={(e) => setPosition(1)}>Finish Survey</button>
               )}
               {position === 0 && (
-                <div>
-                  <p>
+                <div className='survey-instructions'>
+                  <p className='font-evnt-large'>
                     Click and drag to select the dates you are available for the
                     event. To remove an availability window, just tap it.
                   </p>
@@ -342,7 +344,7 @@ const PartyForm = () => {
                 </div>
               )}
               {position < 1 && (
-                <button onClick={(e) => setPosition(1)}>Next</button>
+                <button className='form-input-margin button-border' onClick={(e) => setPosition(1)}>Finish Survey</button>
               )}
             </>
           )}

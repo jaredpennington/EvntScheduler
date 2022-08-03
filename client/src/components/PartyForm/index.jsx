@@ -269,7 +269,7 @@ const PartyForm = () => {
                     dayMaxEvents={true}
                     weekends={true}
                     events={schedule}
-                    initialDate={schedule[0].start}
+                    // initialDate={schedule[0].start}
                     timeZone={"UTC"}
                     nextDayThreshold={'00:00:00'}
                     displayEventTime={false}

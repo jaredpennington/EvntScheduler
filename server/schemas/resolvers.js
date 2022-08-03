@@ -33,13 +33,13 @@ const resolvers = {
 
         // get single event and guests/passwords.
         event: async (parent, { _id }, context) => {
-            if (context.user) {
+            // if (context.user) {
                 const singleEvent = await Event.findById(_id)
                     .populate('guests')
                     .populate('passwords');
 
                 return singleEvent;
-            }
+            // }
         },
 
         // all guests associated with an event

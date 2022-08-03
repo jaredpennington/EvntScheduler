@@ -223,8 +223,9 @@ const PartyForm = () => {
       ) : (
         <>
           {data.event.passwords.length && !isPassword ? (
-            <div>
-              <h1>Enter password to access the survey</h1>
+            <div className="my-auto">
+            <div className="uk-card uk-card-body card-centering">
+              <h1 className="uk-card-title uk-text-center">Enter password to access the survey</h1>
               <form onSubmit={handlePasswordSubmit}>
                 <input
                   className="form-input-margin"
@@ -242,6 +243,7 @@ const PartyForm = () => {
                   Submit
                 </button>
               </form>
+            </div>
             </div>
           ) : (
             <>
@@ -269,7 +271,7 @@ const PartyForm = () => {
                     dayMaxEvents={true}
                     weekends={true}
                     events={schedule}
-                    initialDate={schedule[0].start}
+                    // initialDate={schedule[0].start}
                     timeZone={"UTC"}
                     nextDayThreshold={'00:00:00'}
                     displayEventTime={false}

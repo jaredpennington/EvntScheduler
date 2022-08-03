@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import AuthService from "../../utils/auth";
 
-
 const NavBar = ({ event_id }) => {
   const logout = (event) => {
     event.preventDefault();
@@ -28,22 +27,22 @@ const NavBar = ({ event_id }) => {
     },
   ];
   return (
-      <nav className="nav-bar transition">
-        <ul className="nav-bar-links">
-          {navOptions.map((option, index) => (
-            <li key={index}>
-              <Link to={option.link} className="nav-bar-single">
-                {option.name}
-              </Link>
-            </li>
-          ))}
-          <li>
-            <button className="nav-bar-single" onClick={logout}>
-              Logout
-            </button>
+    <nav className="nav-bar transition">
+      <ul className="nav-bar-links">
+        {navOptions.map((option, index) => (
+          <li key={index}>
+            <Link to={option.link} className="nav-bar-single">
+              {option.name}
+            </Link>
           </li>
-        </ul>
-      </nav>
+        ))}
+        <li>
+          <button className="nav-bar-single" onClick={logout}>
+            Logout
+          </button>
+        </li>
+      </ul>
+    </nav>
   );
 };
 

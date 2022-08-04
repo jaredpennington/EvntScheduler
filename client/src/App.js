@@ -35,10 +35,10 @@ import Guests from "./pages/Guests";
 import Passwords from "./pages/Passwords";
 import Survey from "./pages/Survey";
 import SurveyLink from "./pages/SurveyLink";
-import NoMatch from "./pages/NoMatch";
 import ThankYou from "./pages/ThankYou";
 import Footer from "./components/Footer";
 import { useEffect } from "react";
+import FourOhFour from "./pages/FourOhFour";
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
@@ -98,7 +98,7 @@ function App() {
 
               <Route path="/event/:id/passwords" element={<Passwords />} />
               <Route path="/thankyou" element={<ThankYou />} />
-              <Route path="*" element={<NoMatch />} />
+              <Route path="*" element={<FourOhFour />} />
             </Routes>
           </div>
           <Footer />

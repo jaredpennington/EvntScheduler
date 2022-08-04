@@ -65,6 +65,14 @@ display: none;  /* Safari and Chrome */
   left: 0
 }
 
+.survey-instructions {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  text-align: center;
+
+}
+
 .font-evnt-thin:hover {
   color: var(--saltwater-200);
   text-decoration: none;
@@ -485,6 +493,7 @@ scroll-behavior: smooth;
 
 a:hover {
   text-decoration: none;
+  color: inherit;
 }
 
 .delete-btn:hover {
@@ -504,6 +513,10 @@ a:hover {
   align-items: row;
 }
 
+.more-room {
+  margin-left: 8px;
+  margin-top: 8px;
+}
 
 
 @media only screen and (max-width: 600px) {

@@ -98,7 +98,7 @@ const EventForm = () => {
       });
 
       let eventId = submit.data.addEvent._id;
-      window.location.href = '/';
+      // window.location.href = '/';
       window.location.href = `/event/${eventId}/passwords`;
       
     } catch (e) {

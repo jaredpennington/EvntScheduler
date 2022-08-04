@@ -43,7 +43,11 @@
 
 /* General sidebar styles */
 .bm-menu {
-  /* background: #373a47; */
+  background: linear-gradient(
+    110deg,
+    #e4f5f7 2%,
+    rgba(140, 190, 197, 1) 100%
+  );
   background-size: cover;
   /* opacity: 0.7; */
   padding: 2.5em 1.5em 0;
@@ -58,13 +62,18 @@
 /* Individual item */
 .bm-item {
   display: inline-block;
-  color: #fdf7f3;
+  font-size: 1.4em;
   transition: color 300ms ease;
 }
-/* 
-  .bm-item:hover {
 
-  } */
+.nav-btn {
+  color: #666666;
+  transition: color 300ms ease;
+}
+
+.nav-btn:hover {
+  color: #a3a3a3;
+}
 
 /* Styling of overlay */
 .bm-overlay {

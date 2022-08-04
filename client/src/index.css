@@ -493,6 +493,7 @@ scroll-behavior: smooth;
 
 a:hover {
   text-decoration: none;
+  color: inherit;
 }
 
 .delete-btn:hover {

@@ -245,16 +245,16 @@ const PartyForm = () => {
           ) : (
             <>
               {position > 0 && (
-                <button  className='form-input-margin button-border' onClick={(e) => setPosition(0)}>Change Dates</button>
+                <button  className='form-input-margin button-border more-room' onClick={(e) => setPosition(0)}>Change Dates</button>
               )}
               {position < 1 && (
-                <button className='form-input-margin button-border' onClick={(e) => setPosition(1)}>Finish Survey</button>
+                <button className='form-input-margin button-border more-room' onClick={(e) => setPosition(1)}>Finish Survey</button>
               )}
               {position === 0 && (
                 <div className='survey-instructions'>
                   <p className='font-evnt-large'>
                     Click and drag to select the dates you are available for the
-                    event. To remove an availability window, just tap it.
+                    event. To remove an availability window, click "your availability" on the date you want to change.
                   </p>
                 </div>
               )}

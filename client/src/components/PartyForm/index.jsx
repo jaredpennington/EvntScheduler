@@ -8,7 +8,6 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import dateFormat from "../../utils/dateFormat";
 
 const PartyForm = () => {
   const calendarRef = createRef();
@@ -38,13 +37,15 @@ const PartyForm = () => {
     }
   }
 
-  let eventArr = [];
-
   let eventId = useParams().id;
 
   const { loading, data } = useQuery(QUERY_EVENT, {
     variables: { id: eventId },
   });
+  let start;
+  if(!loading) {
+    start = data.event.date_windows[0][0]
+  }
 
   const [role, setRole] = useState("");
   const [otherRole, setOtherRole] = useState(null);
@@ -115,7 +116,9 @@ const PartyForm = () => {
     event.preventDefault();
     let date_windows = [];
     dateInput.forEach((date) => date_windows.push(date.dates)); // [[start, end], [start, end]...]
-    let sortedWindows = date_windows.sort(([a, b], [c, d]) => new Date(a) - new Date(c) || new Date(d) - new Date(b));
+    let sortedWindows = date_windows.sort(
+      ([a, b], [c, d]) => new Date(a) - new Date(c) || new Date(d) - new Date(b)
+    );
     console.log(sortedWindows);
     let guestRole;
     if (role === "other") {
@@ -142,22 +145,15 @@ const PartyForm = () => {
   const handleDateSelect = (arg) => {
     let check;
     let thisId = uuidv4();
-    let calendarApi = calendarRef.current.getApi();
     let start = arg.startStr;
     let end = arg.endStr;
     for (let i = 0; i < dateInput.length; i++) {
       let arr = dateInput[i].dates;
-      if (arr.includes(start) && arr.includes(end)) {
-        check = false;
-      } else if (
-        (arr.includes(start) && !arr.includes(end)) ||
-        (!arr.includes(start) && arr.includes(end))
+      if (
+        (arr.includes(start) && arr.includes(end)) ||
+        (arg.dateStr && arr.includes(arg.dateStr))
       ) {
-        let replace = calendarApi.getEventById(dateInput[i].id)
-        replace.remove(); 
-        let newArr = dateInput.filter(d => d.id !== dateInput[i].id)
-        setDateInput(newArr);
-        check = true;
+        check = false;
       } else {
         check = true;
       }
@@ -172,12 +168,11 @@ const PartyForm = () => {
         "#7fb7be"
       );
       let window = [start, end];
-      if(!start && !end) window = [arg.dateStr]
-      setDateInput((d) => [
-        ...d,
-        { dates: window, id: thisId },
-      ]); 
-      calendarApi.addEvent(guestSchedule);
+      if (!start && !end) window = [arg.dateStr];
+      setDateInput((d) => [...d, { dates: window, id: thisId }]);
+      if(!schedule.includes(guestSchedule)) {
+        setSchedule((d) => [...d, guestSchedule]);
+      }
     }
   };
 
@@ -185,8 +180,10 @@ const PartyForm = () => {
     let event = info.event;
     let eventId = event._def.publicId;
     let newArr = dateInput.filter((d) => d.id !== eventId);
-    if(data.event._id !== eventId) {
+    let newSchedule = schedule.filter((d) => d.id !== eventId);
+    if (data.event._id !== eventId) {
       setDateInput(newArr);
+      setSchedule(newSchedule);
       event.remove();
     }
   };
@@ -199,8 +196,9 @@ const PartyForm = () => {
 
   useEffect(() => {
     if (!loading) {
+      let arr = [];
       for (let i = 0; i < data.event.date_windows.length; i++) {
-        eventArr.push(
+        arr.push(
           new EventSchedule(
             data.event._id,
             data.event.event_name,
@@ -209,10 +207,10 @@ const PartyForm = () => {
               data.event.date_windows[i][data.event.date_windows[i].length - 1]
             ),
             "#8ca081"
-          )
+          ),
         );
       }
-      setSchedule(eventArr);
+      setSchedule(arr);
     }
   }, [loading]);
 
@@ -234,7 +232,6 @@ const PartyForm = () => {
                   type="text"
                   id="password"
                   onChange={handlePasswordChange}
-                  // autoComplete="off"
                 />
                 <button
                   className="form-input-margin button-border"
@@ -271,13 +268,13 @@ const PartyForm = () => {
                     dayMaxEvents={true}
                     weekends={true}
                     events={schedule}
-                    // initialDate={schedule[0].start}
                     timeZone={"UTC"}
-                    nextDayThreshold={'00:00:00'}
+                    nextDayThreshold={"00:00:00"}
                     displayEventTime={false}
                     select={handleDateSelect}
                     eventClick={handleRemoveEvent}
                     ref={calendarRef}
+                    initialDate={start}
                   />
                 </div>
               ) : (

@@ -51,23 +51,6 @@ const Dashboard = () => {
     }
   }
 
-  // const renderSchedule = () => {
-  //   if (!loading) {
-  //     data.events.map((event) => {
-  //       for (let i = 0; i < event.date_windows.length; i++) {
-  //         eventArr.push(
-  //           new Schedule(
-  //             event._id,
-  //             event.event_name,
-  //             new Date(event.date_windows[i][0]),
-  //             new Date(event.date_windows[i][event.date_windows[i].length - 1])
-  //           )
-  //         );
-  //       }
-  //     });
-  //   }
-  // };
-
   const capitalizeFirstLetter = (
     [first, ...rest],
     locale = navigator.language
@@ -102,8 +85,6 @@ const Dashboard = () => {
     filterData();
   };
 
-  // renderSchedule();
-
   useEffect(() => {
     if (!loading) {
       data.events.map((event) => {
@@ -124,7 +105,6 @@ const Dashboard = () => {
   }, [loading, eventArr]);
 
   useEffect(() => {
-    console.log(checked);
     if (!loading) {
       let arr = [];
       data.events.map((event) => {

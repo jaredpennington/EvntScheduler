@@ -512,6 +512,11 @@ a:hover {
   align-items: row;
 }
 
+.more-room {
+  margin-left: 8px;
+  margin-top: 8px;
+}
+
 
 @media only screen and (max-width: 600px) {
   /* For mobile phones: */

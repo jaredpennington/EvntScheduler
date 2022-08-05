@@ -119,7 +119,6 @@ const PartyForm = () => {
     let sortedWindows = date_windows.sort(
       ([a, b], [c, d]) => new Date(a) - new Date(c) || new Date(d) - new Date(b)
     );
-    console.log(sortedWindows);
     let guestRole;
     if (role === "other") {
       guestRole = otherRole;
@@ -329,14 +328,14 @@ const PartyForm = () => {
                     )}
                     <input
                       className="form-input-margin"
-                      placeholder="Your budget? (plain numbers)"
+                      placeholder="Your budget?"
                       name="budget"
                       type="number"
                       id="budget"
                     />
                     <textarea
                       className="form-input-margin"
-                      placeholder="Additional Information"
+                      placeholder="Additional Information (not required)"
                       name="additionalInfo"
                       id="additionalInfo"
                       rows="2"
@@ -349,6 +348,7 @@ const PartyForm = () => {
                       Submit
                     </button>
                   </form>
+                  {error && <div className="error">Please enter required fields</div>}
                 </div>
               )}
               {position < 1 && (

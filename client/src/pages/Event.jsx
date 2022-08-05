@@ -63,6 +63,7 @@ const Event = () => {
         weekends={true}
         events={guestArr}
         displayEventTime={false}
+        eventOrder="title"
       />
     </div>
   );

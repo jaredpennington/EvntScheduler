@@ -518,6 +518,14 @@ a:hover {
   margin-top: 8px;
 }
 
+.error {
+  color: #c13b97;
+}
+
+input, textarea {
+  padding-left: .15rem;
+}
+
 
 @media only screen and (max-width: 600px) {
   /* For mobile phones: */

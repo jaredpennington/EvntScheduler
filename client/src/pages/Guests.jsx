@@ -37,48 +37,50 @@ const Guests = () => {
   const getAverage = (budget) => {
     let getAverage = totalBudget / data.guests.length;
     average = getAverage;
-  }
+  };
 
   const getTotals = () => {
     if (!loading) {
       data.guests.map((guest) => (totalBudget += guest.budget));
       getAverage(totalBudget);
-    } 
+    }
   };
 
   if (!loading) getTotals();
 
   return (
     <div>
-      <Header/>
+      <Header />
       <NavBar event_id={event_id} />
       <BurgerMenu event_id={event_id} />
 
       {!loading && data.guests.length ? (
         <>
-        <div className="budget-card">
-          Total Budget: $
-          {totalBudget.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-        </div>
-        <div className="budget-card">
-        Average Budget: $
-        {average.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
-      </div>
-      </>
+          <div className="budget-card">
+            Total Budget: $
+            {totalBudget.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </div>
+          <div className="budget-card">
+            Average Budget: $
+            {average.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        </>
       ) : (
-        <div>Send out your <Link to={`/event/${event_id}/surveyLink`}>survey</Link> and responses will be displayed here!</div>
+        <div>
+          Send out your <Link to={`/event/${event_id}/surveyLink`}>survey</Link>{" "}
+          and responses will be displayed here!
+        </div>
       )}
       {loading ? (
         <div>Loading...</div>
       ) : (
         data.guests.map((guest, index) => (
-
           <div key={index} className="guest-cards">
             <EditDeleteSelectors
               eventId={guest.event_id}
@@ -101,16 +103,17 @@ const Guests = () => {
             </div>
             {Object.values(guest.date_windows).map((date, index) => (
               <div key={index}>
-                {formatDate(new Date(date[0]), dateFormat)} {date[0] !== date[1] && ' - ' + formatDate(new Date(date[date.length - 1]), dateFormat)}
+                {formatDate(new Date(date[0]), dateFormat)}{" "}
+                {date[0] !== date[1] &&
+                  " - " +
+                    formatDate(new Date(date[date.length - 1]), dateFormat)}
               </div>
             ))}
             <div>Role: {guest.role}</div>
             <div>Additional information: {guest.additional_info}</div>
           </div>
         ))
-        
       )}
-      
     </div>
   );
 };

@@ -14,12 +14,12 @@ const PartyForm = () => {
 
   class Schedule {
     constructor(id, name, start, end, color) {
+      this.allDay = false;
       this.id = id;
       this.title = name;
       this.start = start;
       this.end = end;
       this.color = color;
-      this.allDay = true;
     }
   }
 
@@ -119,7 +119,6 @@ const PartyForm = () => {
     let sortedWindows = date_windows.sort(
       ([a, b], [c, d]) => new Date(a) - new Date(c) || new Date(d) - new Date(b)
     );
-    console.log(sortedWindows);
     let guestRole;
     if (role === "other") {
       guestRole = otherRole;
@@ -145,8 +144,9 @@ const PartyForm = () => {
   const handleDateSelect = (arg) => {
     let check;
     let thisId = uuidv4();
-    let start = arg.startStr;
-    let end = arg.endStr;
+    let start = new Date(arg.startStr);
+    start.setDate(start.getDate() + 1);
+    let end = new Date(arg.endStr);
     for (let i = 0; i < dateInput.length; i++) {
       let arr = dateInput[i].dates;
       if (
@@ -159,22 +159,26 @@ const PartyForm = () => {
       }
     }
 
+    setAvailability(check, arg, start, end, thisId);
+  };
+
+  const setAvailability = (check, arg, start, end, thisId) => {
     if (check || !dateInput.length) {
       let guestSchedule = new GuestSchedule(
         thisId,
         "Your Availability",
-        new Date(start),
-        new Date(end),
+        new Date(arg.start),
+        new Date(arg.end),
         "#7fb7be"
       );
-      let window = [start, end];
+      let window = [start.toString(), end.toString()];
       if (!start && !end) window = [arg.dateStr];
       setDateInput((d) => [...d, { dates: window, id: thisId }]);
       if(!schedule.includes(guestSchedule)) {
         setSchedule((d) => [...d, guestSchedule]);
       }
     }
-  };
+  }
 
   const handleRemoveEvent = (info) => {
     let event = info.event;
@@ -245,7 +249,7 @@ const PartyForm = () => {
           ) : (
             <>
               {position > 0 && (
-                <button  className='form-input-margin button-border more-room' onClick={(e) => setPosition(0)}>Change Dates</button>
+                <button  className='form-input-margin button-border more-room' onClick={(e) => setPosition(0)}>Edit Availability</button>
               )}
               {position < 1 && (
                 <button className='form-input-margin button-border more-room' onClick={(e) => setPosition(1)}>Finish Survey</button>
@@ -264,7 +268,7 @@ const PartyForm = () => {
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                     initialView="dayGridMonth"
                     selectable={true}
-                    selectMirror={true}
+                    selectMirror={false}
                     dayMaxEvents={true}
                     weekends={true}
                     events={schedule}
@@ -324,14 +328,14 @@ const PartyForm = () => {
                     )}
                     <input
                       className="form-input-margin"
-                      placeholder="Your budget? (plain numbers)"
+                      placeholder="Your budget?"
                       name="budget"
                       type="number"
                       id="budget"
                     />
                     <textarea
                       className="form-input-margin"
-                      placeholder="Additional Information"
+                      placeholder="Additional Information (not required)"
                       name="additionalInfo"
                       id="additionalInfo"
                       rows="2"
@@ -344,6 +348,7 @@ const PartyForm = () => {
                       Submit
                     </button>
                   </form>
+                  {error && <div className="error">Please enter required fields</div>}
                 </div>
               )}
               {position < 1 && (

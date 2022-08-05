@@ -27,7 +27,6 @@ const guestSchema = new Schema(
             {
                 type: String,
                 required: true,
-                // get: timestamp => dateFormat(timestamp),
             }
         ]],
         completedAt: {

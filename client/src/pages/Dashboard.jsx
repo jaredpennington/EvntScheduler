@@ -187,8 +187,13 @@ const Dashboard = () => {
                       </div>
                       {Object.values(event.date_windows).map((date, index) => (
                         <div key={index}>
-                          {formatDate(date[0], dateFormat)} -{" "}
-                          {formatDate(date[date.length - 1], dateFormat)}
+                          {formatDate(new Date(date[0]), dateFormat)}{" "}
+                          {date[0] !== date[1] &&
+                            " - " +
+                              formatDate(
+                                new Date(date[date.length - 1]),
+                                dateFormat
+                              )}
                         </div>
                       ))}
                       <div>{event.additional_info}</div>

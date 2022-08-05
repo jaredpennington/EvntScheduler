@@ -60,6 +60,7 @@ const PasswordForm = ({ event_id }) => {
         />
         <button className="form-input-margin button-border" type="submit">Submit</button>
       </form>
+      {error && <div className="error">Cannot submit blank password!</div>}
     </div>
     </div>
   );

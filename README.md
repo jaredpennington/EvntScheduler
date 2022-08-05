@@ -16,7 +16,7 @@ Here is a demonstration of how to use this app as an event planner:
 <div align="center">
         <img alt="gif demonstration" src="./client/src/assets/img/gif_demonstration_1.gif" width="700" />
 </div>
-
+<br></br>
 Then you will send out the survey URL and guests will fill out the form like so:
 
 <div align="center">

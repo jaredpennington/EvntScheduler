@@ -2,7 +2,7 @@ import React from "react";
 
 const ThankYou = () => {
   return (
-    <div className="my-auto">
+    <div className="thankyou-center">
       <div className="uk-card uk-card-body card-centering thankyou">
         <p className="uk-card-title uk-text-center">Success!</p>
         <p>

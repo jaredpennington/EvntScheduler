@@ -86,7 +86,7 @@ display: none;  /* Safari and Chrome */
   text-align: center;
 }
 
-.getting-centered {
+.getting-centered, .password-center {
   width: 100%;
   position: absolute;
   top: 35%;
@@ -485,14 +485,22 @@ input, textarea {
   padding-left: .15rem;
 }
 
+.calendar-container {
+  overflow-x: scroll;
+  overflow-y: scroll;
+}
+
 
 @media only screen and (max-width: 600px) {
   /* For mobile phones: */
   .nav-bar  {
     display: none;
   }
-  .getting-started-login, .getting-started-signup {
-    /* width: 150px; */
+
+  .fc {
+    width: 900px !important;
+    height: 900px !important;
+    padding-left: 10px !important; 
   }
 }
 

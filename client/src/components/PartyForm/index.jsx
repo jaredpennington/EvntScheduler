@@ -225,7 +225,7 @@ const PartyForm = () => {
       ) : (
         <>
           {data.event.passwords.length && !isPassword ? (
-            <div className="my-auto">
+            <div className="password-center">
             <div className="uk-card uk-card-body card-centering">
               <h1 className="uk-card-title uk-text-center">Enter password to access the survey</h1>
               <form onSubmit={handlePasswordSubmit}>
@@ -263,7 +263,7 @@ const PartyForm = () => {
                 </div>
               )}
               {position === 0 ? (
-                <div>
+                <div className="calendar-container">
                   <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                     initialView="dayGridMonth"
@@ -279,6 +279,8 @@ const PartyForm = () => {
                     eventClick={handleRemoveEvent}
                     ref={calendarRef}
                     initialDate={start}
+                    longPressDelay="0"
+                    eventDisplay="block"
                   />
                 </div>
               ) : (

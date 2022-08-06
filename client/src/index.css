@@ -83,16 +83,13 @@ display: none;  /* Safari and Chrome */
   font-size: xx-large;
   font-weight: 700;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .getting-centered {
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  width: auto;
-  align-items: center;
-  position: relative;
-  top: 60px;
+  width: 100%;
+  position: absolute;
+  top: 35%;
 }
 
 .flex {
@@ -100,55 +97,37 @@ display: none;  /* Safari and Chrome */
   display: flex;
 }
 
-.getting-started-login {
+.getting-started-login, .getting-started-signup {
   transition: all;
   transition-duration: 300ms;
-  width: auto;
   border-width: 4px;
   border-radius: 9999px;
   border-color: var(--saltwater-300);
   color: var(--dark-500);
-  margin-left: auto;
-  margin-right: 5px;
-  padding: 16px;
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 30px;
   padding-right: 30px;
   font-size: 175%;
   text-decoration: none;
+}
+
+.getting-started-login {
+  margin-left: auto;
+  margin-right: 5px;
 }
 
 .getting-started-signup {
-  transition: all;
-  transition-duration: 300ms;
-  width: auto;
-  border-width: 4px;
-  border-radius: 9999px;
-  border-color: var(--saltwater-300);
-  color: var(--dark-500);
   margin-left: 5px;
   margin-right: auto;
-  padding: 16px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  padding-left: 30px;
-  padding-right: 30px;
-  font-size: 175%;
-  text-decoration: none;
 }
 
-.getting-started-login:hover {
+.getting-started-login:hover, .getting-started-signup:hover {
   background-color: var(--saltwater-300);
   color: white;
   text-decoration: none;
 }
 
-.getting-started-signup:hover {
-  background-color: var(--saltwater-300);
-  color: white;
-  text-decoration: none;
-}
 .card-padding {
   padding: 0% !important;
 }
@@ -511,6 +490,9 @@ input, textarea {
   /* For mobile phones: */
   .nav-bar  {
     display: none;
+  }
+  .getting-started-login, .getting-started-signup {
+    /* width: 150px; */
   }
 }
 

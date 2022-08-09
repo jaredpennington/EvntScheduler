@@ -206,7 +206,7 @@ const Dashboard = () => {
         </>
       )}
       {!loading ? (
-        <div id="calendar">
+        <div id="calendar" className="calendar-container">
           {/* <div>
             <button onClick={() => toggleList(current => !current)}>
               Filter By {capitalizeFirstLetter(calendarSelection)}

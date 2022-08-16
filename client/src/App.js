@@ -4,9 +4,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
-  useParams,
-  useNavigate,
 } from "react-router-dom";
 import { setContext } from "@apollo/client/link/context";
 import AuthService from "./utils/auth";

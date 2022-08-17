@@ -135,6 +135,7 @@ const PartyForm = () => {
           budget: Number(formState.budget),
         },
       });
+      localStorage.removeItem("schedule");
       window.location.href = "/thankyou";
     } catch (e) {
       console.error(e);
@@ -216,10 +217,13 @@ const PartyForm = () => {
             "#8ca081"
           )
         );
+        if (!storedDates) localStorage.setItem("schedule", JSON.stringify(arr));
       }
-      if (!storedDates || storedDates.length === 0) localStorage.setItem("schedule", JSON.stringify(arr));
-      setSchedule([...storedDates]);
-      console.log(schedule);
+      if(storedDates.length > 0) {
+        setSchedule([...storedDates]);
+      } else {
+        setSchedule([storedDates]);
+      }
       console.log(storedDates);
     }
   }, [loading]);

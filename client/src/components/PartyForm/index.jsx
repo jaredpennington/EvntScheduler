@@ -43,8 +43,8 @@ const PartyForm = () => {
     variables: { id: eventId },
   });
   let start;
-  if(!loading) {
-    start = data.event.date_windows[0][0]
+  if (!loading) {
+    start = data.event.date_windows[0][0];
   }
 
   const [role, setRole] = useState("");
@@ -174,11 +174,12 @@ const PartyForm = () => {
       let window = [start.toString(), end.toString()];
       if (!start && !end) window = [arg.dateStr];
       setDateInput((d) => [...d, { dates: window, id: thisId }]);
-      if(!schedule.includes(guestSchedule)) {
+      if (!schedule.includes(guestSchedule)) {
+        localStorage.setItem("schedule", JSON.stringify([...schedule, guestSchedule]));
         setSchedule((d) => [...d, guestSchedule]);
       }
     }
-  }
+  };
 
   const handleRemoveEvent = (info) => {
     let event = info.event;
@@ -187,6 +188,7 @@ const PartyForm = () => {
     let newSchedule = schedule.filter((d) => d.id !== eventId);
     if (data.event._id !== eventId) {
       setDateInput(newArr);
+      localStorage.setItem("schedule", JSON.stringify(newSchedule));
       setSchedule(newSchedule);
       event.remove();
     }
@@ -199,6 +201,7 @@ const PartyForm = () => {
   }, [role]);
 
   useEffect(() => {
+    const storedDates = JSON.parse(localStorage.getItem("schedule"));
     if (!loading) {
       let arr = [];
       for (let i = 0; i < data.event.date_windows.length; i++) {
@@ -211,10 +214,13 @@ const PartyForm = () => {
               data.event.date_windows[i][data.event.date_windows[i].length - 1]
             ),
             "#8ca081"
-          ),
+          )
         );
       }
-      setSchedule(arr);
+      if (!storedDates || storedDates.length === 0) localStorage.setItem("schedule", JSON.stringify(arr));
+      setSchedule([...storedDates]);
+      console.log(schedule);
+      console.log(storedDates);
     }
   }, [loading]);
 
@@ -225,45 +231,58 @@ const PartyForm = () => {
       ) : (
         <>
           {data.event.passwords.length && !isPassword ? (
-            <div className="my-auto">
-            <div className="uk-card uk-card-body card-centering">
-              <h1 className="uk-card-title uk-text-center">Enter password to access the survey</h1>
-              <form onSubmit={handlePasswordSubmit}>
-                <input
-                  className="form-input-margin"
-                  placeholder="Password"
-                  name="password"
-                  type="text"
-                  id="password"
-                  onChange={handlePasswordChange}
-                />
-                <button
-                  className="form-input-margin button-border"
-                  type="submit"
-                >
-                  Submit
-                </button>
-              </form>
-            </div>
+            <div className="password-center">
+              <div className="uk-card uk-card-body card-centering">
+                <h1 className="uk-card-title uk-text-center">
+                  Enter password to access the survey
+                </h1>
+                <form onSubmit={handlePasswordSubmit}>
+                  <input
+                    className="form-input-margin"
+                    placeholder="Password"
+                    name="password"
+                    type="text"
+                    id="password"
+                    onChange={handlePasswordChange}
+                  />
+                  <button
+                    className="form-input-margin button-border"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                </form>
+              </div>
             </div>
           ) : (
             <>
               {position > 0 && (
-                <button  className='form-input-margin button-border more-room' onClick={(e) => setPosition(0)}>Edit Availability</button>
+                <button
+                  className="form-input-margin button-border more-room"
+                  onClick={(e) => setPosition(0)}
+                >
+                  Edit Availability
+                </button>
               )}
               {position < 1 && (
-                <button className='form-input-margin button-border more-room' onClick={(e) => setPosition(1)}>Finish Survey</button>
+                <button
+                  className="form-input-margin button-border more-room"
+                  onClick={(e) => setPosition(1)}
+                >
+                  Finish Survey
+                </button>
               )}
               {position === 0 && (
-                <div className='survey-instructions'>
-                  <p className='font-evnt-large'>
+                <div className="survey-instructions">
+                  <p className="font-evnt-large">
                     Click and drag to select the dates you are available for the
-                    event. To remove an availability window, click "your availability" on the date you want to change.
+                    event. To remove an availability window, click "your
+                    availability" on the date you want to change.
                   </p>
                 </div>
               )}
               {position === 0 ? (
-                <div>
+                <div className="calendar-container">
                   <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                     initialView="dayGridMonth"
@@ -278,7 +297,12 @@ const PartyForm = () => {
                     select={handleDateSelect}
                     eventClick={handleRemoveEvent}
                     ref={calendarRef}
+                    hiddenDays={[1, 2, 3, 4]}
                     initialDate={start}
+                    longPressDelay="0"
+                    eventLongPressDelay="0"
+                    selectLongPressDelay="0"
+                    eventDisplay="block"
                   />
                 </div>
               ) : (
@@ -348,11 +372,18 @@ const PartyForm = () => {
                       Submit
                     </button>
                   </form>
-                  {error && <div className="error">Please enter required fields</div>}
+                  {error && (
+                    <div className="error">Please enter required fields</div>
+                  )}
                 </div>
               )}
               {position < 1 && (
-                <button className='form-input-margin button-border' onClick={(e) => setPosition(1)}>Finish Survey</button>
+                <button
+                  className="form-input-margin button-border"
+                  onClick={(e) => setPosition(1)}
+                >
+                  Finish Survey
+                </button>
               )}
             </>
           )}

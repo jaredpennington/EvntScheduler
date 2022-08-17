@@ -54,17 +54,19 @@ const Event = () => {
       <Header />
       <NavBar event_id={event_id} />
       <BurgerMenu event_id={event_id} />
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        selectable={true}
-        selectMirror={true}
-        dayMaxEvents={true}
-        weekends={true}
-        events={guestArr}
-        displayEventTime={false}
-        eventOrder="title"
-      />
+      <div className="calendar-container">
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          selectable={true}
+          selectMirror={true}
+          dayMaxEvents={true}
+          weekends={true}
+          events={guestArr}
+          displayEventTime={false}
+          eventOrder="title"
+        />
+      </div>
     </div>
   );
 };

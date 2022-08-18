@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import BurgerMenu from "../components/BurgerMenu";
+import copy from 'copy-to-clipboard';
 
 // 404 Page Not Found
 const SurveyLink = () => {
@@ -21,7 +22,7 @@ const SurveyLink = () => {
           <i
             className="fa-regular fa-copy cursor-copy"
             onClick={() => {
-              navigator.clipboard.writeText(url);
+              copy(url);
             }}
           ></i>
           </button>

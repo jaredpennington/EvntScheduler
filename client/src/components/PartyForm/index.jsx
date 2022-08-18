@@ -9,7 +9,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
-const PartyForm = () => {
+const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
   const calendarRef = createRef();
 
   class Schedule {
@@ -53,7 +53,6 @@ const PartyForm = () => {
   const [password, setPassword] = useState("");
   const [position, setPosition] = useState(0);
   const [schedule, setSchedule] = useState([]);
-  const [selectable, setSelectable] = useState(false);
 
   const [formState, setFormState] = useState({
     firstName: "",
@@ -177,7 +176,10 @@ const PartyForm = () => {
       if (!start && !end) window = [arg.dateStr];
       setDateInput((d) => [...d, { dates: window, id: thisId }]);
       if (!schedule.includes(guestSchedule)) {
-        localStorage.setItem("schedule", JSON.stringify([...schedule, guestSchedule]));
+        localStorage.setItem(
+          "schedule",
+          JSON.stringify([...schedule, guestSchedule])
+        );
         setSchedule((d) => [...d, guestSchedule]);
       }
     }
@@ -204,6 +206,14 @@ const PartyForm = () => {
   }, [role]);
 
   useEffect(() => {
+    if (position === 0) {
+      setButtonVisible(true);
+    } else {
+      setButtonVisible(false);
+    }
+  }, [position]);
+
+  useEffect(() => {
     const storedDates = JSON.parse(localStorage.getItem("schedule"));
     if (!loading) {
       let arr = [];
@@ -221,7 +231,7 @@ const PartyForm = () => {
         );
         if (!storedDates) localStorage.setItem("schedule", JSON.stringify(arr));
       }
-      if(storedDates.length > 0) {
+      if (storedDates.length > 0) {
         setSchedule([...storedDates]);
       } else {
         setSchedule([storedDates]);
@@ -289,34 +299,34 @@ const PartyForm = () => {
               )}
               {position === 0 ? (
                 <>
-                <div className="calendar-container">
-                  <FullCalendar
-                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                    initialView="dayGridMonth"
-                    selectable={selectable}
-                    selectMirror={false}
-                    dayMaxEvents={true}
-                    weekends={true}
-                    events={schedule}
-                    timeZone={"UTC"}
-                    nextDayThreshold={"00:00:00"}
-                    displayEventTime={false}
-                    select={handleDateSelect}
-                    eventClick={handleRemoveEvent}
-                    ref={calendarRef}
-                    hiddenDays={[1, 2, 3, 4]}
-                    initialDate={start}
-                    longPressDelay="0"
-                    eventLongPressDelay="0"
-                    selectLongPressDelay="0"
-                    eventDisplay="block"
-                  />
-                </div>
-                {!selectable ? (
-                  <button className="selectable-btn" onClick={() => setSelectable(true)}>+</button>
-                ) : (
-                  <button className="selectable-btn" onClick={() => setSelectable(false)}>x</button>
-                )}
+                  <div className="calendar-container">
+                    <FullCalendar
+                      plugins={[
+                        dayGridPlugin,
+                        timeGridPlugin,
+                        interactionPlugin,
+                      ]}
+                      initialView="dayGridMonth"
+                      selectable={selectable}
+                      selectMirror={false}
+                      dayMaxEvents={true}
+                      weekends={true}
+                      events={schedule}
+                      timeZone={"UTC"}
+                      nextDayThreshold={"00:00:00"}
+                      displayEventTime={false}
+                      select={handleDateSelect}
+                      eventClick={handleRemoveEvent}
+                      ref={calendarRef}
+                      hiddenDays={[1, 2, 3, 4]}
+                      initialDate={start}
+                      longPressDelay="0"
+                      eventLongPressDelay="0"
+                      selectLongPressDelay="0"
+                      eventDisplay="block"
+                    />
+                  </div>
+                  
                 </>
               ) : (
                 <div className="uk-card uk-card-body card-centering">

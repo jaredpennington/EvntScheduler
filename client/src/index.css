@@ -498,7 +498,10 @@ textarea {
 }
 
 .selectable-btn {
-  position: absolute;
+}
+
+.selectable-btn-container {
+  position: fixed;
   bottom: 0;
   right: 0;
   z-index: 9999;

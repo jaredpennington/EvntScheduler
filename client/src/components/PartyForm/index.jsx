@@ -53,6 +53,7 @@ const PartyForm = () => {
   const [password, setPassword] = useState("");
   const [position, setPosition] = useState(0);
   const [schedule, setSchedule] = useState([]);
+  const [selectable, setSelectable] = useState(false);
 
   const [formState, setFormState] = useState({
     firstName: "",
@@ -180,6 +181,7 @@ const PartyForm = () => {
         setSchedule((d) => [...d, guestSchedule]);
       }
     }
+    setSelectable(false);
   };
 
   const handleRemoveEvent = (info) => {
@@ -286,11 +288,12 @@ const PartyForm = () => {
                 </div>
               )}
               {position === 0 ? (
+                <>
                 <div className="calendar-container">
                   <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                     initialView="dayGridMonth"
-                    selectable={true}
+                    selectable={selectable}
                     selectMirror={false}
                     dayMaxEvents={true}
                     weekends={true}
@@ -309,6 +312,12 @@ const PartyForm = () => {
                     eventDisplay="block"
                   />
                 </div>
+                {!selectable ? (
+                  <button className="selectable-btn" onClick={() => setSelectable(true)}>+</button>
+                ) : (
+                  <button className="selectable-btn" onClick={() => setSelectable(false)}>x</button>
+                )}
+                </>
               ) : (
                 <div className="uk-card uk-card-body card-centering">
                   <h1 className="uk-card-title uk-text-center">

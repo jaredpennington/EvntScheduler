@@ -227,6 +227,7 @@ const Dashboard = () => {
             weekends={true}
             events={filteredData}
             displayEventTime={false}
+            titleFormat={{ year: "numeric", month: "short" }}
           />
         </div>
       ) : (

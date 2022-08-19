@@ -65,6 +65,7 @@ const Event = () => {
           events={guestArr}
           displayEventTime={false}
           eventOrder="title"
+          titleFormat={{ year: "numeric", month: "short" }}
         />
       </div>
     </div>

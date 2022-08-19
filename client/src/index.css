@@ -538,6 +538,10 @@ border-color: #e82a2a;
   z-index: 9999;
 }
 
+.emphasis {
+  color: #5cbbc7;
+}
+
 thead {
   position: sticky;
   top: 0;

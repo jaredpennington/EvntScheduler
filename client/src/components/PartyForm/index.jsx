@@ -306,8 +306,8 @@ const PartyForm = () => {
               {position === 0 && (
                 <div className="survey-instructions">
                   <p className="font-evnt-large">
-                    Tap the plus button to be able to select the days you're available. Tap and drag your thumb on the calendar to add availability. To remove an availability window tap
-                    the blue bar you want removed.
+                    <span className="emphasis">Tap the plus button</span> to be able to select the days you're available. <span className="emphasis">Tap, hold, and drag on the calendar whitespace</span> to add availability. To remove an availability window <span className="emphasis">tap
+                    the blue bar you want removed.</span>
                   </p>
                 </div>
               )}

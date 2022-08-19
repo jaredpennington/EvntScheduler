@@ -541,23 +541,24 @@ border-color: #e82a2a;
 .emphasis {
   color: #5cbbc7;
 }
-
-.fc-header-toolbar {
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-  background: white;
-}
 .fc-media-screen {
   background: white;
 }
 
 thead {
   position: sticky;
-  top: 6.4%;
+  top: 49.2px;
   z-index: 9999;
   /* margin-top: ; */
   background: white;
+}
+
+.fc-header-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: white;
+  padding-top: .5rem;
 }
 
 @media only screen and (max-width: 600px) {

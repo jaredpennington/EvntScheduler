@@ -39,6 +39,7 @@
 .bm-menu-wrap {
   position: fixed;
   height: 100%;
+  z-index: 10000 !important;
 }
 
 /* General sidebar styles */
@@ -49,14 +50,15 @@
     rgba(140, 190, 197, 1) 100%
   );
   background-size: cover;
-  /* opacity: 0.7; */
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
+  z-index: 10000 !important;
 }
 
 /* Wrapper for item list */
 .bm-item-list {
   padding: 0.8em;
+  z-index: 10000 !important;
 }
 
 /* Individual item */
@@ -78,6 +80,7 @@
 /* Styling of overlay */
 .bm-overlay {
   background: rgba(0, 0, 0, 0.3);
+  z-index: 10000 !important;
 }
 
 

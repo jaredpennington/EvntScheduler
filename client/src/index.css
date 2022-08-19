@@ -542,10 +542,21 @@ border-color: #e82a2a;
   color: #5cbbc7;
 }
 
-thead {
+.fc-header-toolbar {
   position: sticky;
   top: 0;
   z-index: 9999;
+  background: white;
+}
+.fc-media-screen {
+  background: white;
+}
+
+thead {
+  position: sticky;
+  top: 6.4%;
+  z-index: 9999;
+  /* margin-top: ; */
   background: white;
 }
 

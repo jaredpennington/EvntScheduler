@@ -346,6 +346,12 @@
   padding-left: 10px;
 }
 
+.fc-day-today {
+  background: #d8f7fb!important;
+  border: none !important;
+}
+/* to get rid of the piss yellow */
+
 .fc .fc-toolbar.fc-header-toolbar {
   padding-right: 10px;
 }
@@ -498,6 +504,31 @@ textarea {
 }
 
 .selectable-btn {
+  border-width: 5px;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 2rem;
+  background: rgb(232, 42, 42);
+  width: 40px; 
+  height: 40px;
+  border-radius: 50%;
+  display: flex; /* or inline-flex */
+  align-items: center; 
+  justify-content: center;
+  padding: 25px;
+  border-color: #ffbfbf;
+  color: white;
+  margin: 40px;
+
+}
+
+.select {
+  background: #e82a2a;
+  border-color: #ffbfbf;
+}
+.unselect {
+background: #ffbfbf;
+color: #e82a2a;
+border-color: #e82a2a;
 }
 
 .selectable-btn-container {

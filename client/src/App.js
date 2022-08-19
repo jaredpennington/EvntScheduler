@@ -111,17 +111,19 @@ function App() {
             <div className="selectable-btn-container">
               {!selectable ? (
               <button
-                className="selectable-btn"
+                className="selectable-btn select"
                 onClick={() => setSelectable(true)}
               >
-                +
+                <i class="fa-solid fa-plus"></i>
+
               </button>
               ) : (
               <button
-                className="selectable-btn"
+                className="selectable-btn unselect"
                 onClick={() => setSelectable(false)}
               >
-                x
+               <i class="fa-solid fa-minus"></i>
+
               </button>
               )}
             </div>

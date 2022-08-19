@@ -291,9 +291,7 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
               {position === 0 && (
                 <div className="survey-instructions">
                   <p className="font-evnt-large">
-                    Click and drag to select the dates you are available for the
-                    event. To remove an availability window, click "your
-                    availability" on the date you want to change.
+                    Tap the plus button to be able to select the days in which you are available. Click and drag your thumb on the calendar inside the evnt window. To remove an availability window tap the blue bar you want removed. 
                   </p>
                 </div>
               )}

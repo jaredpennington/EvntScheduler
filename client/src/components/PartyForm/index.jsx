@@ -70,8 +70,6 @@ const PartyForm = () => {
   });
   const [dateInput, setDateInput] = useState([]);
 
-  const shorterDates = { year: "numeric", month: "short" }
-
   const [addGuest, { error }] = useMutation(ADD_GUEST, {
     update(cache, { data: { addGuest } }) {
       try {
@@ -352,7 +350,7 @@ const PartyForm = () => {
                       eventLongPressDelay="0"
                       selectLongPressDelay="0"
                       eventDisplay="block"
-                      titleFormat={shorterDates}
+                      titleFormat={{ year: "numeric", month: "short" }}
                     />
                   </div>
 

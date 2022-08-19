@@ -1,10 +1,6 @@
 import "./index.css";
 import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { setContext } from "@apollo/client/link/context";
 import AuthService from "./utils/auth";
 
@@ -57,49 +53,82 @@ const client = new ApolloClient({
 });
 
 function App() {
- 
+  const [selectable, setSelectable] = useState(false);
+  const [buttonVisible, setButtonVisible] = useState(false);
 
   return (
     <ApolloProvider client={client}>
       <Router>
-        <main className="page-container">
-          <div className="content-wrap">
-            <Routes>
-              <Route
-                path="/"
-                element={AuthService.loggedIn() ? <Dashboard /> : <Home />}
-              ></Route>
+        <>
+          <main className="page-container">
+            <div className="content-wrap">
+              <Routes>
+                <Route
+                  path="/"
+                  element={AuthService.loggedIn() ? <Dashboard /> : <Home />}
+                ></Route>
 
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
 
-              {/* Create */}
-              <Route path="/event/create" element={<CreateEvent />} />
-              <Route path="/event/:id/survey" element={<Survey />} />
+                {/* Create */}
+                <Route path="/event/create" element={<CreateEvent />} />
+                <Route
+                  path="/event/:id/survey"
+                  element={
+                    <Survey
+                      setButtonVisible={setButtonVisible}
+                      setSelectable={setSelectable}
+                      selectable={selectable}
+                    />
+                  }
+                />
 
-              {/* Update */}
-              <Route path="/event/:id/update" element={<EventUpdate />} />
-              <Route
-                path="/event/:eventId/guest/:id/update"
-                element={<GuestUpdate />}
-              />
-              <Route
-                path="/event/:eventId/password/:id/update"
-                element={<PasswordUpdate />}
-              />
+                {/* Update */}
+                <Route path="/event/:id/update" element={<EventUpdate />} />
+                <Route
+                  path="/event/:eventId/guest/:id/update"
+                  element={<GuestUpdate />}
+                />
+                <Route
+                  path="/event/:eventId/password/:id/update"
+                  element={<PasswordUpdate />}
+                />
 
-              <Route path="/event/:id" element={<Event />} />
-              <Route path="/event/:id/surveylink" element={<SurveyLink />} />
-              <Route path="/event/:id/guests" element={<Guests />} />
-              <Route path="/guest/:id" element={<Guest />} />
+                <Route path="/event/:id" element={<Event />} />
+                <Route path="/event/:id/surveylink" element={<SurveyLink />} />
+                <Route path="/event/:id/guests" element={<Guests />} />
+                <Route path="/guest/:id" element={<Guest />} />
 
-              <Route path="/event/:id/passwords" element={<Passwords />} />
-              <Route path="/thankyou" element={<ThankYou />} />
-              <Route path="*" element={<FourOhFour />} />
-            </Routes>
-          </div>
-          <Footer />
-        </main>
+                <Route path="/event/:id/passwords" element={<Passwords />} />
+                <Route path="/thankyou" element={<ThankYou />} />
+                <Route path="*" element={<FourOhFour />} />
+              </Routes>
+            </div>
+            <Footer />
+          </main>
+          {buttonVisible ? (
+            <div className="selectable-btn-container">
+              {!selectable ? (
+              <button
+                className="selectable-btn"
+                onClick={() => setSelectable(true)}
+              >
+                +
+              </button>
+              ) : (
+              <button
+                className="selectable-btn"
+                onClick={() => setSelectable(false)}
+              >
+                x
+              </button>
+              )}
+            </div>
+          ) : (
+            <></>
+          )}
+        </>
       </Router>
     </ApolloProvider>
   );

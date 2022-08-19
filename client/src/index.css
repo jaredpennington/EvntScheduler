@@ -489,8 +489,22 @@ textarea {
 }
 
 .calendar-container {
-  overflow-x: scroll;
-  overflow-y: scroll;
+  /* overflow-x: scroll;
+  overflow-y: scroll; */
+}
+
+.fc-dayGridMonth-view {
+  background: white !important;
+}
+
+.selectable-btn {
+}
+
+.selectable-btn-container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 9999;
 }
 
 @media only screen and (max-width: 600px) {
@@ -502,6 +516,7 @@ textarea {
   .fc {
     /* width: 115% !important; */
     height: 900px !important;
+    padding: 0 1rem !important;
     /* padding-left: 10px !important;  */
   }
 }

@@ -9,7 +9,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
-const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
+const PartyForm = () => {
   const calendarRef = createRef();
 
   class Schedule {
@@ -53,6 +53,9 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
   const [password, setPassword] = useState("");
   const [position, setPosition] = useState(0);
   const [schedule, setSchedule] = useState([]);
+  const [selectable, setSelectable] = useState(false);
+  const [buttonVisible, setButtonVisible] = useState(false);
+  const [storedDates, setStoredDates] = useState(JSON.parse(localStorage.getItem("schedule")));
 
   const [formState, setFormState] = useState({
     firstName: "",
@@ -199,6 +202,11 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
     }
   };
 
+  // clears local storage if user exits the page
+  window.onbeforeunload = function () {
+    localStorage.removeItem("schedule");
+  };
+
   useEffect(() => {
     if (role !== "other") {
       setOtherRole(null);
@@ -213,8 +221,20 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
     }
   }, [position]);
 
+  
+
   useEffect(() => {
-    const storedDates = JSON.parse(localStorage.getItem("schedule"));
+    if(storedDates) {
+      if (storedDates.length > 0) {
+        console.log(storedDates);
+        setSchedule([...storedDates]);
+      } else {
+        setSchedule([storedDates]);
+      }
+    }
+  }, [storedDates]);
+
+  useEffect(() => {
     if (!loading) {
       let arr = [];
       for (let i = 0; i < data.event.date_windows.length; i++) {
@@ -231,12 +251,7 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
         );
         if (!storedDates) localStorage.setItem("schedule", JSON.stringify(arr));
       }
-      if (storedDates.length > 0) {
-        setSchedule([...storedDates]);
-      } else {
-        setSchedule([storedDates]);
-      }
-      console.log(storedDates);
+      setStoredDates(JSON.parse(localStorage.getItem("schedule")));
     }
   }, [loading]);
 
@@ -291,7 +306,8 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
               {position === 0 && (
                 <div className="survey-instructions">
                   <p className="font-evnt-large">
-                    Tap the plus button to be able to select the days in which you are available. Click and drag your thumb on the calendar inside the evnt window. To remove an availability window tap the blue bar you want removed. 
+                    Tap the plus button to be able to select the days you're available. Tap and drag your thumb on the calendar to add availability. To remove an availability window tap
+                    the blue bar you want removed.
                   </p>
                 </div>
               )}
@@ -316,6 +332,7 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
                       select={handleDateSelect}
                       eventClick={handleRemoveEvent}
                       ref={calendarRef}
+                      firstDay={1}
                       hiddenDays={[1, 2, 3, 4]}
                       initialDate={start}
                       longPressDelay="0"
@@ -324,7 +341,28 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
                       eventDisplay="block"
                     />
                   </div>
-                  
+
+                  {buttonVisible ? (
+                    <div className="selectable-btn-container">
+                      {!selectable ? (
+                        <button
+                          className="selectable-btn select"
+                          onClick={() => setSelectable(true)}
+                        >
+                          <i className="fa-solid fa-plus"></i>
+                        </button>
+                      ) : (
+                        <button
+                          className="selectable-btn unselect"
+                          onClick={() => setSelectable(false)}
+                        >
+                          <i className="fa-solid fa-minus"></i>
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </>
               ) : (
                 <div className="uk-card uk-card-body card-centering">

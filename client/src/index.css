@@ -80,7 +80,7 @@
 
 .font-evnt-large {
   font-family: "Josefin Sans", sans-serif;
-  font-size: xx-large;
+  font-size: x-large;
   font-weight: 700;
   margin-bottom: 20px;
   text-align: center;
@@ -517,7 +517,7 @@ textarea {
   padding: 25px;
   border-color: #ffbfbf;
   color: white;
-  margin: 40px;
+  margin: 30px;
 
 }
 
@@ -536,6 +536,13 @@ border-color: #e82a2a;
   bottom: 0;
   right: 0;
   z-index: 9999;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: white;
 }
 
 @media only screen and (max-width: 600px) {

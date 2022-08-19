@@ -53,8 +53,7 @@ const client = new ApolloClient({
 });
 
 function App() {
-  const [selectable, setSelectable] = useState(false);
-  const [buttonVisible, setButtonVisible] = useState(false);
+  
 
   return (
     <ApolloProvider client={client}>
@@ -76,11 +75,7 @@ function App() {
                 <Route
                   path="/event/:id/survey"
                   element={
-                    <Survey
-                      setButtonVisible={setButtonVisible}
-                      setSelectable={setSelectable}
-                      selectable={selectable}
-                    />
+                    <Survey />
                   }
                 />
 
@@ -107,29 +102,6 @@ function App() {
             </div>
             <Footer />
           </main>
-          {buttonVisible ? (
-            <div className="selectable-btn-container">
-              {!selectable ? (
-              <button
-                className="selectable-btn select"
-                onClick={() => setSelectable(true)}
-              >
-                <i class="fa-solid fa-plus"></i>
-
-              </button>
-              ) : (
-              <button
-                className="selectable-btn unselect"
-                onClick={() => setSelectable(false)}
-              >
-               <i class="fa-solid fa-minus"></i>
-
-              </button>
-              )}
-            </div>
-          ) : (
-            <></>
-          )}
         </>
       </Router>
     </ApolloProvider>

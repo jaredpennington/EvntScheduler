@@ -56,7 +56,9 @@ const PartyForm = () => {
   const [schedule, setSchedule] = useState([]);
   const [selectable, setSelectable] = useState(false);
   const [buttonVisible, setButtonVisible] = useState(false);
-  const [storedDates, setStoredDates] = useState(JSON.parse(localStorage.getItem("schedule")));
+  const [storedDates, setStoredDates] = useState(
+    JSON.parse(localStorage.getItem("schedule"))
+  );
 
   const [formState, setFormState] = useState({
     firstName: "",
@@ -202,11 +204,15 @@ const PartyForm = () => {
       event.remove();
     }
   };
-
-  // clears local storage if user exits the page
-  window.onbeforeunload = function () {
-    localStorage.removeItem("schedule");
-  };
+    
+    useEffect(() => {
+      if (sessionStorage.getItem("reloaded") === null) {
+      // clears local storage if user exits the page
+      localStorage.removeItem("schedule");
+    }
+    // session storage retains its values on refresh, but clears them upon exiting the page
+    sessionStorage.setItem("reloaded", "yes");
+  }, []);
 
   useEffect(() => {
     if (role !== "other") {
@@ -222,12 +228,9 @@ const PartyForm = () => {
     }
   }, [position]);
 
-  
-
   useEffect(() => {
-    if(storedDates) {
+    if (storedDates) {
       if (storedDates.length > 0) {
-        console.log(storedDates);
         setSchedule([...storedDates]);
       } else {
         setSchedule([storedDates]);
@@ -307,8 +310,15 @@ const PartyForm = () => {
               {position === 0 && (
                 <div className="survey-instructions">
                   <p className="font-evnt-large">
-                    <span className="emphasis">Tap the plus button</span> to be able to select the days you're available. <span className="emphasis">Tap, hold, and drag on the calendar whitespace</span> to add availability. To remove an availability window <span className="emphasis">tap
-                    the blue bar you want removed.</span>
+                    <span className="emphasis">Tap the plus button</span> to be
+                    able to select the days you're available.{" "}
+                    <span className="emphasis">
+                      Tap, hold, and drag on the calendar whitespace
+                    </span>{" "}
+                    to add availability. To remove an availability window{" "}
+                    <span className="emphasis">
+                      tap the blue bar you want removed.
+                    </span>
                   </p>
                 </div>
               )}

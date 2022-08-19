@@ -33,7 +33,8 @@ const PartyForm = () => {
   class GuestSchedule extends Schedule {
     constructor(id, name, start, end, color) {
       super(id, name, start, end, color);
-      this.editable = true;
+      this.eventStartEditable = false;
+      this.droppable = false;
     }
   }
 

@@ -9,7 +9,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
-const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
+const PartyForm = () => {
   const calendarRef = createRef();
 
   class Schedule {
@@ -33,7 +33,8 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
   class GuestSchedule extends Schedule {
     constructor(id, name, start, end, color) {
       super(id, name, start, end, color);
-      this.editable = true;
+      this.eventStartEditable = false;
+      this.droppable = false;
     }
   }
 
@@ -53,6 +54,11 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
   const [password, setPassword] = useState("");
   const [position, setPosition] = useState(0);
   const [schedule, setSchedule] = useState([]);
+  const [selectable, setSelectable] = useState(false);
+  const [buttonVisible, setButtonVisible] = useState(false);
+  const [storedDates, setStoredDates] = useState(
+    JSON.parse(localStorage.getItem("schedule"))
+  );
 
   const [formState, setFormState] = useState({
     firstName: "",
@@ -198,6 +204,15 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
       event.remove();
     }
   };
+    
+    useEffect(() => {
+      if (sessionStorage.getItem("reloaded") === null) {
+      // clears local storage if user exits the page
+      localStorage.removeItem("schedule");
+    }
+    // session storage retains its values on refresh, but clears them upon exiting the page
+    sessionStorage.setItem("reloaded", "yes");
+  }, []);
 
   useEffect(() => {
     if (role !== "other") {
@@ -214,7 +229,16 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
   }, [position]);
 
   useEffect(() => {
-    const storedDates = JSON.parse(localStorage.getItem("schedule"));
+    if (storedDates) {
+      if (storedDates.length > 0) {
+        setSchedule([...storedDates]);
+      } else {
+        setSchedule([storedDates]);
+      }
+    }
+  }, [storedDates]);
+
+  useEffect(() => {
     if (!loading) {
       let arr = [];
       for (let i = 0; i < data.event.date_windows.length; i++) {
@@ -231,12 +255,7 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
         );
         if (!storedDates) localStorage.setItem("schedule", JSON.stringify(arr));
       }
-      if (storedDates.length > 0) {
-        setSchedule([...storedDates]);
-      } else {
-        setSchedule([storedDates]);
-      }
-      console.log(storedDates);
+      setStoredDates(JSON.parse(localStorage.getItem("schedule")));
     }
   }, [loading]);
 
@@ -291,7 +310,15 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
               {position === 0 && (
                 <div className="survey-instructions">
                   <p className="font-evnt-large">
-                    Tap the plus button to be able to select the days in which you are available. Click and drag your thumb on the calendar inside the evnt window. To remove an availability window tap the blue bar you want removed. 
+                    <span className="emphasis">Tap the plus button</span> to be
+                    able to select the days you're available.{" "}
+                    <span className="emphasis">
+                      Tap, hold, and drag on the calendar whitespace
+                    </span>{" "}
+                    to add availability. To remove an availability window{" "}
+                    <span className="emphasis">
+                      tap the blue bar you want removed.
+                    </span>
                   </p>
                 </div>
               )}
@@ -316,15 +343,38 @@ const PartyForm = ({ setButtonVisible, selectable, setSelectable }) => {
                       select={handleDateSelect}
                       eventClick={handleRemoveEvent}
                       ref={calendarRef}
+                      firstDay={1}
                       hiddenDays={[1, 2, 3, 4]}
                       initialDate={start}
                       longPressDelay="0"
                       eventLongPressDelay="0"
                       selectLongPressDelay="0"
                       eventDisplay="block"
+                      titleFormat={{ year: "numeric", month: "short" }}
                     />
                   </div>
-                  
+
+                  {buttonVisible ? (
+                    <div className="selectable-btn-container">
+                      {!selectable ? (
+                        <button
+                          className="selectable-btn select"
+                          onClick={() => setSelectable(true)}
+                        >
+                          <i className="fa-solid fa-plus"></i>
+                        </button>
+                      ) : (
+                        <button
+                          className="selectable-btn unselect"
+                          onClick={() => setSelectable(false)}
+                        >
+                          <i className="fa-solid fa-minus"></i>
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </>
               ) : (
                 <div className="uk-card uk-card-body card-centering">

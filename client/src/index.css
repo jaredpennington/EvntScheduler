@@ -80,7 +80,7 @@
 
 .font-evnt-large {
   font-family: "Josefin Sans", sans-serif;
-  font-size: xx-large;
+  font-size: x-large;
   font-weight: 700;
   margin-bottom: 20px;
   text-align: center;
@@ -346,6 +346,12 @@
   padding-left: 10px;
 }
 
+.fc-day-today {
+  background: #d8f7fb!important;
+  border: none !important;
+}
+/* to get rid of the piss yellow */
+
 .fc .fc-toolbar.fc-header-toolbar {
   padding-right: 10px;
 }
@@ -497,6 +503,64 @@ textarea {
   background: white !important;
 }
 
+.selectable-btn {
+  border-width: 5px;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 2rem;
+  background: rgb(232, 42, 42);
+  width: 40px; 
+  height: 40px;
+  border-radius: 50%;
+  display: flex; /* or inline-flex */
+  align-items: center; 
+  justify-content: center;
+  padding: 25px;
+  border-color: #ffbfbf;
+  color: white;
+  margin: 30px;
+
+}
+
+.select {
+  background: #e82a2a;
+  border-color: #ffbfbf;
+}
+.unselect {
+background: #ffbfbf;
+color: #e82a2a;
+border-color: #e82a2a;
+}
+
+.selectable-btn-container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+.emphasis {
+  color: #5cbbc7;
+}
+.fc-media-screen {
+  background: white;
+}
+
+thead {
+  position: sticky;
+  top: 49.2px;
+  z-index: 9999;
+  /* margin-top: ; */
+  background: white;
+}
+
+.fc-header-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: white;
+  padding-top: .5rem;
+}
+
 @media only screen and (max-width: 600px) {
   /* For mobile phones: */
   .nav-bar {
@@ -506,7 +570,7 @@ textarea {
   .fc {
     /* width: 115% !important; */
     height: 900px !important;
-    padding: 0 1rem !important;
+    /* padding: 0 1rem !important; */
     /* padding-left: 10px !important;  */
   }
 }

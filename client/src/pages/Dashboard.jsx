@@ -227,6 +227,8 @@ const Dashboard = () => {
             weekends={true}
             events={filteredData}
             displayEventTime={false}
+            firstDay={1}
+            hiddenDays={[1, 2, 3, 4]}
             titleFormat={{ year: "numeric", month: "short" }}
           />
         </div>

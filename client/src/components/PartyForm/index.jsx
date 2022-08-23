@@ -239,7 +239,6 @@ const PartyForm = () => {
   }, [storedDates]);
 
   useEffect(() => {
-    checkSession();
     if (!loading) {
       let arr = [];
       for (let i = 0; i < data.event.date_windows.length; i++) {
@@ -256,6 +255,7 @@ const PartyForm = () => {
         );
         if (!storedDates) localStorage.setItem("schedule", JSON.stringify(arr));
       }
+      checkSession();
       setStoredDates(JSON.parse(localStorage.getItem("schedule")));
     }
   }, [loading]);

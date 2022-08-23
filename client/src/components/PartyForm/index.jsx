@@ -204,15 +204,15 @@ const PartyForm = () => {
       event.remove();
     }
   };
-    
-    useEffect(() => {
-      if (sessionStorage.getItem("reloaded") === null) {
+
+  const checkSession = () => {
+    if (sessionStorage.getItem("reloaded") === null) {
       // clears local storage if user exits the page
       localStorage.removeItem("schedule");
     }
     // session storage retains its values on refresh, but clears them upon exiting the page
     sessionStorage.setItem("reloaded", "yes");
-  }, []);
+  };
 
   useEffect(() => {
     if (role !== "other") {
@@ -239,6 +239,7 @@ const PartyForm = () => {
   }, [storedDates]);
 
   useEffect(() => {
+    checkSession();
     if (!loading) {
       let arr = [];
       for (let i = 0; i < data.event.date_windows.length; i++) {
@@ -365,7 +366,7 @@ const PartyForm = () => {
                         </button>
                       ) : (
                         <button
-                          className="selectable-btn unselect"
+                          className="selectable-btn select"
                           onClick={() => setSelectable(false)}
                         >
                           <i className="fa-solid fa-minus"></i>
